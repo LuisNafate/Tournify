@@ -1,7 +1,11 @@
 /* Tema personalizado para Tournify */
 :root {
-  --primary-color: #6366f1;
-  --secondary-color: #8b5cf6;
-  --background-color: #0f172a;
-  --text-color: #f1f5f9;
+  --primary-color: #4f46e5;
+  --secondary-color: #7c3aed;
+  --accent-color: #8b5cf6;
+  --background-dark: #0a0e27;
+  --background-card: #1a1d3e;
+  --text-color: #ffffff;
+  --text-secondary: #94a3b8;
+  --button-hover: #6366f1;
 }

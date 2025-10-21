@@ -1,9 +1,70 @@
 <section class="landing">
-  <h1>Bienvenido a Tournify</h1>
-  <p>Organiza y participa en torneos deportivos y de eSports.</p>
+  <div class="hero-section">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-badges">
+          <span class="badge">🏆 Featured Tournament</span>
+          <span class="badge">Don't Miss Out!</span>
+        </div>
+        
+        <h1 class="hero-title">
+          El deporte digital ha llegado! ¿Estás listo para el siguiente nivel?
+        </h1>
+        
+        <p class="hero-description">
+          Tu plataforma central para competencias de eSports y deportes.
+        </p>
+        
+        <div class="hero-actions">
+          <a routerLink="/auth/register" class="btn btn-primary">Empezar →</a>
+        </div>
+      </div>
+      
+      <div class="hero-image">
+        <div class="image-placeholder">
+          <!-- Aquí irá la imagen de los jugadores -->
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <div class="actions">
-    <a routerLink="/auth/login">Iniciar Sesión</a>
-    <a routerLink="/auth/register">Registrarse</a>
+  <div class="features-section">
+    <div class="feature-card">
+      <div class="feature-icon">🎁</div>
+      <h3 class="feature-number">01.</h3>
+      <h4 class="feature-title">Usar Gratis</h4>
+      <p class="feature-description">
+        ¡Listo para usar! Puedes comenzar a usarlo inmediatamente, sin necesidad de registrar tu información financiera.
+      </p>
+      <a routerLink="/auth/register" class="btn btn-secondary">Regístrate →</a>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <h3 class="feature-number">02.</h3>
+      <h4 class="feature-title">Tabla de Posiciones y Rankings</h4>
+      <p class="feature-description">
+        Tablas y rankings de jugadores automáticamente calculadas, goleadores y rankings. Disponible para varias modalidades deportivas.
+      </p>
+      <a routerLink="/tournaments/list" class="btn btn-secondary">Ranking →</a>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">⚙️</div>
+      <h3 class="feature-number">03.</h3>
+      <h4 class="feature-title">Aplicación Flexible</h4>
+      <p class="feature-description">
+        Interfaz simple y práctica para crear campeonatos con más de una categoría y con diferentes modelos de fases y rondas.
+      </p>
+      <a routerLink="/tournaments/create" class="btn btn-secondary">Crear Torneo →</a>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h2 class="info-title">Todo para organizar tus torneos!</h2>
+    <p class="info-description">
+      Nuestro objetivo principal es ayudar a los organizadores e interesados a gestionar sus campeonatos permitiéndoles publicar tablas, resultados de partidos, fotos y vídeos para que los participantes y espectadores puedan seguir e interactuar con los resultados.
+    </p>
+    <a href="#" class="btn btn-accent">Empieza Ya →</a>
   </div>
 </section>

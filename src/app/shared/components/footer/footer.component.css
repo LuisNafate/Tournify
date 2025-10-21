@@ -1,12 +1,38 @@
 /* Estilos del footer */
 .footer {
-  /* Estilos pendientes */
+  background-color: rgba(10, 14, 39, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  margin-top: 4rem;
 }
 
 .footer-container {
-  /* Estilos pendientes */
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-container p {
+  color: #94a3b8;
+  font-size: 0.9rem;
 }
 
 .footer-links {
-  /* Estilos pendientes */
+  display: flex;
+  gap: 2rem;
 }
+
+.footer-links a {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #8b5cf6;
+}
+

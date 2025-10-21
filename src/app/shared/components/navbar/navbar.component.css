@@ -1,16 +1,63 @@
 /* Estilos del navbar */
 .navbar {
-  /* Estilos pendientes */
+  background-color: rgba(10, 14, 39, 0.95);
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navbar-container {
-  /* Estilos pendientes */
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navbar-logo {
-  /* Estilos pendientes */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.navbar-logo::before {
+  content: "⚡";
+  color: #8b5cf6;
 }
 
 .navbar-menu {
-  /* Estilos pendientes */
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navbar-menu a {
+  color: #ffffff;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.navbar-menu a:hover {
+  color: #8b5cf6;
+  background-color: rgba(139, 92, 246, 0.1);
+}
+
+.navbar-menu a:last-child {
+  background-color: #4f46e5;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.navbar-menu a:last-child:hover {
+  background-color: #6366f1;
 }
