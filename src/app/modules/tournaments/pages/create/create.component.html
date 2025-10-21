@@ -1,0 +1,37 @@
+<section class="create-tournament">
+  <h2>Crear Nuevo Torneo</h2>
+
+  <form class="tournament-form">
+    <div class="form-group">
+      <label for="name">Nombre del torneo</label>
+      <input type="text" id="name" placeholder="Liga de Verano 2025">
+    </div>
+
+    <div class="form-group">
+      <label for="sport">Tipo de deporte</label>
+      <select id="sport">
+        <option value="">Seleccionar...</option>
+        <option value="football">Fútbol</option>
+        <option value="basketball">Baloncesto</option>
+        <option value="esports">eSports</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="startDate">Fecha de inicio</label>
+      <input type="date" id="startDate">
+    </div>
+
+    <div class="form-group">
+      <label for="endDate">Fecha de fin</label>
+      <input type="date" id="endDate">
+    </div>
+
+    <div class="form-group">
+      <label for="maxTeams">Número máximo de equipos</label>
+      <input type="number" id="maxTeams" placeholder="16">
+    </div>
+
+    <button type="submit">Crear Torneo</button>
+  </form>
+</section>
