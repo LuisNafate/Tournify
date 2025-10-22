@@ -6,14 +6,13 @@
 
 /* Hero Section */
 .hero-section {
-  padding: 4rem 2rem;
-  max-width: 1400px;
+  padding: 4rem 0 0 2rem;
   margin: 0 auto;
 }
 
 .hero-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.5fr;
   gap: 4rem;
   align-items: center;
 }
@@ -71,19 +70,17 @@
 .image-placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
-  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
 }
-
-.image-placeholder::before {
-  content: "🎮⚽🏀";
-  font-size: 4rem;
-  opacity: 0.3;
+.players-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
 }
 
 /* Features Section */
@@ -91,7 +88,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  padding: 4rem 2rem;
+  padding: 0 2rem 4rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
 }
