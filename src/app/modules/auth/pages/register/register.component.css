@@ -142,3 +142,18 @@ button[type="submit"]:hover {
   color: #a78bfa;
 }
 
+/* responsive */
+@media (max-width: 968px) {
+  .register-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .register-left {
+    display: none;
+  }
+  
+  .register-right {
+    min-height: 100vh;
+  }
+}
+
