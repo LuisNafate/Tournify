@@ -1,6 +1,6 @@
 /* Estilos del navbar */
 .navbar {
-  background-color: rgba(10, 14, 39, 0.95);
+  background-color: rgba(0, 0, 0, 0.95);
   padding: 1rem 2rem;
   position: fixed;
   top: 0;
@@ -28,8 +28,13 @@
 }
 
 .navbar-logo::before {
-  content: "⚡";
-  color: #8b5cf6;
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url('/assets/icons/LOGO.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .navbar-menu {

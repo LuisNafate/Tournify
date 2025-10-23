@@ -1,12 +1,15 @@
 /* Estilos del landing */
 .landing {
+  background-color: #000000;
+  background-image: radial-gradient(circle at top left, rgba(139, 92, 246, 0.15) 0%, transparent 30%),
+                    radial-gradient(circle at bottom right, rgba(79, 70, 229, 0.15) 0%, transparent 40%);
   padding-top: 80px;
   min-height: 100vh;
 }
 
 /* Hero Section */
 .hero-section {
-  padding: 4rem 0 0 2rem;
+  padding: 4rem 0 2rem 2rem;
   margin: 0 auto;
 }
 
@@ -90,7 +93,8 @@
   gap: 2rem;
   padding: 0 2rem 4rem 2rem;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: -1.5rem auto 0;
+  position: relative; /* Necesario para que z-index funcione */
 }
 
 .feature-card {
