@@ -260,3 +260,241 @@
   }
 }
 
+.grid-card {
+  background-color: var(--background-card);
+  /* Borde sutil que usa tu color de acento */
+  border: 1px solid rgba(139, 92, 246, 0.2); 
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/*  hover pa las cards */
+.grid-card:hover {
+  transform: translateY(-8px); 
+  border-color: rgba(139, 92, 246, 0.6); 
+ 
+  box-shadow: 0 8px 30px rgba(139, 92, 246, 0.25);
+}
+
+.card-hub,
+.card-events {
+  padding: 2rem;
+}
+
+.grid-card h3, .grid-card h4 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.grid-card p {
+  color: var(--text-secondary); 
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+
+.card-hub {
+  background: linear-gradient(145deg, #2a2068 0%, var(--background-card) 40%), 
+              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M 0 50 C 25 10, 75 90, 100 50 Z" stroke="rgba(79, 70, 229, 0.2)" fill="none" stroke-width="2"/></svg>');
+  background-size: cover;
+}
+
+.card-hub h3 {
+  font-size: 2rem;
+}
+
+.card-hub p {
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+}
+
+
+.card-image-large,
+.card-image-small {
+  padding: 0; /* Sin padding en la tarjeta principal */
+  justify-content: flex-end; /* Empuja el .card-content al final */
+}
+
+/* Definimos alturas mínimas */
+.card-image-large {
+  min-height: 400px;
+}
+.card-image-small {
+  min-height: 300px;
+}
+
+/* Coloca la imagen como fondo absoluto */
+.image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Gradiente oscuro superpuesto (más fuerte) */
+.card-image-large::before,
+.card-image-small::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90%; 
+  z-index: 2;
+  background: linear-gradient(to top, 
+    #0A0C1F 30%, 
+    rgba(10, 14, 39, 0.85) 60%,
+    transparent 100%
+  );
+  border-radius: 0 0 16px 16px;
+}
+/* Posiciona el contenido de texto por encima de todo */
+.card-content {
+  position: relative; 
+  z-index: 3;
+  padding: 2rem;
+  margin-top: auto; /* Truco de Flexbox para empujar al fondo */
+}
+
+
+.card-icon-plus {
+  z-index: 3; 
+}
+/* Card 4: Eventos */
+.card-events .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.events-scroll-container {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem 0 1rem 0;
+  /* Para ocultar la barra de scroll */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE y Edge */
+}
+
+.events-scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari y Opera */
+}
+
+.event-mini-card {
+  flex: 0 0 240px; /* No se encoge, no crece, base de 240px */
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.event-image {
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+}
+
+.event-mini-card h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 1rem 1rem 0.5rem 1rem;
+}
+
+.event-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  padding: 0 1rem 1rem 1rem;
+}
+
+/* Card 6: Gestión y Estadísticas (Mockup) */
+.card-manage {
+  justify-content: space-between;
+}
+
+.stats-mockup {
+  margin-top: 2rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-chart-placeholder, .stat-nav-placeholder, .stat-week-placeholder {
+  padding: 1rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-chart-placeholder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+}
+.stat-chart-placeholder p { color: #fff; }
+
+.stat-nav-placeholder {
+  display: flex;
+  gap: 1.5rem;
+}
+.stat-nav-placeholder span.active {
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 4px;
+}
+
+.stat-week-placeholder {
+  border-bottom: none;
+}
+.stat-week-placeholder p {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.stat-circles {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.stat-circles .circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--primary-color);
+  border-left-color: transparent;
+  transform: rotate(45deg);
+}
+
+.stat-circles .circle span {
+  transform: rotate(-45deg);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+.stat-circles .circle label {
+  transform: rotate(-45deg);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
