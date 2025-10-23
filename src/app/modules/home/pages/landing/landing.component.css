@@ -182,7 +182,7 @@
   color: #94a3b8;
   line-height: 1.8;
 }
-.feacture-tournament-section{
+.feature-tournament-section{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
@@ -195,11 +195,14 @@
   border-radius: 16px;
   padding: 2.5rem;
   transition: transform 0.3s ease, border-color 0.3s ease;
-  min-height: 25px; 
+  min-height: 400px; 
+     background-size: cover; 
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding-top: 5rem; 
 }
 /* leaderboard */
 .leaderboard {
-  /* TU CÓDIGO ORIGINAL */
   background-image: url('/assets/images/Background-featured-tournaments.png');
   margin: 10rem 0;
   
@@ -508,4 +511,23 @@
   transform: rotate(-45deg);
   font-size: 0.8rem;
   color: var(--text-secondary);
+}
+/*images*/
+.card-valorant {
+  background: 
+    url('/assets/images/Background-valorant-card.png') 
+  ;
+
+}
+.card-cod {
+  background: 
+    url('/assets/images/Background-cod-card.png') 
+  ;
+
+}
+.card-volley {
+  background: 
+    url('/assets/images/Background-volley-card.png') 
+  ;
+
 }
