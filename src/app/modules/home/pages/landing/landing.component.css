@@ -108,20 +108,31 @@
 
 .feature-icon {
   font-size: 3rem;
-  margin-bottom: 1rem;
+}
+
+.icon {
+  width: 48px; /* 3rem */
+  height: 48px; /* 3rem */
 }
 
 .feature-number {
   font-size: 2.5rem;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 1rem;
 }
 
 .feature-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.feature-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
