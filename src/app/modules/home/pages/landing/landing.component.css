@@ -9,8 +9,9 @@
 
 /* Hero Section */
 .hero-section {
-  padding: 4rem 0 2rem 2rem;
+  padding: 2rem 0 6rem 2rem;
   margin: 0 auto;
+  max-width: 1400px;
 }
 
 .hero-content {
@@ -22,6 +23,7 @@
 
 .hero-text {
   padding-right: 2rem;
+  max-width: 600px;
 }
 
 .hero-badges {
@@ -40,21 +42,23 @@
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 800;
   line-height: 1.2;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: -0.02em;
 }
 
 .hero-description {
-  font-size: 1.2rem;
-  color: #94a3b8;
+  font-size: 1.1rem;
+  color: #cbd5e1;
   margin-bottom: 2rem;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-weight: 400;
 }
 
 .hero-actions {
@@ -93,8 +97,9 @@
   gap: 2rem;
   padding: 0 2rem 4rem 2rem;
   max-width: 1400px;
-  margin: -1.5rem auto 0;
-  position: relative; /* Necesario para que z-index funcione */
+  margin: -6.7rem auto 0;
+  position: relative;
+  z-index: 10;
 }
 
 .feature-card {
@@ -103,11 +108,19 @@
   border-radius: 16px;
   padding: 2.5rem;
   transition: transform 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
 }
 
 .feature-card:hover {
   transform: translateY(-8px);
   border-color: rgba(139, 92, 246, 0.5);
+}
+
+.feature-card .btn {
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .feature-icon {
@@ -220,35 +233,43 @@
 /* Buttons */
 .btn {
   display: inline-block;
-  padding: 0.8rem 2rem;
-  border-radius: 8px;
+  padding: 0.9rem 2.5rem;
+  border-radius: 50px;
   font-weight: 600;
   transition: all 0.3s ease;
   cursor: pointer;
   border: none;
   font-size: 1rem;
+  text-decoration: none;
 }
 
 .btn-primary {
-  background-color: #4f46e5;
+  background: linear-gradient(287deg, #6600D4 0%, #4221E3 49.09%, #005FFF 100%);
   color: #ffffff;
+  border: none;
 }
 
 .btn-primary:hover {
-  background-color: #6366f1;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 8px 24px rgba(102, 0, 212, 0.5);
+  filter: brightness(1.1);
 }
 
 .btn-secondary {
-  background-color: rgba(139, 92, 246, 0.2);
-  color: #8b5cf6;
-  border: 1px solid #8b5cf6;
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid transparent;
+  background-image: linear-gradient(#0A0C1F, #0A0C1F),
+                    linear-gradient(287deg, #6600D4 0%, #4221E3 49.09%, #005FFF 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  position: relative;
 }
 
 .btn-secondary:hover {
-  background-color: rgba(139, 92, 246, 0.3);
-  transform: translateX(5px);
+  background-image: linear-gradient(287deg, #6600D4 0%, #4221E3 49.09%, #005FFF 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 0, 212, 0.4);
 }
 
 .btn-accent {

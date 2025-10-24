@@ -4,13 +4,18 @@
     <div class="navbar-logo">
       <a routerLink="/">Tournify</a>
     </div>
-    
-    <div class="navbar-menu">
-      <a routerLink="/tournaments/list">Torneos</a>
-      <a routerLink="/">Acerca de nosotros</a>
-      <a routerLink="/">Noticias</a>
-      <a href="https://discord.com" target="_blank">🎮 Discord</a>
-      <a routerLink="/auth/login">Inicio de sesión</a>
+
+    <div class="navbar-center">
+      <div class="navbar-menu">
+        <a routerLink="/tournaments/list" class="nav-link">Torneos</a>
+        <a routerLink="/" class="nav-link">Acerca de nosotros</a>
+        <a routerLink="/" class="nav-link">Noticias</a>
+        <a href="https://discord.com" target="_blank" class="nav-link discord-link">Discord</a>
+      </div>
+    </div>
+
+    <div class="navbar-actions">
+      <a routerLink="/auth/login" class="btn-login">Inicio de sesión</a>
     </div>
   </div>
 </nav>
