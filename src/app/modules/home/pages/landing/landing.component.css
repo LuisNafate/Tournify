@@ -535,3 +535,26 @@
   ;
 
 }
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Una columna por defecto para móviles */
+  gap: 1.5rem;
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* En pantallas más grandes, cambiamos a 2 columnas */
+@media (min-width: 1024px) {
+  .showcase-grid {
+    /* La columna derecha es 1.5 veces más ancha que la izquierda */
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+
+.grid-col-left, .grid-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
