@@ -227,6 +227,11 @@
   max-width: 1400px;
   margin: 0 auto;
 }
+.feature-tournament-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
 .feature-tournament-card {
 
     width: 300px;
@@ -237,7 +242,7 @@
     
    border: 1px solid var(--Border, #FFF);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    
+    transition: transform 0.3s ease, border-color 0.3s ease;
     color: white;
     font-family: sans-serif; 
     display: flex; 
