@@ -203,6 +203,21 @@
 }
 
 /*featured tournaments */
+.headder-tournament {
+display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    
+
+    width: 100%;
+    padding: 2rem 0; 
+    background-color: #000000; 
+    color: #ffffff;
+    font-family: sans-serif;
+}
+.feature-tournaments-section{
+  background-color: #2a2068;
+}
 .feature-tournaments {
   
   color: #ffffff;
@@ -212,7 +227,15 @@
   font-size: 2.5rem;
   font-weight: 800;
 }
-
+.feature-tournament-button {
+  display: flex;
+padding: 12px 20px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+border-radius: 9999px;
+background: var(--alpha-white-10, rgba(255, 255, 255, 0.10));
+}
 .feature-tournament-description {
   max-width: 800px;
   font-size: 1.1rem;
