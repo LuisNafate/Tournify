@@ -203,6 +203,14 @@
 }
 
 /*featured tournaments */
+.feature-tournaments-header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-left: 2.5rem;
+    margin-right: 11rem; 
+ 
+}
 .headder-tournament {
 display: flex;
     justify-content: space-between; 
@@ -210,14 +218,11 @@ display: flex;
     
 
     width: 100%;
-    padding: 2rem 0; 
     background-color: #000000; 
     color: #ffffff;
     font-family: sans-serif;
 }
-.feature-tournaments-section{
-  background-color: #2a2068;
-}
+
 .feature-tournaments {
   
   color: #ffffff;
@@ -229,7 +234,8 @@ display: flex;
 }
 .feature-tournament-button {
   display: flex;
-padding: 12px 20px;
+  color: #cbd5e1;
+padding: 10px 20px;
 justify-content: center;
 align-items: center;
 gap: 8px;
@@ -241,12 +247,13 @@ background: var(--alpha-white-10, rgba(255, 255, 255, 0.10));
   font-size: 1.1rem;
   color: #94a3b8;
   line-height: 1.8;
+  margin-left: 2.5rem;
 }
 .feature-tournament-section{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  padding: 4rem 2rem;
+  gap: .1rem; 
+  padding: 4rem 0rem;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -402,6 +409,33 @@ background: var(--alpha-white-10, rgba(255, 255, 255, 0.10));
   .features-section {
     grid-template-columns: 1fr;
   }
+ 
+  .feature-tournament-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem; /* Reducimos el espacio un poco */
+  }
+
+  .feature-tournaments-header {
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 1rem; 
+  }
+  
+  .feature-tournament-title {
+    font-size: 2rem; 
+    width: 100%; 
+  }
+  
+  
+  .feature-tournament-button {
+    width: 100%; 
+    text-align: center; 
+  }
+
+  .feature-tournaments {
+    margin: 5rem auto; 
+  }
+
 }
 
 .grid-card {
