@@ -323,16 +323,15 @@ display: flex;
 .date-dot {
     width: 6px;
     height: 6px;
-    background-color: #f8f8f8; /* Color del punto */
+    background-color: #f8f8f8; 
     border-radius: 50%;
 }
 
 .date-year {
-    color: rgba(255, 255, 255, 0.7); /* Año más sutil */
+    color: rgba(255, 255, 255, 0.7); 
     margin-left: 0.5rem;
 }
-/* leaderboard */
-/* --- Estilos base (Mantenlos) --- */
+
 
 .leaderboard {
   background-image: url('/assets/images/Background-featured-tournaments.png');
@@ -345,6 +344,84 @@ display: flex;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #f0f0f0;
 }
+
+.leaderboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+ 
+}
+
+.leaderboard-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.leaderboard-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+}
+
+.leaderboard-header p {
+  font-size: 1.1rem;
+  color: #a0a8b2;
+  margin: 0;
+}
+
+
+.leaderboard-list {
+  width: 100%;
+}
+
+.list-header,
+.list-row {
+  display: grid;
+  
+  grid-template-columns: 80px 2.5fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  gap: 1rem; 
+  padding: 0 1.5rem;
+}
+
+.list-header {
+  padding-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #b0b8c2;
+  letter-spacing: 0.5px;
+}
+
+.list-header .header-name {
+  padding-left: 0.5rem; 
+}
+
+.list-header span {
+  color: #888;
+  margin-left: 0.3rem;
+}
+
+
+.list-row {
+  border-radius: var(--spacing-lg, 12px);
+border: 1px solid var(--Line-1, #FFF);
+background: linear-gradient(90deg, rgba(0, 0, 0, 0.70) 0%, rgba(51, 51, 51, 0.70) 100%);
+  
+  margin-bottom: 8px; 
+  
+  height: 80px; 
+  
+  transition: all 0.2s ease-in-out;
+}
+
+.list-row:hover {
+  background-color: rgba(40, 43, 58, 0.9);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: scale(1.01); 
+}
+
 
 /* Buttons */
 .btn {
