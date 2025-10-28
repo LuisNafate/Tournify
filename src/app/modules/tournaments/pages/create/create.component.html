@@ -1,37 +1,231 @@
-<section class="create-tournament">
-  <h2>Crear Nuevo Torneo</h2>
-
-  <form class="tournament-form">
-    <div class="form-group">
-      <label for="name">Nombre del torneo</label>
-      <input type="text" id="name" placeholder="Liga de Verano 2025">
+<div class="create-tournament-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="user-profile">
+      <img src="assets/images/default-avatar.png" alt="Avatar" class="avatar">
+      <div class="user-info">
+        <span class="user-name">Usuario</span>
+        <a href="#" class="close-session">Cerrar sesión</a>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="sport">Tipo de deporte</label>
-      <select id="sport">
-        <option value="">Seleccionar...</option>
-        <option value="football">Fútbol</option>
-        <option value="basketball">Baloncesto</option>
-        <option value="esports">eSports</option>
-      </select>
+    <nav class="sidebar-nav">
+      <a routerLink="/tournaments/my-tournaments" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+          <path d="M4 22h16"></path>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+        </svg>
+        <span>Mis campeonatos</span>
+      </a>
+
+      <a routerLink="/teams/register" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3h18v18H3zM8 3v18M16 3v18M3 8h18M3 16h18"></path>
+        </svg>
+        <span>Registro de equipos</span>
+      </a>
+
+      <a routerLink="/players/register" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span>Registro de jugadores</span>
+      </a>
+
+      <a routerLink="/organizer" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+          <line x1="7" y1="2" x2="7" y2="22"></line>
+          <line x1="17" y1="2" x2="17" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="2" y1="7" x2="7" y2="7"></line>
+          <line x1="2" y1="17" x2="7" y2="17"></line>
+          <line x1="17" y1="17" x2="22" y2="17"></line>
+          <line x1="17" y1="7" x2="22" y2="7"></line>
+        </svg>
+        <span>Página del organizador</span>
+      </a>
+
+      <a routerLink="/referee" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span>Arbitraje</span>
+      </a>
+
+      <a routerLink="/sponsors" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+          <path d="M2 12h20"></path>
+        </svg>
+        <span>Patrocinios y Apoyos</span>
+      </a>
+    </nav>
+
+    <button class="sidebar-toggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="content-header">
+      <button class="btn-new-tournament">Nuevo campeonato</button>
     </div>
 
-    <div class="form-group">
-      <label for="startDate">Fecha de inicio</label>
-      <input type="date" id="startDate">
-    </div>
+    <form class="tournament-form" (ngSubmit)="onSubmit()">
+      <h2 class="form-title">Crear Nuevo Torneo</h2>
 
-    <div class="form-group">
-      <label for="endDate">Fecha de fin</label>
-      <input type="date" id="endDate">
-    </div>
+      <div class="form-grid">
+        <!-- Nombre del torneo -->
+        <div class="form-group full-width">
+          <label for="name">Nombre del torneo</label>
+          <input
+            type="text"
+            id="name"
+            [(ngModel)]="tournament.name"
+            name="name"
+            placeholder="Ej: Liga de Verano 2025"
+            required>
+        </div>
 
-    <div class="form-group">
-      <label for="maxTeams">Número máximo de equipos</label>
-      <input type="number" id="maxTeams" placeholder="16">
-    </div>
+        <!-- Deporte -->
+        <div class="form-group">
+          <label for="sport">Tipo de deporte</label>
+          <select
+            id="sport"
+            [(ngModel)]="tournament.sport"
+            name="sport"
+            required>
+            <option value="">Seleccionar...</option>
+            <option value="football">Fútbol</option>
+            <option value="basketball">Baloncesto</option>
+            <option value="volleyball">Voleibol</option>
+            <option value="tennis">Tenis</option>
+            <option value="esports">eSports</option>
+          </select>
+        </div>
 
-    <button type="submit">Crear Torneo</button>
-  </form>
-</section>
+        <!-- Categoría -->
+        <div class="form-group">
+          <label for="category">Categoría</label>
+          <select
+            id="category"
+            [(ngModel)]="tournament.category"
+            name="category"
+            required>
+            <option value="">Seleccionar...</option>
+            <option value="sub-12">Sub-12</option>
+            <option value="sub-15">Sub-15</option>
+            <option value="sub-18">Sub-18</option>
+            <option value="senior">Senior</option>
+            <option value="master">Master</option>
+            <option value="mixta">Mixta</option>
+          </select>
+        </div>
+
+        <!-- Modalidad de eliminatorias -->
+        <div class="form-group">
+          <label for="eliminationMode">Modalidad de eliminatorias</label>
+          <select
+            id="eliminationMode"
+            [(ngModel)]="tournament.eliminationMode"
+            name="eliminationMode"
+            required>
+            <option value="">Seleccionar...</option>
+            <option value="single">Eliminación simple</option>
+            <option value="double">Eliminación doble</option>
+            <option value="round-robin">Todos contra todos</option>
+            <option value="groups">Grupos + Eliminación</option>
+          </select>
+        </div>
+
+        <!-- Lugar del torneo -->
+        <div class="form-group">
+          <label for="location">Lugar del torneo</label>
+          <input
+            type="text"
+            id="location"
+            [(ngModel)]="tournament.location"
+            name="location"
+            placeholder="Ej: Estadio Municipal"
+            required>
+        </div>
+
+        <!-- Fecha de inicio -->
+        <div class="form-group">
+          <label for="startDate">Fecha de inicio</label>
+          <input
+            type="date"
+            id="startDate"
+            [(ngModel)]="tournament.startDate"
+            name="startDate"
+            required>
+        </div>
+
+        <!-- Fecha de fin -->
+        <div class="form-group">
+          <label for="endDate">Fecha de finalización</label>
+          <input
+            type="date"
+            id="endDate"
+            [(ngModel)]="tournament.endDate"
+            name="endDate"
+            required>
+        </div>
+
+        <!-- Número máximo de equipos -->
+        <div class="form-group">
+          <label for="maxTeams">Número máximo de equipos</label>
+          <input
+            type="number"
+            id="maxTeams"
+            [(ngModel)]="tournament.maxTeams"
+            name="maxTeams"
+            placeholder="16"
+            min="2"
+            required>
+        </div>
+
+        <!-- Cuota de inscripción -->
+        <div class="form-group">
+          <label for="registrationFee">Cuota de inscripción (opcional)</label>
+          <input
+            type="number"
+            id="registrationFee"
+            [(ngModel)]="tournament.registrationFee"
+            name="registrationFee"
+            placeholder="0.00"
+            min="0"
+            step="0.01">
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group full-width">
+          <label for="description">Descripción del torneo</label>
+          <textarea
+            id="description"
+            [(ngModel)]="tournament.description"
+            name="description"
+            rows="4"
+            placeholder="Describe los detalles del torneo, reglas especiales, premios, etc."></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" routerLink="/tournaments/list">Cancelar</button>
+        <button type="submit" class="btn-submit">Crear Torneo</button>
+      </div>
+    </form>
+  </main>
+</div>

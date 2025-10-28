@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TournamentsRoutingModule } from './tournaments-routing.module';
 
 import { ListComponent } from './pages/list/list.component';
@@ -15,6 +16,7 @@ import { DetailComponent } from './pages/detail/detail.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     TournamentsRoutingModule
   ]
 })
