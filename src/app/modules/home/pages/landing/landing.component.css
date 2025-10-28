@@ -860,14 +860,20 @@ background: linear-gradient(90deg, rgba(0, 0, 0, 0.70) 0%, rgba(51, 51, 51, 0.70
 
 .cta-card {
   background-color: var(--background-card); /* Usa tu color de tarjeta oscuro */
-  border: 1px solid rgba(139, 92, 246, 0.2); /* Borde de acento */
+  
+  border: 1px solid var(--Line-1, #FFF);
+ /* Borde de acento */
+  border-radius: var(--spacing-lg, 12px);
   border-radius: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  overflow: hidden; /* Para que la imagen no se salga */
+   /* Para que la imagen no se salga */
+   /*background: linear-gradient(90deg, rgba(0, 0, 0, 0.70) 0%, rgba(51, 51, 51, 0.70) 100%);*/
+
   padding: 3rem;
   position: relative;
+  transition: all 0.2s ease-in-out;
 }
 
 .cta-content {
