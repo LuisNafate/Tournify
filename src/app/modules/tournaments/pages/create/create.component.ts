@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 interface Tournament {
   name: string;
   sport: string;
+  tournamentType: string;
   category: string;
   eliminationMode: string;
   location: string;
@@ -24,6 +25,7 @@ export class CreateComponent {
   tournament: Tournament = {
     name: '',
     sport: '',
+    tournamentType: '',
     category: '',
     eliminationMode: '',
     location: '',
@@ -53,15 +55,21 @@ export class CreateComponent {
   }
 
   private validateForm(): boolean {
-    // Validar campos requeridos
+    // Validar campos requeridos básicos
     if (!this.tournament.name ||
         !this.tournament.sport ||
-        !this.tournament.category ||
+        !this.tournament.tournamentType ||
         !this.tournament.eliminationMode ||
         !this.tournament.location ||
         !this.tournament.startDate ||
         !this.tournament.endDate ||
         !this.tournament.maxTeams) {
+      return false;
+    }
+
+    // Validar categoría solo si es campeonato por categorías
+    if (this.tournament.tournamentType === 'categories' && !this.tournament.category) {
+      alert('Por favor, selecciona una categoría para el campeonato por categorías');
       return false;
     }
 
