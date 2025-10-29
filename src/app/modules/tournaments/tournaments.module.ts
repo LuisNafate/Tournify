@@ -6,13 +6,15 @@ import { TournamentsRoutingModule } from './tournaments-routing.module';
 import { ListComponent } from './pages/list/list.component';
 import { CreateComponent } from './pages/create/create.component';
 import { DetailComponent } from './pages/detail/detail.component';
+import { TournamentViewComponent } from './pages/detail/tournament-view.component';
 
 // Módulo de torneos
 @NgModule({
   declarations: [
     ListComponent,
     CreateComponent,
-    DetailComponent
+    DetailComponent,
+    TournamentViewComponent
   ],
   imports: [
     CommonModule,
