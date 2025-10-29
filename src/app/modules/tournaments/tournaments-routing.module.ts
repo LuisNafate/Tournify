@@ -7,7 +7,11 @@ import { DetailComponent } from './pages/detail/detail.component';
 // Rutas del módulo tournaments
 const routes: Routes = [
   { path: 'list', component: ListComponent },
-  { path: 'create', component: CreateComponent },
+  { 
+    path: 'create', 
+    component: CreateComponent,
+    data: { hideSidebar: true } 
+  },
   { path: 'detail/:id', component: DetailComponent }
 ];
 
