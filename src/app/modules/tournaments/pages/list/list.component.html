@@ -1,17 +1,109 @@
-<section class="tournaments-list">
-  <h2>Torneos Disponibles</h2>
-
-  <div class="search-bar">
-    <input type="text" placeholder="Buscar torneo...">
+<section class="tournaments-list-page">
+  
+  <div class="list-header">
+    <h2>Torneos Disponibles</h2>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar torneo, equipo o juego...">
+    </div>
   </div>
 
   <div class="tournaments-grid">
-    <!-- Tarjetas de torneos -->
+
     <div class="tournament-card">
-      <h3>Torneo Ejemplo</h3>
-      <p>Deporte: Fútbol</p>
-      <p>Fecha: 15/11/2025</p>
-      <button>Ver detalles</button>
+      <div class="card-image" style="background-image: url('assets/images/Background-card-play.avif');"></div>
+      <div class="card-content">
+        <div class="card-header">
+          <h3 class="tournament-title">Copa Primavera 2024</h3>
+          <span class="status-badge status-active">Activo</span>
+        </div>
+        <p class="tournament-meta">Volleyball • 16 equipos</p>
+        
+        <div class="card-details">
+          <div class="detail-item">
+            <span class="detail-label">Inscritos:</span>
+            <span class="detail-value">12 / 16</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Premio:</span>
+            <span class="detail-value">$5,000</span>
+          </div>
+        </div>
+        
+        <a routerLink="/tournaments/detail/1" class="btn btn-primary">Ver Detalles</a>
+      </div>
     </div>
+
+    <div class="tournament-card">
+      <div class="card-image" style="background-image: url('assets/images/Card-valorant.png');"></div>
+      <div class="card-content">
+        <div class="card-header">
+          <h3 class="tournament-title">Apex Legends: Champions Quest</h3>
+          <span class="status-badge status-upcoming">Próximo</span>
+        </div>
+        <p class="tournament-meta">eSports  • 64 equipos</p>
+
+        <div class="card-details">
+          <div class="detail-item">
+            <span class="detail-label">Fecha inicio:</span>
+            <span class="detail-value">14 Dic 2023</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Premio:</span>
+            <span class="detail-value">$20,000</span>
+          </div>
+        </div>
+
+        <a routerLink="/tournaments/detail/2" class="btn btn-primary">Ver Detalles</a>
+      </div>
+    </div>
+
+    <div class="tournament-card">
+      <div class="card-image" style="background-image: url('assets/images/Card-cod.png');"></div>
+      <div class="card-content">
+        <div class="card-header">
+          <h3 class="tournament-title">Call of Duty: Combat Challenge</h3>
+          <span class="status-badge status-finished">Finalizado</span>
+        </div>
+        <p class="tournament-meta">eSports • 32 equipos</p>
+
+        <div class="card-details">
+          <div class="detail-item">
+            <span class="detail-label">Ganador:</span>
+            <span class="detail-value">Team Queso</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Premio:</span>
+            <span class="detail-value">$10,000</span>
+          </div>
+        </div>
+
+        <a routerLink="/tournaments/detail/3" class="btn btn-primary">Ver Detalles</a>
+      </div>
+    </div>
+    
+    <div class="tournament-card">
+      <div class="card-image" style="background-image: url('assets/images/Background-volley-card.png');"></div>
+      <div class="card-content">
+        <div class="card-header">
+          <h3 class="tournament-title">Liga Anual de Volleyball</h3>
+          <span class="status-badge status-active">Activo</span>
+        </div>
+        <p class="tournament-meta">Volleyball • 8 equipos</p>
+
+        <div class="card-details">
+          <div class="detail-item">
+            <span class="detail-label">Inscritos:</span>
+            <span class="detail-value">8 / 8</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Premio:</span>
+            <span class="detail-value">$2,500</span>
+          </div>
+        </div>
+
+        <a routerLink="/tournaments/detail/4" class="btn btn-primary">Ver Detalles</a>
+      </div>
+    </div>
+
   </div>
 </section>
