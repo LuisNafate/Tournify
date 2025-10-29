@@ -1,1 +1,16 @@
-<p>sidebar works!</p>
+<aside class="sidebar">
+  <nav class="sidebar-nav">
+    <a routerLink="/dashboard" routerLinkActive="active" 
+       [routerLinkActiveOptions]="{exact: true}">
+       <span>Inicio</span>
+    </a>
+    <a routerLink="/tournaments/list" routerLinkActive="active">
+       <span>Torneos</span>
+    </a>
+    <a routerLink="/tournaments/create" routerLinkActive="active">
+       <span>Crear Torneo</span>
+    </a>
+    <a routerLink="/dashboard/profile" routerLinkActive="active"> <span>Mi Perfil</span>
+    </a>
+  </nav>
+</aside>
