@@ -89,64 +89,86 @@
 
     <!-- Formulario -->
     <div class="form-wrapper">
+      <!-- Header del Formulario -->
+      <div class="page-title-section">
+        <h1 class="page-title">Crear Nuevo Campeonato</h1>
+        <p class="page-description">Configura los detalles de tu torneo de forma rápida y sencilla</p>
+      </div>
+
       <form class="tournament-form" (ngSubmit)="onSubmit()">
-        <!-- Título con gradiente -->
-        <div class="form-header">
-          <h1 class="form-title">Crear Nuevo Torneo</h1>
-          <p class="form-subtitle">Completa los detalles para configurar tu competencia</p>
-        </div>
+        <!-- Card: Información General -->
+        <div class="form-card">
+          <div class="card-header">
+            <h3 class="card-title">Información General</h3>
+            <p class="card-subtitle">Datos básicos del campeonato</p>
+          </div>
 
-        <!-- Sección: Información Básica -->
-        <section class="form-section">
-          <h2 class="section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
-            </svg>
-            Información Básica
-          </h2>
-
-          <div class="form-grid">
-            <div class="form-field full-width">
-              <label for="name" class="field-label">Nombre del Torneo</label>
-              <input
-                type="text"
-                id="name"
-                [(ngModel)]="tournament.name"
-                name="name"
-                class="field-input"
-                placeholder="Ej: Copa de Verano 2025"
-                required>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="name" class="label">Nombre del Campeonato <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="name"
+                  [(ngModel)]="tournament.name"
+                  name="name"
+                  class="form-control"
+                  placeholder="Ej: Copa de Verano 2025"
+                  required>
+              </div>
             </div>
 
-            <div class="form-field">
-              <label for="sport" class="field-label">Deporte</label>
-              <div class="select-wrapper">
-                <select id="sport" [(ngModel)]="tournament.sport" name="sport" class="field-select" required>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="sport" class="label">Deporte <span class="required">*</span></label>
+                <select id="sport" [(ngModel)]="tournament.sport" name="sport" class="form-control" required>
                   <option value="">Selecciona un deporte</option>
                   <option value="football">Fútbol</option>
                   <option value="basketball">Baloncesto</option>
                   <option value="volleyball">Voleibol</option>
                   <option value="tennis">Tenis</option>
+                  <option value="handball">Balonmano</option>
+                  <option value="tabletennis">Tenis de Mesa</option>
                   <option value="esports">eSports</option>
                 </select>
               </div>
-            </div>
 
-            <div class="form-field">
-              <label for="tournamentType" class="field-label">Tipo de Campeonato</label>
-              <div class="select-wrapper">
-                <select id="tournamentType" [(ngModel)]="tournament.tournamentType" name="tournamentType" class="field-select" required>
+              <div class="form-group col-6">
+                <label for="location" class="label">Ubicación <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="location"
+                  [(ngModel)]="tournament.location"
+                  name="location"
+                  class="form-control"
+                  placeholder="Ej: Estadio Municipal, Ciudad"
+                  required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card: Categoría y Modalidad -->
+        <div class="form-card">
+          <div class="card-header">
+            <h3 class="card-title">Categoría y Modalidad</h3>
+            <p class="card-subtitle">Define el tipo de competencia</p>
+          </div>
+
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="tournamentType" class="label">Tipo de Campeonato <span class="required">*</span></label>
+                <select id="tournamentType" [(ngModel)]="tournament.tournamentType" name="tournamentType" class="form-control" required>
                   <option value="">Selecciona un tipo</option>
                   <option value="single">Campeonato Único</option>
                   <option value="categories">Campeonato por Categorías</option>
                 </select>
               </div>
-            </div>
 
-            <div class="form-field" *ngIf="tournament.tournamentType === 'categories'">
-              <label for="category" class="field-label">Categoría</label>
-              <div class="select-wrapper">
-                <select id="category" [(ngModel)]="tournament.category" name="category" class="field-select" [required]="tournament.tournamentType === 'categories'">
+              <div class="form-group col-6" *ngIf="tournament.tournamentType === 'categories'">
+                <label for="category" class="label">Categoría <span class="required">*</span></label>
+                <select id="category" [(ngModel)]="tournament.category" name="category" class="form-control" [required]="tournament.tournamentType === 'categories'">
                   <option value="">Selecciona una categoría</option>
                   <option value="sub-12">Sub-12</option>
                   <option value="sub-15">Sub-15</option>
@@ -157,23 +179,11 @@
                 </select>
               </div>
             </div>
-          </div>
-        </section>
 
-        <!-- Sección: Configuración del Torneo -->
-        <section class="form-section">
-          <h2 class="section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M1 12h6m6 0h6"/>
-            </svg>
-            Configuración del Torneo
-          </h2>
-
-          <div class="form-grid">
-            <div class="form-field">
-              <label for="eliminationMode" class="field-label">Modalidad de Eliminatorias</label>
-              <div class="select-wrapper">
-                <select id="eliminationMode" [(ngModel)]="tournament.eliminationMode" name="eliminationMode" class="field-select" required>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="eliminationMode" class="label">Modalidad de Eliminatorias <span class="required">*</span></label>
+                <select id="eliminationMode" [(ngModel)]="tournament.eliminationMode" name="eliminationMode" class="form-control" required>
                   <option value="">Selecciona una modalidad</option>
                   <option value="single">Eliminación Simple</option>
                   <option value="double">Eliminación Doble</option>
@@ -181,120 +191,110 @@
                   <option value="groups">Grupos + Eliminación</option>
                 </select>
               </div>
-            </div>
 
-            <div class="form-field">
-              <label for="maxTeams" class="field-label">Número de Equipos</label>
-              <input
-                type="number"
-                id="maxTeams"
-                [(ngModel)]="tournament.maxTeams"
-                name="maxTeams"
-                class="field-input"
-                placeholder="16"
-                min="2"
-                required>
-            </div>
-
-            <div class="form-field">
-              <label for="location" class="field-label">Ubicación</label>
-              <input
-                type="text"
-                id="location"
-                [(ngModel)]="tournament.location"
-                name="location"
-                class="field-input"
-                placeholder="Estadio Municipal"
-                required>
-            </div>
-
-            <div class="form-field">
-              <label for="registrationFee" class="field-label">Cuota de Inscripción</label>
-              <div class="input-with-icon">
-                <span class="input-icon">$</span>
+              <div class="form-group col-6">
+                <label for="maxTeams" class="label">Cantidad de Equipos <span class="required">*</span></label>
                 <input
                   type="number"
-                  id="registrationFee"
-                  [(ngModel)]="tournament.registrationFee"
-                  name="registrationFee"
-                  class="field-input with-icon"
-                  placeholder="0.00"
-                  min="0"
-                  step="0.01">
+                  id="maxTeams"
+                  [(ngModel)]="tournament.maxTeams"
+                  name="maxTeams"
+                  class="form-control"
+                  placeholder="16"
+                  min="2"
+                  required>
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        <!-- Sección: Fechas -->
-        <section class="form-section">
-          <h2 class="section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            Fechas del Torneo
-          </h2>
+        <!-- Card: Fechas y Costo -->
+        <div class="form-card">
+          <div class="card-header">
+            <h3 class="card-title">Fechas y Costo</h3>
+            <p class="card-subtitle">Periodo y valor de inscripción</p>
+          </div>
 
-          <div class="form-grid">
-            <div class="form-field">
-              <label for="startDate" class="field-label">Fecha de Inicio</label>
-              <input
-                type="date"
-                id="startDate"
-                [(ngModel)]="tournament.startDate"
-                name="startDate"
-                class="field-input"
-                required>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="startDate" class="label">Fecha de Inicio <span class="required">*</span></label>
+                <input
+                  type="date"
+                  id="startDate"
+                  [(ngModel)]="tournament.startDate"
+                  name="startDate"
+                  class="form-control"
+                  required>
+              </div>
+
+              <div class="form-group col-6">
+                <label for="endDate" class="label">Fecha de Finalización <span class="required">*</span></label>
+                <input
+                  type="date"
+                  id="endDate"
+                  [(ngModel)]="tournament.endDate"
+                  name="endDate"
+                  class="form-control"
+                  required>
+              </div>
             </div>
 
-            <div class="form-field">
-              <label for="endDate" class="field-label">Fecha de Finalización</label>
-              <input
-                type="date"
-                id="endDate"
-                [(ngModel)]="tournament.endDate"
-                name="endDate"
-                class="field-input"
-                required>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="registrationFee" class="label">Cuota de Inscripción</label>
+                <div class="input-with-prefix">
+                  <span class="input-prefix">$</span>
+                  <input
+                    type="number"
+                    id="registrationFee"
+                    [(ngModel)]="tournament.registrationFee"
+                    name="registrationFee"
+                    class="form-control with-prefix"
+                    placeholder="0.00"
+                    min="0"
+                    step="0.01">
+                </div>
+                <small class="form-hint">Deja en 0 si no requiere pago</small>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        <!-- Sección: Descripción -->
-        <section class="form-section">
-          <h2 class="section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
-            </svg>
-            Descripción y Detalles
-          </h2>
-
-          <div class="form-field full-width">
-            <label for="description" class="field-label">Descripción del Torneo</label>
-            <textarea
-              id="description"
-              [(ngModel)]="tournament.description"
-              name="description"
-              class="field-textarea"
-              rows="5"
-              placeholder="Describe los detalles del torneo, reglas especiales, premios, requisitos de inscripción, etc."></textarea>
-            <span class="field-hint">Mínimo 50 caracteres recomendados</span>
+        <!-- Card: Descripción -->
+        <div class="form-card">
+          <div class="card-header">
+            <h3 class="card-title">Descripción</h3>
+            <p class="card-subtitle">Información adicional del campeonato</p>
           </div>
-        </section>
 
-        <!-- Acciones -->
-        <div class="form-actions">
-          <button type="button" class="btn btn-secondary" routerLink="/tournaments/list">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="description" class="label">Descripción del Torneo</label>
+                <textarea
+                  id="description"
+                  [(ngModel)]="tournament.description"
+                  name="description"
+                  class="form-control textarea"
+                  rows="5"
+                  placeholder="Describe las reglas, premios, requisitos de inscripción y otros detalles importantes..."></textarea>
+                <small class="form-hint">Mínimo 50 caracteres recomendados para una mejor descripción</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones del Formulario -->
+        <div class="form-footer">
+          <button type="button" class="btn btn-cancel" routerLink="/tournaments/list">
             Cancelar
           </button>
-          <button type="submit" class="btn btn-primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <button type="submit" class="btn btn-submit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
-            Crear Torneo
+            Crear Campeonato
           </button>
         </div>
       </form>
