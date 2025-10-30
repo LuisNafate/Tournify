@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 // componente para vista del torneo
 @Component({
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./tournament-view.component.css']
 })
 export class TournamentViewComponent {
-
+  @Input() tournament: any;
 }
