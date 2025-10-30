@@ -1,11 +1,38 @@
-<div class="tournament-view">
+<div class="tournament-view" *ngIf="tournament">
   <div class="tournament-banner">
-    <img src="assets/images/tournament-banner.jpg" alt="Banner del torneo">
+    <img [src]="tournament.image" [alt]="tournament.name">
     <div class="banner-overlay">
-      <span class="organizer-badge">Organizador: Juan Pedro</span>
+      <span class="organizer-badge">Organizador: {{ tournament.organizer }}</span>
       <button class="btn-follow">SEGUIR</button>
     </div>
   </div>
 
-  <h1 class="tournament-title">titulo</h1>
+  <h1 class="tournament-title">{{ tournament.name }}</h1>
+  
+  <div class="tournament-info">
+    <div class="info-item">
+      <span class="label">Deporte:</span>
+      <span class="value">{{ tournament.sport }}</span>
+    </div>
+    <div class="info-item">
+      <span class="label">Estado:</span>
+      <span class="value status-badge">{{ tournament.status }}</span>
+    </div>
+    <div class="info-item" *ngIf="tournament.startDate">
+      <span class="label">Fecha inicio:</span>
+      <span class="value">{{ tournament.startDate }}</span>
+    </div>
+    <div class="info-item">
+      <span class="label">Equipos:</span>
+      <span class="value">{{ tournament.enrolled }} / {{ tournament.maxTeams }}</span>
+    </div>
+    <div class="info-item">
+      <span class="label">Premio:</span>
+      <span class="value">{{ tournament.prize }}</span>
+    </div>
+    <div class="info-item" *ngIf="tournament.winner">
+      <span class="label">Ganador:</span>
+      <span class="value">{{ tournament.winner }}</span>
+    </div>
+  </div>
 </div>
