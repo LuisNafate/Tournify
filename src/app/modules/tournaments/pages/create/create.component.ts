@@ -14,6 +14,7 @@ interface Tournament {
   maxTeams: number;
   registrationFee?: number;
   description?: string;
+  image?: File | null;
 }
 
 @Component({
@@ -33,10 +34,46 @@ export class CreateComponent {
     endDate: '',
     maxTeams: 16,
     registrationFee: 0,
-    description: ''
+    description: '',
+    image: null
   };
 
+  imagePreview: string | null = null;
+
   constructor(private router: Router) {}
+
+  onImageSelect(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      // Validar tamaño (5MB máximo)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('La imagen no debe superar los 5MB');
+        return;
+      }
+
+      // Validar tipo
+      if (!file.type.match('image/(png|jpeg|jpg)')) {
+        alert('Solo se permiten imágenes PNG, JPG o JPEG');
+        return;
+      }
+
+      this.tournament.image = file;
+
+      // Crear preview
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeImage(): void {
+    this.tournament.image = null;
+    this.imagePreview = null;
+  }
 
   onSubmit(): void {
     // Validar que los campos requeridos estén completos
