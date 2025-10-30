@@ -131,6 +131,39 @@
                   required>
               </div>
             </div>
+
+            <!-- Imagen del Torneo -->
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="tournamentImage" class="label">Imagen del Torneo</label>
+                <div class="image-upload-container">
+                  <div class="image-preview" *ngIf="imagePreview">
+                    <img [src]="imagePreview" alt="Preview">
+                    <button type="button" class="remove-image" (click)="removeImage()">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="upload-area" *ngIf="!imagePreview" (click)="fileInput.click()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="upload-icon">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <p class="upload-text">Haz clic para subir una imagen</p>
+                    <small class="upload-hint">PNG, JPG hasta 5MB</small>
+                  </div>
+                  <input
+                    #fileInput
+                    type="file"
+                    id="tournamentImage"
+                    (change)="onImageSelect($event)"
+                    accept="image/png,image/jpeg,image/jpg"
+                    class="file-input"
+                    hidden>
+                </div>
+                <small class="form-hint">Imagen recomendada: 1200x630 px (16:9)</small>
+              </div>
+            </div>
           </div>
         </div>
 
