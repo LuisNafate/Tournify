@@ -102,6 +102,20 @@ export class CreateComponent {
 
   constructor(private router: Router) {}
 
+  // Obtener nombre legible del deporte
+  getSportName(sport: string): string {
+    const sports: { [key: string]: string } = {
+      'football': 'Fútbol',
+      'basketball': 'Baloncesto',
+      'volleyball': 'Voleibol',
+      'tennis': 'Tenis',
+      'handball': 'Balonmano',
+      'tabletennis': 'Tenis de Mesa',
+      'esports': 'eSports'
+    };
+    return sports[sport] || sport;
+  }
+
   // Método para actualizar configuración deportiva según el deporte seleccionado
   onSportChange(): void {
     switch (this.tournament.sport) {

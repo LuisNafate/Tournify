@@ -404,6 +404,49 @@ select.form-control option {
   display: block;
 }
 
+/* Checkbox Group */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.75rem 0;
+  transition: all 0.2s;
+}
+
+.checkbox-label:hover .checkbox-text {
+  color: #ffffff;
+}
+
+.checkbox-input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #8b5cf6;
+  border-radius: 4px;
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  background: rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.checkbox-text {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  transition: color 0.2s;
+}
+
+/* Column widths for new layouts */
+.form-group.col-4 {
+  flex: 0 0 calc(33.333% - 0.667rem);
+}
+
 /* ========== FORM FOOTER ========== */
 .form-footer {
   display: flex;
