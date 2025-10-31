@@ -52,3 +52,39 @@
   color: white;
   margin-bottom: 1rem;
 }
+
+.tournament-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.info-item {
+  background-color: rgba(26, 29, 62, 0.8);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.info-item .label {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.info-item .value {
+  display: block;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.status-badge {
+  background-color: rgba(79, 70, 229, 0.2);
+  border: 1px solid #4f46e5;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.9rem !important;
+}
