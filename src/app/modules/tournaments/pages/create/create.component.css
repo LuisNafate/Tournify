@@ -523,7 +523,8 @@ select.form-control option {
     flex-direction: column;
   }
 
-  .form-group.col-6 {
+  .form-group.col-6,
+  .form-group.col-4 {
     flex: 0 0 100%;
   }
 
