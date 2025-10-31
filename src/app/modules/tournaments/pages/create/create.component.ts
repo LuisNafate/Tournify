@@ -15,6 +15,36 @@ interface Tournament {
   registrationFee?: number;
   description?: string;
   image?: File | null;
+
+  // Configuración de privacidad
+  isPrivate: boolean;
+  requiresApproval: boolean;
+  accessCode?: string;
+
+  // Configuración de fases
+  hasGroupStage: boolean;
+  numberOfGroups?: number;
+  teamsPerGroup?: number;
+  teamsAdvancePerGroup?: number;
+
+  // Ajustes deportivos específicos
+  sportSettings?: {
+    matchDuration?: number; // Duración del partido en minutos
+    halves?: number; // Número de tiempos
+    halfDuration?: number; // Duración de cada tiempo
+    extraTime?: boolean; // ¿Tiempo extra?
+    penalties?: boolean; // ¿Penales?
+    playersPerTeam?: number; // Jugadores por equipo
+    substitutions?: number; // Sustituciones permitidas
+    sets?: number; // Para deportes como voleibol/tenis
+    pointsToWin?: number; // Puntos para ganar un set
+  };
+
+  // Configuración adicional
+  allowTies: boolean;
+  pointsForWin: number;
+  pointsForDraw: number;
+  pointsForLoss: number;
 }
 
 @Component({
@@ -35,7 +65,37 @@ export class CreateComponent {
     maxTeams: 16,
     registrationFee: 0,
     description: '',
-    image: null
+    image: null,
+
+    // Configuración de privacidad
+    isPrivate: false,
+    requiresApproval: false,
+    accessCode: '',
+
+    // Configuración de fases
+    hasGroupStage: false,
+    numberOfGroups: 4,
+    teamsPerGroup: 4,
+    teamsAdvancePerGroup: 2,
+
+    // Ajustes deportivos específicos
+    sportSettings: {
+      matchDuration: 90,
+      halves: 2,
+      halfDuration: 45,
+      extraTime: true,
+      penalties: true,
+      playersPerTeam: 11,
+      substitutions: 5,
+      sets: 3,
+      pointsToWin: 25
+    },
+
+    // Configuración adicional
+    allowTies: false,
+    pointsForWin: 3,
+    pointsForDraw: 1,
+    pointsForLoss: 0
   };
 
   imagePreview: string | null = null;
