@@ -102,6 +102,77 @@ export class CreateComponent {
 
   constructor(private router: Router) {}
 
+  // Método para actualizar configuración deportiva según el deporte seleccionado
+  onSportChange(): void {
+    switch (this.tournament.sport) {
+      case 'football':
+        this.tournament.sportSettings = {
+          matchDuration: 90,
+          halves: 2,
+          halfDuration: 45,
+          extraTime: true,
+          penalties: true,
+          playersPerTeam: 11,
+          substitutions: 5
+        };
+        break;
+      case 'basketball':
+        this.tournament.sportSettings = {
+          matchDuration: 40,
+          halves: 4,
+          halfDuration: 10,
+          extraTime: true,
+          penalties: false,
+          playersPerTeam: 5,
+          substitutions: 99
+        };
+        break;
+      case 'volleyball':
+        this.tournament.sportSettings = {
+          sets: 5,
+          pointsToWin: 25,
+          playersPerTeam: 6,
+          substitutions: 6
+        };
+        break;
+      case 'tennis':
+        this.tournament.sportSettings = {
+          sets: 3,
+          pointsToWin: 6,
+          playersPerTeam: 1,
+          substitutions: 0
+        };
+        break;
+      case 'handball':
+        this.tournament.sportSettings = {
+          matchDuration: 60,
+          halves: 2,
+          halfDuration: 30,
+          extraTime: true,
+          penalties: true,
+          playersPerTeam: 7,
+          substitutions: 99
+        };
+        break;
+      case 'tabletennis':
+        this.tournament.sportSettings = {
+          sets: 5,
+          pointsToWin: 11,
+          playersPerTeam: 1,
+          substitutions: 0
+        };
+        break;
+      case 'esports':
+        this.tournament.sportSettings = {
+          playersPerTeam: 5,
+          substitutions: 2
+        };
+        break;
+      default:
+        this.tournament.sportSettings = {};
+    }
+  }
+
   onImageSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
