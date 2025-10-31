@@ -9,111 +9,41 @@
 
   <div class="tournaments-grid">
 
-    <div class="tournament-card">
-      <div class="card-image" style="background-image: url('assets/images/Background-card-play.avif');"></div>
+    <div class="tournament-card" *ngFor="let tournament of tournaments">
+      
+      <div class="card-image" [style.backgroundImage]="'url(' + tournament.imageUrl + ')'"></div>
+      
       <div class="card-content">
         <div class="card-header">
-          <h3 class="tournament-title">Copa Primavera 2024</h3>
-          <span class="status-badge status-active">Activo</span>
+          <h3 class="tournament-title">{{ tournament.name }}</h3>
+          
+          <span class="status-badge" [ngClass]="{
+            'status-active': tournament.status === 'ongoing',
+            'status-upcoming': tournament.status === 'upcoming',
+            'status-finished': tournament.status === 'finished'
+          }">
+            {{ tournament.status === 'ongoing' ? 'Activo' : (tournament.status === 'upcoming' ? 'Próximo' : 'Finalizado') }}
+          </span>
         </div>
-        <p class="tournament-meta">Volleyball • 16 equipos</p>
+        
+        <p class="tournament-meta">{{ tournament.sportType }} • {{ tournament.maxTeams }} equipos</p>
         
         <div class="card-details">
           <div class="detail-item">
             <span class="detail-label">Fecha inicio:</span>
-            <span class="detail-value">15 Mar 2024</span>
+            <span class="detail-value">{{ tournament.startDate }}</span>
           </div>
           <div class="detail-item">
             <span class="detail-label">Inscritos:</span>
-            <span class="detail-value">12 / 16</span>
+            <span class="detail-value">{{ tournament.participants }} / {{ tournament.maxTeams }}</span>
           </div>
           <div class="detail-item">
             <span class="detail-label">Premio:</span>
-            <span class="detail-value">$5,000</span>
+            <span class="detail-value">{{ tournament.prize }}</span>
           </div>
         </div>
         
-        <a routerLink="/tournaments/detail/1" class="btn btn-primary">Ver Detalles</a>
-      </div>
-    </div>
-
-    <div class="tournament-card">
-      <div class="card-image" style="background-image: url('assets/images/Card-valorant.png');"></div>
-      <div class="card-content">
-        <div class="card-header">
-          <h3 class="tournament-title">Apex Legends: Champions Quest</h3>
-          <span class="status-badge status-upcoming">Próximo</span>
-        </div>
-        <p class="tournament-meta">eSports  • 64 equipos</p>
-
-        <div class="card-details">
-          <div class="detail-item">
-            <span class="detail-label">Fecha inicio:</span>
-            <span class="detail-value">14 Dic 2023</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Inscritos:</span>
-            <span class="detail-value">0 / 64</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Premio:</span>
-            <span class="detail-value">$20,000</span>
-          </div>
-        </div>
-
-        <a routerLink="/tournaments/detail/2" class="btn btn-primary">Ver Detalles</a>
-      </div>
-    </div>
-
-    <div class="tournament-card">
-      <div class="card-image" style="background-image: url('assets/images/Card-cod.png');"></div>
-      <div class="card-content">
-        <div class="card-header">
-          <h3 class="tournament-title">Call of Duty: Combat Challenge</h3>
-          <span class="status-badge status-finished">Finalizado</span>
-        </div>
-        <p class="tournament-meta">eSports (CoD) • 32 equipos</p>
-
-        <div class="card-details">
-          <div class="detail-item">
-            <span class="detail-label">Ganador:</span>
-            <span class="detail-value">Team Queso</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Premio:</span>
-            <span class="detail-value">$10,000</span>
-          </div>
-        </div>
-
-        <a routerLink="/tournaments/detail/3" class="btn btn-primary">Ver Detalles</a>
-      </div>
-    </div>
-    
-    <div class="tournament-card">
-      <div class="card-image" style="background-image: url('assets/images/Background-volley-card.png');"></div>
-      <div class="card-content">
-        <div class="card-header">
-          <h3 class="tournament-title">Liga Anual de Volleyball</h3>
-          <span class="status-badge status-active">Activo</span>
-        </div>
-        <p class="tournament-meta">Volleyball • 8 equipos</p>
-
-        <div class="card-details">
-           <div class="detail-item">
-            <span class="detail-label">Fecha inicio:</span>
-            <span class="detail-value">01 Nov 2023</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Inscritos:</span>
-            <span class="detail-value">8 / 8</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Premio:</span>
-            <span class="detail-value">$2,500</span>
-          </div>
-        </div>
-
-        <a routerLink="/tournaments/detail/4" class="btn btn-primary">Ver Detalles</a>
+        <a [routerLink]="['/tournaments/detail', tournament.id]" class="btn btn-primary">Ver Detalles</a>
       </div>
     </div>
 
