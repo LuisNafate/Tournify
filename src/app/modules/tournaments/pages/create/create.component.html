@@ -339,8 +339,8 @@
           </div>
 
           <div class="card-body">
-            <!-- Configuración para deportes con tiempos (Fútbol, Baloncesto, Balonmano) -->
-            <div *ngIf="tournament.sport === 'football' || tournament.sport === 'basketball' || tournament.sport === 'handball'">
+            <!-- Configuración para Fútbol -->
+            <div *ngIf="tournament.sport === 'football'">
               <div class="form-row">
                 <div class="form-group col-4">
                   <label for="matchDuration" class="label">Duración Total (min)</label>
@@ -378,30 +378,126 @@
               </div>
 
               <div class="form-row">
-                <div class="form-group col-6">
+                <div class="form-group col-4">
+                  <label for="playersPerTeam" class="label">Jugadores por Equipo</label>
+                  <input
+                    type="number"
+                    id="playersPerTeam"
+                    [(ngModel)]="tournament.sportSettings!.playersPerTeam"
+                    name="playersPerTeam"
+                    class="form-control"
+                    min="1">
+                </div>
+
+                <div class="form-group col-4">
+                  <label for="substitutions" class="label">Sustituciones Permitidas</label>
+                  <input
+                    type="number"
+                    id="substitutions"
+                    [(ngModel)]="tournament.sportSettings!.substitutions"
+                    name="substitutions"
+                    class="form-control"
+                    min="0">
+                </div>
+
+                <div class="form-group col-4">
                   <div class="checkbox-group">
                     <label class="checkbox-label">
                       <input type="checkbox" [(ngModel)]="tournament.sportSettings!.extraTime" name="extraTime" class="checkbox-input">
-                      <span class="checkbox-text">Tiempo Extra en caso de empate</span>
+                      <span class="checkbox-text">Tiempo Extra</span>
                     </label>
                   </div>
                 </div>
+              </div>
 
-                <div class="form-group col-6">
+              <div class="form-row">
+                <div class="form-group col-12">
                   <div class="checkbox-group">
                     <label class="checkbox-label">
                       <input type="checkbox" [(ngModel)]="tournament.sportSettings!.penalties" name="penalties" class="checkbox-input">
-                      <span class="checkbox-text">Penales/Tiros libres</span>
+                      <span class="checkbox-text">Penales en caso de empate</span>
                     </label>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Configuración para deportes por sets (Voleibol, Tenis, Tenis de Mesa) -->
-            <div *ngIf="tournament.sport === 'volleyball' || tournament.sport === 'tennis' || tournament.sport === 'tabletennis'">
+            <!-- Configuración para Baloncesto -->
+            <div *ngIf="tournament.sport === 'basketball'">
               <div class="form-row">
-                <div class="form-group col-6">
+                <div class="form-group col-4">
+                  <label for="matchDuration" class="label">Duración Total (min)</label>
+                  <input
+                    type="number"
+                    id="matchDuration"
+                    [(ngModel)]="tournament.sportSettings!.matchDuration"
+                    name="matchDuration"
+                    class="form-control"
+                    min="1">
+                </div>
+
+                <div class="form-group col-4">
+                  <label for="halves" class="label">Número de Cuartos</label>
+                  <input
+                    type="number"
+                    id="halves"
+                    [(ngModel)]="tournament.sportSettings!.halves"
+                    name="halves"
+                    class="form-control"
+                    min="1"
+                    max="4">
+                </div>
+
+                <div class="form-group col-4">
+                  <label for="halfDuration" class="label">Duración por Cuarto (min)</label>
+                  <input
+                    type="number"
+                    id="halfDuration"
+                    [(ngModel)]="tournament.sportSettings!.halfDuration"
+                    name="halfDuration"
+                    class="form-control"
+                    min="1">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-4">
+                  <label for="playersPerTeam" class="label">Jugadores por Equipo</label>
+                  <input
+                    type="number"
+                    id="playersPerTeam"
+                    [(ngModel)]="tournament.sportSettings!.playersPerTeam"
+                    name="playersPerTeam"
+                    class="form-control"
+                    min="1">
+                </div>
+
+                <div class="form-group col-4">
+                  <label for="substitutions" class="label">Sustituciones Ilimitadas</label>
+                  <input
+                    type="number"
+                    id="substitutions"
+                    [(ngModel)]="tournament.sportSettings!.substitutions"
+                    name="substitutions"
+                    class="form-control"
+                    min="0">
+                </div>
+
+                <div class="form-group col-4">
+                  <div class="checkbox-group">
+                    <label class="checkbox-label">
+                      <input type="checkbox" [(ngModel)]="tournament.sportSettings!.extraTime" name="extraTime" class="checkbox-input">
+                      <span class="checkbox-text">Tiempo Extra</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Configuración para Voleibol -->
+            <div *ngIf="tournament.sport === 'volleyball'">
+              <div class="form-row">
+                <div class="form-group col-4">
                   <label for="sets" class="label">Número de Sets</label>
                   <input
                     type="number"
@@ -409,11 +505,12 @@
                     [(ngModel)]="tournament.sportSettings!.sets"
                     name="sets"
                     class="form-control"
-                    min="1"
-                    max="7">
+                    min="3"
+                    max="5">
+                  <small class="form-hint">Típicamente 3 o 5 sets</small>
                 </div>
 
-                <div class="form-group col-6">
+                <div class="form-group col-4">
                   <label for="pointsToWin" class="label">Puntos para Ganar Set</label>
                   <input
                     type="number"
@@ -421,33 +518,63 @@
                     [(ngModel)]="tournament.sportSettings!.pointsToWin"
                     name="pointsToWin"
                     class="form-control"
-                    min="1">
+                    min="15">
+                  <small class="form-hint">Típicamente 25 puntos</small>
+                </div>
+
+                <div class="form-group col-4">
+                  <label for="playersPerTeam" class="label">Jugadores por Equipo</label>
+                  <input
+                    type="number"
+                    id="playersPerTeam"
+                    [(ngModel)]="tournament.sportSettings!.playersPerTeam"
+                    name="playersPerTeam"
+                    class="form-control"
+                    min="6"
+                    max="6">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="substitutions" class="label">Sustituciones por Set</label>
+                  <input
+                    type="number"
+                    id="substitutions"
+                    [(ngModel)]="tournament.sportSettings!.substitutions"
+                    name="substitutions"
+                    class="form-control"
+                    min="0">
+                  <small class="form-hint">Típicamente 6 sustituciones por set</small>
                 </div>
               </div>
             </div>
 
-            <!-- Configuración común para todos los deportes -->
-            <div class="form-row">
-              <div class="form-group col-6">
-                <label for="playersPerTeam" class="label">Jugadores por Equipo</label>
-                <input
-                  type="number"
-                  id="playersPerTeam"
-                  [(ngModel)]="tournament.sportSettings!.playersPerTeam"
-                  name="playersPerTeam"
-                  class="form-control"
-                  min="1">
-              </div>
+            <!-- Configuración para eSports -->
+            <div *ngIf="tournament.sport === 'esports'">
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="playersPerTeam" class="label">Jugadores por Equipo</label>
+                  <input
+                    type="number"
+                    id="playersPerTeam"
+                    [(ngModel)]="tournament.sportSettings!.playersPerTeam"
+                    name="playersPerTeam"
+                    class="form-control"
+                    min="1">
+                  <small class="form-hint">Varía según el juego (ej: 5 para LoL/Dota, 1 para juegos 1v1)</small>
+                </div>
 
-              <div class="form-group col-6">
-                <label for="substitutions" class="label">Sustituciones Permitidas</label>
-                <input
-                  type="number"
-                  id="substitutions"
-                  [(ngModel)]="tournament.sportSettings!.substitutions"
-                  name="substitutions"
-                  class="form-control"
-                  min="0">
+                <div class="form-group col-6">
+                  <label for="substitutions" class="label">Sustitutos Permitidos</label>
+                  <input
+                    type="number"
+                    id="substitutions"
+                    [(ngModel)]="tournament.sportSettings!.substitutions"
+                    name="substitutions"
+                    class="form-control"
+                    min="0">
+                </div>
               </div>
             </div>
           </div>
