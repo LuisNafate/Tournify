@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 interface Tournament {
   name: string;
   sport: string;
+  sportSubType?: string;
   tournamentType: string;
   category: string;
   eliminationMode: string;
@@ -45,6 +46,8 @@ interface Tournament {
   pointsForWin: number;
   pointsForDraw: number;
   pointsForLoss: number;
+  // Reglas específicas (texto editable)
+  rules?: string;
 }
 
 @Component({
@@ -98,6 +101,15 @@ export class CreateComponent {
     pointsForLoss: 0
   };
 
+  // Reglas por defecto para los eSports soportados
+  defaultEsportRules: { [key: string]: string } = {
+    valorant: `Reglas básicas - Valorant:\n\n1) Formato de partidas: Bo1/Bo3/Bo5 según la fase.\n2) Map Pool: Se usará el pool oficial vigente; veto según el sistema de la organización.\n3) Composición de equipos: 5 jugadores activos, 1 sustituto máximo.\n4) Pausas: 2 pausas por equipo de 60 segundos cada una (no acumulables).\n5) Conexiones: Si un jugador desconecta, se espera un máximo de 5 minutos; si no vuelve, el partido continúa; decisiones del árbitro son definitivas.\n6) Uso de exploits/bug: Cualquier explotación de bugs resulta en pérdida del mapa y posible descalificación.\n7) Comportamiento antideportivo: Insultos, racismo o cheating implica sanción o descalificación.\n8) Penalizaciones por retraso y no presentación: Aplican según normativa de la organización.\n\nEstas reglas son una guía; la organización puede adaptarlas para su torneo.`,
+
+    lol: `Reglas básicas - League of Legends (LoL):\n\n1) Formato de partidas: Bo1/Bo3/Bo5 según la fase.\n2) Composición: 5 jugadores titulares y hasta 2 suplentes.\n3) Campeones: Se jugará en modo Draft Pick; bans según el formato (normalmente 5 bans por equipo en Bo3+).\n4) Remakes: Se permite remake si un jugador desconecta antes del minuto 3 y no puede reconectar en tiempo razonable; aplica según reglas de la organización.\n5) Pausas: 2 pausas por equipo de 60 segundos cada una.\n6) Mal comportamiento: Sanciones por actitud tóxica, uso de cheats o exploits.\n7) Conexiones y sustituciones: Reglas específicas según el reglamento del evento.\n\nAdaptar según normativa oficial y parches vigentes.`,
+
+    clash: `Reglas básicas - Clash (Clash Royale / Clash of Clans style - confirmar juego exacto):\n\nNota: 'Clash' puede referirse a varios títulos. Estas reglas son genéricas y deben ajustarse al juego concreto:\n\n1) Formato: Bo1/Bo3 dependiendo de la fase.\n2) Composición de equipos/jugadores: Según el juego (ej: 1v1 en Clash Royale, 5v5 en otros).\n3) Pausas y desconexiones: Se permite un breve tiempo de espera; reglas específicas definidas por la organización.\n4) Uso de bugs o exploits: Penalización inmediata.\n5) Reglas de empates y desempates: Definidas por la organización (puntos, diferencia o mapas adicionales).\n\nPor favor confirma el título exacto para adaptar las reglas oficiales.`
+  };
+
   imagePreview: string | null = null;
 
   constructor(private router: Router) {}
@@ -115,6 +127,11 @@ export class CreateComponent {
 
   // Método para actualizar configuración deportiva según el deporte seleccionado
   onSportChange(): void {
+    // Si se cambia el deporte y no es eSports, limpiar subtipo y reglas
+    if (this.tournament.sport !== 'esports') {
+      this.tournament.sportSubType = undefined;
+      this.tournament.rules = undefined;
+    }
     switch (this.tournament.sport) {
       case 'football':
         this.tournament.sportSettings = {
@@ -151,9 +168,30 @@ export class CreateComponent {
           playersPerTeam: 5,
           substitutions: 2
         };
+        // inicializar reglas vacías; el usuario elegirá el subtipo
+        this.tournament.rules = this.tournament.rules || '';
         break;
       default:
         this.tournament.sportSettings = {};
+    }
+  }
+
+  // Cuando se selecciona un subtipo de eSport, cargar reglas por defecto
+  onEsportSubtypeChange(): void {
+    const subtype = this.tournament.sportSubType;
+    if (subtype && this.defaultEsportRules[subtype]) {
+      // poblar reglas solo si no hay reglas personalizadas previas
+      this.tournament.rules = this.defaultEsportRules[subtype];
+      // ajustar playersPerTeam por defecto según el juego
+      if (subtype === 'valorant' || subtype === 'lol') {
+        this.tournament.sportSettings = this.tournament.sportSettings || {};
+        this.tournament.sportSettings.playersPerTeam = 5;
+      }
+      if (subtype === 'clash') {
+        // dejar tal cual o ajustar si se confirma el juego
+        this.tournament.sportSettings = this.tournament.sportSettings || {};
+        this.tournament.sportSettings.playersPerTeam = this.tournament.sportSettings.playersPerTeam || 1;
+      }
     }
   }
 
