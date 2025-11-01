@@ -108,9 +108,6 @@ export class CreateComponent {
       'football': 'Fútbol',
       'basketball': 'Baloncesto',
       'volleyball': 'Voleibol',
-      'tennis': 'Tenis',
-      'handball': 'Balonmano',
-      'tabletennis': 'Tenis de Mesa',
       'esports': 'eSports'
     };
     return sports[sport] || sport;
@@ -147,33 +144,6 @@ export class CreateComponent {
           pointsToWin: 25,
           playersPerTeam: 6,
           substitutions: 6
-        };
-        break;
-      case 'tennis':
-        this.tournament.sportSettings = {
-          sets: 3,
-          pointsToWin: 6,
-          playersPerTeam: 1,
-          substitutions: 0
-        };
-        break;
-      case 'handball':
-        this.tournament.sportSettings = {
-          matchDuration: 60,
-          halves: 2,
-          halfDuration: 30,
-          extraTime: true,
-          penalties: true,
-          playersPerTeam: 7,
-          substitutions: 99
-        };
-        break;
-      case 'tabletennis':
-        this.tournament.sportSettings = {
-          sets: 5,
-          pointsToWin: 11,
-          playersPerTeam: 1,
-          substitutions: 0
         };
         break;
       case 'esports':
