@@ -116,6 +116,18 @@
                 </select>
               </div>
 
+              <!-- Selector secundario para tipos de eSports -->
+              <div class="form-group col-6" *ngIf="tournament.sport === 'esports'">
+                <label for="esportSubtype" class="label">Juego <span class="required">*</span></label>
+                <select id="esportSubtype" [(ngModel)]="tournament.sportSubType" name="sportSubType" class="form-control" (ngModelChange)="onEsportSubtypeChange()" required>
+                  <option value="">Selecciona un juego</option>
+                  <option value="valorant">Valorant</option>
+                  <option value="lol">League of Legends</option>
+                  <option value="clash">Clash (ajustar)</option>
+                </select>
+                <small class="form-hint">Al elegir una opción se cargarán reglas por defecto que puedes editar.</small>
+              </div>
+
               <div class="form-group col-6">
                 <label for="location" class="label">Ubicación <span class="required">*</span></label>
                 <input
@@ -574,6 +586,20 @@
                     name="substitutions"
                     class="form-control"
                     min="0">
+                </div>
+              </div>
+              <!-- Reglas específicas del eSport -->
+              <div class="form-row">
+                <div class="form-group col-12">
+                  <label for="esportRules" class="label">Reglas del Juego</label>
+                  <textarea
+                    id="esportRules"
+                    [(ngModel)]="tournament.rules"
+                    name="rules"
+                    class="form-control textarea"
+                    rows="8"
+                    placeholder="Aquí se cargarán las reglas por defecto según el juego seleccionado. Puedes editarlas..."></textarea>
+                  <small class="form-hint">Las reglas por defecto se cargan al seleccionar el juego; revísalas y adáptalas si es necesario.</small>
                 </div>
               </div>
             </div>
