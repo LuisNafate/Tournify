@@ -1,104 +1,84 @@
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
+<div class="dashboard-page">
 
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
+  <section class="news-section">
+    <div class="section-header">
+      <h2>Últimas Noticias</h2>
+      <a href="#" class="see-all-link">Ver todas</a>
+    </div>
 
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
+    <div class="news-list">
+  <div class="news-card featured-news" *ngIf="newsItems[0] && newsItems[0].featured">
+        <div class="featured-image" [style.backgroundImage]="'url(' + newsItems[0].imageUrl + ')'"></div>
+        <div class="news-content">
+          <h3 class="news-title">{{ newsItems[0].title }}</h3>
+          <p class="news-description">{{ newsItems[0].description }}</p>
+          <div class="news-footer">
+            <span class="news-time">{{ newsItems[0].time }}</span>
+            <span class="news-category category-futbol">{{ newsItems[0].category }}</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="other-news-list">
+        <div class="news-card simple-news" *ngFor="let news of newsItems | slice:1">
+          <div class="news-content">
+            <h3 class="news-title">{{ news.title }}</h3>
+            <p class="news-description">{{ news.description }}</p>
+            <div class="news-footer">
+              <span class="news-time">{{ news.time }}</span>
+              <span class="news-category category-basketball">{{ news.category }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
+  <section class="tournaments-section">
+    <div class="section-header">
+      <h2>Torneos Disponibles</h2>
+      <a routerLink="/tournaments/list" class="see-all-link">Ver todos</a>
+    </div>
 
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
+    <div class="tournaments-grid">
+      <div class="tournament-card" *ngFor="let tournament of tournaments">
+        
+        <div class="card-image" [style.backgroundImage]="'url(' + tournament.image + ')'"></div>
+        
+        <div class="card-content">
+          <div class="card-header">
+            <h3 class="tournament-title">{{ tournament.name }}</h3>
+            
+            <span class="status-badge" [ngClass]="{
+              'status-active': tournament.status === 'Activo',
+              'status-upcoming': tournament.status === 'Próximo',
+              'status-finished': tournament.status === 'Finalizado'
+            }">
+              {{ tournament.status }}
+            </span>
+          </div>
+          
+          <p class="tournament-meta">{{ tournament.sport }} • {{ tournament.maxTeams }} equipos</p>
+          
+          <div class="card-details">
+            <div class="detail-item">
+              <span class="detail-label">Fecha inicio:</span>
+              <span class="detail-value">{{ tournament.startDate }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Inscritos:</span>
+              <span class="detail-value">{{ tournament.enrolled }} / {{ tournament.maxTeams }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Premio:</span>
+              <span class="detail-value">{{ tournament.prize }}</span>
+            </div>
+          </div>
+          
+          <a [routerLink]="['/tournaments/detail', tournament.id]" class="btn btn-primary">Ver Detalles</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
-
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
-
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
-
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-
-  <section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
-
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
-
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
-
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
-
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
-
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
-<section class="dashboard">
-  <h2>¿Qué deseas hacer hoy?</h2>
-
-  <div class="options">
-    <a routerLink="/tournaments/list">Unirme a un torneo</a>
-    <a routerLink="/tournaments/create">Crear un torneo</a>
-    <a routerLink="/auth/login">Ya tengo una cuenta</a>
-  </div>
-</section>
+</div>
