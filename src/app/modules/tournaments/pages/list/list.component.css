@@ -54,10 +54,7 @@
   gap: 1.5rem;
 }
 
-/*
- * Estilo de Tarjeta de Torneo
- * (Inspirado en landing.component.css)
- */
+
 .tournament-card {
   /* Color de fondo oscuro de tu tema */
   background-color: var(--background-card, #0F122A);

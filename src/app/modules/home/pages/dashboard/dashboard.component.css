@@ -32,10 +32,7 @@
   color: #a78bfa;
 }
 
-
-/* ======================= */
-/* Estilos de Noticias  */
-/* ======================= */
+/*Los estilos para noticias*/
 .news-list {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -144,10 +141,8 @@
 }
 
 
-/* =========================== */
 /* Estilos de Tarjetas de Torneo */
-/* (Copiados de list.component.css) */
-/* =========================== */
+
 .tournaments-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
