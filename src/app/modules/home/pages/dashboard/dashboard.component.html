@@ -2,12 +2,16 @@
 
   <section class="news-section">
     <div class="section-header">
-      <h2>Últimas Noticias</h2>
+      <h2>Noticias de tus Torneos</h2>
       <a href="#" class="see-all-link">Ver todas</a>
     </div>
 
+    <p class="section-description">
+      Novedades y anuncios de las competencias que estás siguiendo.
+    </p>
+
     <div class="news-list">
-  <div class="news-card featured-news" *ngIf="newsItems[0] && newsItems[0].featured">
+      <div class="news-card featured-news" *ngIf="newsItems[0] && newsItems[0].featured">
         <div class="featured-image" [style.backgroundImage]="'url(' + newsItems[0].imageUrl + ')'"></div>
         <div class="news-content">
           <h3 class="news-title">{{ newsItems[0].title }}</h3>
@@ -36,9 +40,13 @@
 
   <section class="tournaments-section">
     <div class="section-header">
-      <h2>Torneos Disponibles</h2>
-      <a routerLink="/tournaments/list" class="see-all-link">Ver todos</a>
+      <h2>Tus Torneos Seguidos</h2>
+      <a routerLink="/tournaments/list" class="see-all-link">Explorar otros torneos</a>
     </div>
+
+    <p class="section-description">
+      Accede rápidamente a los torneos que has marcado como favoritos.
+    </p>
 
     <div class="tournaments-grid">
       <div class="tournament-card" *ngFor="let tournament of tournaments">
