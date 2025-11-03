@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs'; 
+import { AuthService } from '../../../core/services/auth.service'; 
+import { User } from '../../../core/models/user.model'; 
 
 // Componente de navegación
 @Component({
@@ -8,4 +11,14 @@ import { Component } from '@angular/core';
 })
 export class NavbarComponent {
 
+  public usuarioActual$: Observable<User | null>;
+
+  constructor(private authService: AuthService) {
+
+    this.usuarioActual$ = this.authService.usuarioActual$;
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
 }

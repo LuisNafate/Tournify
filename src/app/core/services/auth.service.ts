@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { User } from '../models/user.model'; //
 
 @Injectable({
@@ -14,24 +14,23 @@ export class AuthService {
   public usuarioActual$: Observable<User | null> = this.usuarioActualSubject.asObservable();
   constructor(private router: Router) {
   }
-  public login(email: string, contrasena: string): void {
+  public login(email: string, contrasena: string): Observable<User> {
+    // --- SIMULACIÓN DE LOGIN ---
     
-    // SIMULACIÓN 
-    
-    // Creamos un usuario falso 
-    const fakeUser: User = {
-      id: 'user-123',
-      username: 'Luvia Magali Hidalgo', 
-      email: email,
-      role: 'organizer' // Le damos rol de organizador para probar
-    };
- 
-
-    this.router.navigate(['/tournaments/list']);
-    this.usuarioActualSubject.next(fakeUser);
-  
-
+    if (email === 'test@tournify.com' && contrasena === 'password') {
+      const fakeUser: User = {
+        id: 'user-123',
+        username: 'Luvia Magali Hidalgo',
+        email: email,
+        role: 'organizer'
+      };
+      this.usuarioActualSubject.next(fakeUser);
+      return of(fakeUser);
+    } else {
+      return throwError(() => new Error('Credenciales incorrectas.'));
+    }
   }
+
   // Simular un registro
   public register(username: string, email: string, contrasena: string, role: 'player' | 'organizer' | 'referee'): void {
     

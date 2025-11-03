@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common'; 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
@@ -15,13 +14,13 @@ import { LandingComponent } from './modules/home/pages/landing/landing.component
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    
     LandingComponent
+ 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    
+    CommonModule, 
     SidebarComponent,
     AppLayoutComponent
   ],

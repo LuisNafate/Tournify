@@ -1,8 +1,8 @@
 <div class="layout-container">
   
-  <app-sidebar *ngIf="showSidebar"></app-sidebar>
+  <app-sidebar *ngIf="showSidebar$ | async"></app-sidebar>
   
-  <main class="layout-content" [class.no-padding]="!showSidebar">
+  <main class="layout-content" [class.no-padding]="!(showSidebar$ | async)">
     <router-outlet></router-outlet>
   </main>
 </div>
