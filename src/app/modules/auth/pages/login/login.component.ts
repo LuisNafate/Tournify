@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.loginError = null; 
+    this.loginError = null;
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -37,7 +37,18 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password).subscribe(
       {
       next: () => {
-        this.router.navigate(['/dashboard']);
+        // Verificar si hay una URL de retorno guardada
+        const returnUrl = sessionStorage.getItem('returnUrl');
+
+        if (returnUrl) {
+          // Limpiar la URL de retorno
+          sessionStorage.removeItem('returnUrl');
+          // Redirigir a la URL guardada
+          this.router.navigateByUrl(returnUrl);
+        } else {
+          // Si no hay URL de retorno, ir al dashboard por defecto
+          this.router.navigate(['/dashboard']);
+        }
       },
       error: (err) => {
         this.loginError = err.message || 'Correo o contraseña incorrectos. Inténtalo de nuevo.';

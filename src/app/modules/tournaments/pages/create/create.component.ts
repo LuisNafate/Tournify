@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth.service';
 
 // Interface para el modelo del torneo
 interface Tournament {
@@ -55,7 +56,7 @@ interface Tournament {
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class CreateComponent {
+export class CreateComponent implements OnInit {
   tournament: Tournament = {
     name: '',
     sport: '',
@@ -112,7 +113,14 @@ export class CreateComponent {
 
   imagePreview: string | null = null;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    // El AuthGuard ya maneja la verificación de autenticación
+  }
 
   // Obtener nombre legible del deporte
   getSportName(sport: string): string {
@@ -229,6 +237,13 @@ export class CreateComponent {
   }
 
   onSubmit(): void {
+    // Verificar que el usuario siga autenticado
+    if (!this.authService.usuarioActualValue) {
+      alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente');
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
     // Validar que los campos requeridos estén completos
     if (this.validateForm()) {
       console.log('Torneo creado:', this.tournament);
