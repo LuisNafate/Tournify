@@ -4,7 +4,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 // Rutas del módulo home
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent }
+ { path: '', component: DashboardComponent }
 ];
 
 @NgModule({
