@@ -18,18 +18,16 @@ const routes: Routes = [
 
   {
     path: '',
-    component: AppLayoutComponent, 
-    
-    canActivate: [AuthGuard], 
-    
+    component: AppLayoutComponent,
     children: [
       {
         path: 'dashboard',
+        canActivate: [AuthGuard],
         loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
       },
-      { 
-        path: 'tournaments', 
-        loadChildren: () => import('./modules/tournaments/tournaments.module').then(m => m.TournamentsModule) 
+      {
+        path: 'tournaments',
+        loadChildren: () => import('./modules/tournaments/tournaments.module').then(m => m.TournamentsModule)
       }
       // ... futuras rutas protegidas irían aquí
     ]

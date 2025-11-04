@@ -3,14 +3,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { ListComponent } from './pages/list/list.component';
 import { CreateComponent } from './pages/create/create.component';
 import { DetailComponent } from './pages/detail/detail.component';
+import { AuthGuard } from '../../core/guards/auth.guard';
 
 // Rutas del módulo tournaments
 const routes: Routes = [
   { path: 'list', component: ListComponent },
-  { 
-    path: 'create', 
+  {
+    path: 'create',
     component: CreateComponent,
-    data: { hideSidebar: true } 
+    canActivate: [AuthGuard],
+    data: { hideSidebar: true }
   },
   { path: 'detail/:id', component: DetailComponent }
 ];
