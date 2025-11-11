@@ -31,6 +31,8 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
       role: ['player', [Validators.required]]
@@ -65,9 +67,9 @@ export class RegisterComponent implements OnInit {
     }
 
     this.isLoading = true;
-    const { username, email, password, role } = this.registerForm.value;
+    const { username, email, password, firstName, lastName, role } = this.registerForm.value;
 
-    this.authService.register(username, email, password, role).subscribe({
+    this.authService.register(username, email, password, firstName, lastName, role).subscribe({
       next: () => {
         // Redirigir al dashboard después del registro exitoso
         this.router.navigate(['/dashboard']);

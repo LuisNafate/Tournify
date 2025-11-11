@@ -9,19 +9,21 @@ export interface User {
   id: string; // UUID
   username: string;
   email: string;
+  firstName?: string;
+  lastName?: string;
   role: UserRole;
   avatarUrl?: string | null;
-  createdAt: string; // ISO 8601
-  updatedAt?: string | null;
 }
 
 export interface UserProfile extends User {
+  phone?: string;
   tournamentsCreated?: number;
   tournamentsParticipated?: number;
   matchesPlayed?: number;
 }
 
 export interface UpdateUserRequest {
-  username?: string;
-  avatarUrl?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
 }

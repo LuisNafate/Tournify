@@ -1,0 +1,466 @@
+{
+  "info": {
+    "name": "Tournify API - Complete",
+    "_postman_id": "tournify-api-complete-001",
+    "description": "Colección completa actualizada de Tournify API con todos los endpoints validados",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        },
+        "description": "Verifica que el backend esté funcionando"
+      },
+      "response": []
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register - Player",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.environment.set('user_id', jsonData.id);",
+                  "    pm.environment.set('username', jsonData.username);",
+                  "    console.log('Usuario registrado:', jsonData.username);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"jugador_prueba\",\n  \"email\": \"jugador@test.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"Pedro\",\n  \"lastName\": \"Garcia\",\n  \"role\": \"player\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Registra un nuevo jugador con firstName y lastName"
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Organizer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.environment.set('organizer_id', jsonData.id);",
+                  "    console.log('Organizador registrado:', jsonData.username);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"organizador_test\",\n  \"email\": \"organizador@test.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"Organizador\",\n  \"role\": \"organizer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Registra un nuevo organizador"
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Referee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"arbitro_test\",\n  \"email\": \"arbitro@test.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"Carlos\",\n  \"lastName\": \"Arbitro\",\n  \"role\": \"referee\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Registra un nuevo árbitro"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.environment.set('auth_token', jsonData.token);",
+                  "    pm.environment.set('user_id', jsonData.user.id);",
+                  "    pm.environment.set('user_role', jsonData.user.role);",
+                  "    console.log('Login exitoso. Token guardado.');",
+                  "    console.log('Usuario:', jsonData.user.username);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"jugador@test.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Inicia sesión y obtiene el token JWT. Credenciales: jugador@test.com / password123"
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Invalid Credentials",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"wrong@test.com\",\n  \"password\": \"wrongpassword\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Prueba de credenciales inválidas (debe retornar 401)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": ["{{base_url}}"],
+              "path": ["users", "me"]
+            },
+            "description": "Obtiene el perfil del usuario autenticado (requiere token)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"nuevo_username\",\n  \"firstName\": \"Nuevo\",\n  \"lastName\": \"Apellido\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": ["{{base_url}}"],
+              "path": ["users", "me"]
+            },
+            "description": "Actualiza el perfil del usuario autenticado"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            },
+            "description": "Obtiene la lista de todos los usuarios"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{user_id}}"]
+            },
+            "description": "Obtiene información de un usuario específico por su ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sports",
+      "item": [
+        {
+          "name": "Get All Sports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/sports",
+              "host": ["{{base_url}}"],
+              "path": ["sports"]
+            },
+            "description": "Obtiene la lista de todos los deportes (público)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sport By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/sports/{{sport_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["sports", "{{sport_id}}"]
+            },
+            "description": "Obtiene información de un deporte específico"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tournaments",
+      "item": [
+        {
+          "name": "Get All Tournaments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tournaments",
+              "host": ["{{base_url}}"],
+              "path": ["tournaments"]
+            },
+            "description": "Obtiene la lista de todos los torneos (público)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Tournament By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tournaments/{{tournament_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["tournaments", "{{tournament_id}}"]
+            },
+            "description": "Obtiene información detallada de un torneo"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Tournament",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Torneo de Prueba\",\n  \"description\": \"Descripción del torneo\",\n  \"sportId\": \"{{sport_id}}\",\n  \"maxTeams\": 16,\n  \"startDate\": \"2025-12-01T10:00:00Z\",\n  \"endDate\": \"2025-12-15T18:00:00Z\",\n  \"registrationDeadline\": \"2025-11-30T23:59:59Z\",\n  \"location\": \"Estadio Municipal\",\n  \"rules\": \"Reglas del torneo\",\n  \"prizePool\": 5000.00\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tournaments",
+              "host": ["{{base_url}}"],
+              "path": ["tournaments"]
+            },
+            "description": "Crea un nuevo torneo (requiere rol de organizador)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Tournament",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Torneo Actualizado\",\n  \"description\": \"Nueva descripción\",\n  \"maxTeams\": 32\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tournaments/{{tournament_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["tournaments", "{{tournament_id}}"]
+            },
+            "description": "Actualiza información de un torneo existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tournament",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tournaments/{{tournament_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["tournaments", "{{tournament_id}}"]
+            },
+            "description": "Elimina un torneo (requiere ser el organizador)"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8081",
+      "type": "string"
+    }
+  ]
+}
