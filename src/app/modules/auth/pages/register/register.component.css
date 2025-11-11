@@ -36,6 +36,7 @@
   justify-content: center;
   padding: 2rem;
   background-color: #1a1d3e;
+  overflow-y: auto;
 }
 
 .register-content {
@@ -46,6 +47,18 @@
 .register-header {
   text-align: center;
   margin-bottom: 2rem;
+}
+
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  color: #ffffff;
 }
 
 .register-header h2 {
@@ -76,10 +89,57 @@
   margin-bottom: 0.5rem;
 }
 
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+  z-index: 1;
+}
+
+.toggle-password:hover {
+  color: #8b5cf6;
+}
+
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 0.875rem 1rem;
+  /* mantener el padding izquierdo para dejar espacio al icono */
+  padding: 0.875rem 1rem 0.875rem 3rem;
   background-color: #0f172a;
   border: 1px solid #334155;
   border-radius: 8px;
@@ -89,7 +149,9 @@
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.input-wrapper input:focus,
+.input-wrapper select:focus {
   outline: none;
   border-color: #8b5cf6;
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
@@ -101,6 +163,17 @@
 
 .form-group select {
   cursor: pointer;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-row .form-group {
+  margin-bottom: 0;
 }
 
 button[type="submit"] {
@@ -115,11 +188,35 @@ button[type="submit"] {
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+}
+
+button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.loading-spinner svg {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .login-link {
@@ -140,6 +237,32 @@ button[type="submit"]:hover {
   color: #a78bfa;
 }
 
+/* Mensajes de error */
+.error-banner {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 0.875rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-message {
+  color: #fca5a5;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.form-group input.error,
+.input-wrapper input.error {
+  border-color: #ef4444;
+}
+
 /* responsive */
 @media (max-width: 968px) {
   .register-container {
@@ -152,6 +275,15 @@ button[type="submit"]:hover {
   
   .register-right {
     min-height: 100vh;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-row .form-group {
+    margin-bottom: 1.25rem;
   }
 }
 
