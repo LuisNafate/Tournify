@@ -3,17 +3,16 @@
     <img [src]="tournament.image" [alt]="tournament.name">
     <div class="banner-overlay">
       <span class="organizer-badge">Organizador: {{ tournament.organizer }}</span>
-      <button class="btn-follow">SEGUIR</button>
+      <div class="banner-buttons">
+        <button class="btn-follow">SEGUIR</button>
+        <button *ngIf="tournament.status === 'Próximo'" class="btn-join-tournament" (click)="joinTournament()">
+          UNIRSE AL TORNEO
+        </button>
+      </div>
     </div>
   </div>
 
   <h1 class="tournament-title">{{ tournament.name }}</h1>
-
-  <div class="action-buttons" *ngIf="tournament.status === 'Inscripciones Abiertas'">
-    <button class="btn-join-tournament" (click)="joinTournament()">
-      Unirse al Torneo
-    </button>
-  </div>
   
   <div class="tournament-info">
     <div class="info-item">
