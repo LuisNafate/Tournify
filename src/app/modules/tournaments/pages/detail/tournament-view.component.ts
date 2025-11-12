@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 // componente para vista del torneo
@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class TournamentViewComponent {
   @Input() tournament: any;
+  @Input() followLoading: boolean = false;
+  @Output() followToggle = new EventEmitter<void>();
 
   constructor(private router: Router) {}
 
@@ -16,5 +18,9 @@ export class TournamentViewComponent {
     if (this.tournament) {
       this.router.navigate(['/tournaments/join', this.tournament.id]);
     }
+  }
+
+  onFollowClick(): void {
+    this.followToggle.emit();
   }
 }

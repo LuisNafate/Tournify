@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { TournamentService } from '../../services/tournament.service';
+import { CreateTournamentRequest } from '../../../../core/models/tournament.model';
 
 // Interface para el modelo del torneo
 interface Tournament {
@@ -112,10 +114,13 @@ export class CreateComponent implements OnInit {
   };
 
   imagePreview: string | null = null;
+  submitting = false;
+  submitError: string | null = null;
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private tournamentService: TournamentService
   ) {}
 
   ngOnInit(): void {
@@ -245,18 +250,56 @@ export class CreateComponent implements OnInit {
     }
 
     // Validar que los campos requeridos estén completos
-    if (this.validateForm()) {
-      console.log('Torneo creado:', this.tournament);
-
-      // Aquí iría la lógica para enviar los datos al backend
-      // Por ahora solo mostramos un mensaje de confirmación
-      alert('Torneo creado exitosamente!');
-
-      // Redirigir a la lista de torneos o al detalle del torneo creado
-      this.router.navigate(['/tournaments/list']);
-    } else {
+    if (!this.validateForm()) {
       alert('Por favor, completa todos los campos requeridos');
+      return;
     }
+
+    this.submitting = true;
+    this.submitError = null;
+
+    // Convertir el formulario local al formato de la API
+    const createRequest: CreateTournamentRequest = {
+      name: this.tournament.name,
+      description: this.tournament.description,
+      sportId: this.tournament.sport, // Nota: Necesitarás obtener el ID real del deporte
+      tournamentType: this.tournament.tournamentType as 'league' | 'elimination' | 'hybrid',
+      eliminationMode: this.tournament.eliminationMode as 'single' | 'double' | 'group_stage',
+      startDate: this.tournament.startDate,
+      endDate: this.tournament.endDate,
+      registrationDeadline: this.tournament.endDate, // Ajustar según necesites
+      location: this.tournament.location,
+      prizePool: this.tournament.registrationFee?.toString(),
+      rules: this.tournament.rules,
+      bannerUrl: undefined, // La imagen se subiría por separado
+      sportSettings: {
+        matchDuration: this.tournament.sportSettings?.matchDuration || 90,
+        playersPerTeam: this.tournament.sportSettings?.playersPerTeam || 11,
+        halves: this.tournament.sportSettings?.halves,
+        overtimeEnabled: this.tournament.sportSettings?.extraTime,
+        penaltiesEnabled: this.tournament.sportSettings?.penalties
+      },
+      groupConfig: this.tournament.hasGroupStage ? {
+        numGroups: this.tournament.numberOfGroups || 4,
+        teamsPerGroup: this.tournament.teamsPerGroup || 4,
+        advancePerGroup: this.tournament.teamsAdvancePerGroup || 2
+      } : undefined,
+      maxTeams: this.tournament.maxTeams
+    };
+
+    this.tournamentService.createTournament(createRequest).subscribe({
+      next: (tournament) => {
+        console.log('Torneo creado exitosamente:', tournament);
+        alert('¡Torneo creado exitosamente!');
+        this.router.navigate(['/tournaments/detail', tournament.id]);
+      },
+      error: (err) => {
+        console.error('Error al crear torneo:', err);
+        this.submitError = 'Error al crear el torneo. Por favor, intenta de nuevo.';
+        this.submitting = false;
+        alert(this.submitError);
+      }
+    });
   }
 
   private validateForm(): boolean {

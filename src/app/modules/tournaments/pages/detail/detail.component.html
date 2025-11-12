@@ -1,3 +1,7 @@
 <section class="tournament-detail">
-  <app-tournament-view [tournament]="tournament"></app-tournament-view>
+  <app-tournament-view
+    [tournament]="tournament"
+    [followLoading]="followLoading"
+    (followToggle)="toggleFollow()">
+  </app-tournament-view>
 </section>

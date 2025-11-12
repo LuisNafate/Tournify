@@ -12,6 +12,7 @@ export class DetailComponent implements OnInit {
   tournament: TournamentWithDetails | null = null;
   loading = false;
   error: string | null = null;
+  followLoading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +39,34 @@ export class DetailComponent implements OnInit {
         console.error('Error loading tournament:', err);
         this.error = 'Error al cargar el torneo. Por favor, intenta de nuevo.';
         this.loading = false;
+      }
+    });
+  }
+
+  toggleFollow(): void {
+    if (!this.tournament) return;
+
+    this.followLoading = true;
+    const isFollowing = this.tournament.isFollowing;
+
+    const action = isFollowing
+      ? this.tournamentService.unfollowTournament(this.tournament.id)
+      : this.tournamentService.followTournament(this.tournament.id);
+
+    action.subscribe({
+      next: () => {
+        if (this.tournament) {
+          this.tournament.isFollowing = !isFollowing;
+          if (this.tournament.followersCount !== undefined) {
+            this.tournament.followersCount += isFollowing ? -1 : 1;
+          }
+        }
+        this.followLoading = false;
+      },
+      error: (err) => {
+        console.error('Error toggling follow:', err);
+        this.error = 'Error al actualizar el seguimiento. Intenta de nuevo.';
+        this.followLoading = false;
       }
     });
   }
