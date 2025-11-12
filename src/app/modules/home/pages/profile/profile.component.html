@@ -1,0 +1,45 @@
+<section class="profile-page">
+  <div class="profile-card">
+    <h2>Mi Perfil</h2>
+
+    <div class="avatar-row">
+      <img *ngIf="avatarPreview; else placeholder" [src]="avatarPreview" alt="Avatar" class="avatar-img">
+      <ng-template #placeholder>
+        <div class="avatar-placeholder">A</div>
+      </ng-template>
+      <div class="avatar-actions">
+        <label class="upload-label">
+          Cambiar avatar
+          <input type="file" (change)="onFileChange($event)" accept="image/*" />
+        </label>
+      </div>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <div class="form-row">
+        <label>Nombre de usuario</label>
+        <input formControlName="username" />
+      </div>
+
+      <div class="form-row">
+        <label>Correo</label>
+        <input formControlName="email" type="email" />
+      </div>
+
+      <div class="form-row two-cols">
+        <div>
+          <label>Nombre</label>
+          <input formControlName="firstName" />
+        </div>
+        <div>
+          <label>Apellido</label>
+          <input formControlName="lastName" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" [disabled]="isLoading">Guardar</button>
+      </div>
+    </form>
+  </div>
+</section>

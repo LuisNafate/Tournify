@@ -1,0 +1,7 @@
+.create-team-page { display:flex; align-items:flex-start; justify-content:center; padding:2rem }
+.card { width:100%; max-width:720px; background:#0f172a; padding:1.25rem; border-radius:10px; color:#e6edf3 }
+.form-row { margin-bottom:0.75rem }
+.form-row label { display:block; margin-bottom:0.25rem; color:#a8bdcf }
+.form-row input, .form-row textarea { width:100%; padding:0.5rem; background:#071028; border:1px solid #263244; border-radius:6px; color:#fff }
+.actions { text-align:right }
+.actions button { background:linear-gradient(135deg,#4f46e5,#8b5cf6); border:none; padding:0.6rem 1rem; color:#fff; border-radius:8px; cursor:pointer }

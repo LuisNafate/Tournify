@@ -1,0 +1,40 @@
+<section class="create-team-page">
+  <div class="card">
+    <h2>Crear Equipo</h2>
+    <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <label>Nombre del equipo</label>
+        <input formControlName="name" />
+      </div>
+
+      <div class="form-row">
+        <label>Miembros</label>
+        <input type="number" formControlName="membersCount" min="1" />
+      </div>
+
+      <div class="form-row">
+        <label>Nombre del capitán</label>
+        <input formControlName="captainName" />
+      </div>
+
+      <div class="form-row">
+        <label>Correo del capitán</label>
+        <input formControlName="captainEmail" type="email" />
+      </div>
+
+      <div class="form-row">
+        <label>Teléfono del capitán</label>
+        <input formControlName="captainPhone" />
+      </div>
+
+      <div class="form-row">
+        <label>Información adicional</label>
+        <textarea formControlName="additionalInfo"></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="submit" [disabled]="isSubmitting">Crear Equipo</button>
+      </div>
+    </form>
+  </div>
+</section>
