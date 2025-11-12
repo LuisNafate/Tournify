@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TournamentService } from '../../../tournaments/services/tournament.service';
+import { Tournament } from '../../../../core/models/tournament.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,8 +9,10 @@ import { TournamentService } from '../../../tournaments/services/tournament.serv
 })
 export class DashboardComponent implements OnInit {
 
-  tournaments: any[] = [];
-  
+  tournaments: Tournament[] = [];
+  loading = false;
+  error: string | null = null;
+
   // Datos de ejemplo para las noticias, basados en tu imagen
   newsItems = [
     {
@@ -19,7 +22,7 @@ export class DashboardComponent implements OnInit {
       time: 'Hace 2 horas',
       category: 'Fútbol',
       featured: true,
-      imageUrl: 'assets/images/Background-card-sports.png' // Puedes cambiar esta imagen
+      imageUrl: 'assets/images/Background-card-sports.png'
     },
     {
       id: 2,
@@ -34,7 +37,23 @@ export class DashboardComponent implements OnInit {
   constructor(private tournamentService: TournamentService) {}
 
   ngOnInit(): void {
-    // Obtenemos los torneos desde el servicio
-    this.tournaments = this.tournamentService.tournaments;
+    this.loadTournaments();
+  }
+
+  loadTournaments(): void {
+    this.loading = true;
+    this.error = null;
+
+    this.tournamentService.getTournaments({ page: 0, limit: 6 }).subscribe({
+      next: (response) => {
+        this.tournaments = response.content;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading tournaments:', err);
+        this.error = 'Error al cargar los torneos.';
+        this.loading = false;
+      }
+    });
   }
 }
