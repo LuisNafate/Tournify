@@ -36,7 +36,10 @@ export class AuthService {
     
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, loginRequest)
       .pipe(
-        tap(response => this.handleAuthResponse(response)),
+        tap(response => {
+          console.log('[LOGIN] Respuesta del backend:', response);
+          this.handleAuthResponse(response);
+        }),
         map(response => this.authUserToUser(response.user)),
         catchError(this.handleError)
       );
@@ -69,10 +72,12 @@ export class AuthService {
       role 
     };
     
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, registerRequest)
+    return this.http.post<AuthUser>(`${this.apiUrl}/register`, registerRequest)
       .pipe(
-        tap(response => this.handleAuthResponse(response)),
-        map(response => this.authUserToUser(response.user)),
+        tap(response => {
+          console.log('[REGISTER] Respuesta del backend:', response);
+        }),
+        map(response => this.authUserToUser(response)),
         catchError(this.handleError)
       );
   }
@@ -132,6 +137,12 @@ export class AuthService {
    * Maneja la respuesta de autenticación
    */
   private handleAuthResponse(response: AuthResponse): void {
+    // Validar que la respuesta tenga los datos necesarios
+    if (!response || !response.token || !response.user) {
+      console.error('[AUTH] Respuesta inválida del backend:', response);
+      throw new Error('La respuesta del servidor no contiene los datos de autenticación necesarios');
+    }
+
     // Guardar token
     localStorage.setItem(environment.tokenKey, response.token);
     
@@ -174,26 +185,35 @@ export class AuthService {
   /**
    * Maneja errores de HTTP
    */
-  private handleError(error: HttpErrorResponse): Observable<never> {
+  private handleError(error: HttpErrorResponse | Error): Observable<never> {
     let errorMessage = 'Ocurrió un error desconocido';
     
-    if (error.error instanceof ErrorEvent) {
+    // Si es un error de JavaScript (no HTTP)
+    if (error instanceof Error && !(error instanceof HttpErrorResponse)) {
+      errorMessage = error.message;
+      console.error('Error en AuthService:', errorMessage, error);
+      return throwError(() => error);
+    }
+    
+    const httpError = error as HttpErrorResponse;
+    
+    if (httpError.error instanceof ErrorEvent) {
       // Error del lado del cliente
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = `Error: ${httpError.error.message}`;
     } else {
       // Error del lado del servidor
-      if (error.status === 401) {
+      if (httpError.status === 401) {
         errorMessage = 'Credenciales incorrectas';
-      } else if (error.status === 400) {
-        errorMessage = error.error?.message || 'Datos inválidos';
-      } else if (error.status === 409) {
+      } else if (httpError.status === 400) {
+        errorMessage = httpError.error?.message || 'Datos inválidos';
+      } else if (httpError.status === 409) {
         errorMessage = 'El email ya está registrado';
       } else {
-        errorMessage = error.error?.message || `Error ${error.status}: ${error.statusText}`;
+        errorMessage = httpError.error?.message || `Error ${httpError.status}: ${httpError.statusText}`;
       }
     }
     
-    console.error('Error en AuthService:', errorMessage);
-    return throwError(() => new Error(errorMessage));
+    console.error('Error en AuthService:', errorMessage, httpError);
+    return throwError(() => Object.assign(new Error(errorMessage), { status: httpError.status }));
   }
 }

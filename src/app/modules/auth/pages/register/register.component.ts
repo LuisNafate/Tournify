@@ -72,8 +72,24 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(username, email, password, firstName, lastName, role).subscribe({
       next: () => {
-        // Redirigir al dashboard después del registro exitoso
-        this.router.navigate(['/dashboard']);
+        console.log('[REGISTER] Registro exitoso, iniciando sesión automática...');
+        // Después del registro exitoso, hacer login automático
+        this.authService.login(email, password).subscribe({
+          next: () => {
+            console.log('[REGISTER] Login automático exitoso');
+            this.isLoading = false;
+            // Redirigir al dashboard después del login exitoso
+            this.router.navigate(['/dashboard']);
+          },
+          error: (loginErr) => {
+            this.isLoading = false;
+            console.error('Error en login automático:', loginErr);
+            // Si falla el login automático, redirigir a login manual
+            this.router.navigate(['/login'], { 
+              queryParams: { message: 'Registro exitoso. Por favor inicia sesión.' } 
+            });
+          }
+        });
       },
       error: (err) => {
         this.isLoading = false;
@@ -83,11 +99,8 @@ export class RegisterComponent implements OnInit {
         } else if (err.status === 0) {
           this.registerError = 'No se pudo conectar con el servidor. Verifica tu conexión.';
         } else {
-          this.registerError = err.error?.message || 'Error al registrar. Inténtalo de nuevo.';
+          this.registerError = err.message || 'Error al registrar. Inténtalo de nuevo.';
         }
-      },
-      complete: () => {
-        this.isLoading = false;
       }
     });
   }
