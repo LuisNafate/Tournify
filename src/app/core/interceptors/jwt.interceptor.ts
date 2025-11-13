@@ -37,12 +37,20 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         // Si el error es 401 (Unauthorized), redirigir al login
-        if (error.status === 401) {
+        // PERO solo si NO es una petición de login o register
+        if (error.status === 401 && !this.isAuthEndpoint(request.url)) {
           this.handleUnauthorized();
         }
         return throwError(() => error);
       })
     );
+  }
+
+  /**
+   * Verifica si la URL es un endpoint de autenticación
+   */
+  private isAuthEndpoint(url: string): boolean {
+    return url.includes('/auth/login') || url.includes('/auth/register');
   }
 
   /**
