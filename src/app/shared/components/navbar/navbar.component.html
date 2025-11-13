@@ -15,6 +15,9 @@
 
     <div class="navbar-actions">
       <div *ngIf="usuarioActual$ | async as user; else loggedOut" class="profile-menu">
+        <!-- Selector de Rol -->
+        <app-role-switcher></app-role-switcher>
+        
         <div class="user-info">
           <img src="assets/images/Avatar.png" alt="Avatar" class="profile-avatar" />
           <div class="user-details">

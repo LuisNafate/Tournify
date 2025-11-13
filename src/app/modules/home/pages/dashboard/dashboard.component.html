@@ -1,62 +1,37 @@
 <div class="dashboard-page">
 
-  <section class="news-section">
-    <div class="section-header">
-      <h2>Noticias de tus Torneos</h2>
-      <a href="#" class="see-all-link">Ver todas</a>
-    </div>
-
-    <p class="section-description">
-      Novedades y anuncios de las competencias que estás siguiendo.
-    </p>
-
-    <div class="news-list">
-      <div class="news-card featured-news" *ngIf="newsItems[0] && newsItems[0].featured">
-        <div class="featured-image" [style.backgroundImage]="'url(' + newsItems[0].imageUrl + ')'"></div>
-        <div class="news-content">
-          <h3 class="news-title">{{ newsItems[0].title }}</h3>
-          <p class="news-description">{{ newsItems[0].description }}</p>
-          <div class="news-footer">
-            <span class="news-time">{{ newsItems[0].time }}</span>
-            <span class="news-category category-futbol">{{ newsItems[0].category }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="other-news-list">
-        <div class="news-card simple-news" *ngFor="let news of newsItems | slice:1">
-          <div class="news-content">
-            <h3 class="news-title">{{ news.title }}</h3>
-            <p class="news-description">{{ news.description }}</p>
-            <div class="news-footer">
-              <span class="news-time">{{ news.time }}</span>
-              <span class="news-category category-basketball">{{ news.category }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+  <section class="welcome-section">
+    <div class="welcome-header">
+      <h1>{{ getRoleTitle() }}</h1>
+      <p class="welcome-text">Bienvenido, {{ currentUser?.firstName || currentUser?.username }}</p>
     </div>
   </section>
 
-  <section class="tournaments-section">
+  <!-- Vista para Jugadores -->
+  <section class="tournaments-section" *ngIf="isPlayer()">
     <div class="section-header">
-      <h2>Tus Torneos Seguidos</h2>
-      <a routerLink="/tournaments/list" class="see-all-link">Explorar otros torneos</a>
+      <h2>Tus Torneos</h2>
+      <a routerLink="/tournaments/list" class="see-all-link">Explorar más torneos</a>
     </div>
 
     <p class="section-description">
-      Accede rápidamente a los torneos que has marcado como favoritos.
+      Torneos en los que estás participando o siguiendo.
     </p>
 
-    <div class="tournaments-grid">
+    <div class="loading-state" *ngIf="loading">
+      <p>Cargando torneos...</p>
+    </div>
+
+    <div class="error-state" *ngIf="error">
+      <p>{{ error }}</p>
+    </div>
+
+    <div class="tournaments-grid" *ngIf="!loading && !error">
       <div class="tournament-card" *ngFor="let tournament of tournaments">
-
         <div class="card-image" [style.backgroundImage]="'url(' + (tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
-
         <div class="card-content">
           <div class="card-header">
             <h3 class="tournament-title">{{ tournament.name }}</h3>
-
             <span class="status-badge" [ngClass]="{
               'status-active': tournament.status === 'ongoing',
               'status-upcoming': tournament.status === 'upcoming' || tournament.status === 'registration',
@@ -65,9 +40,7 @@
               {{ tournament.status === 'ongoing' ? 'Activo' : (tournament.status === 'upcoming' || tournament.status === 'registration' ? 'Próximo' : 'Finalizado') }}
             </span>
           </div>
-
           <p class="tournament-meta">{{ tournament.tournamentType === 'league' ? 'Liga' : (tournament.tournamentType === 'elimination' ? 'Eliminación' : 'Híbrido') }} • {{ tournament.maxTeams }} equipos</p>
-
           <div class="card-details">
             <div class="detail-item" *ngIf="tournament.startDate">
               <span class="detail-label">Fecha inicio:</span>
@@ -77,14 +50,127 @@
               <span class="detail-label">Inscritos:</span>
               <span class="detail-value">{{ tournament.currentTeams }} / {{ tournament.maxTeams }}</span>
             </div>
-            <div class="detail-item" *ngIf="tournament.prizePool">
-              <span class="detail-label">Premio:</span>
-              <span class="detail-value">{{ tournament.prizePool }}</span>
-            </div>
           </div>
-
           <a [routerLink]="['/tournaments/detail', tournament.id]" class="btn btn-primary">Ver Detalles</a>
         </div>
+      </div>
+
+      <div class="empty-state" *ngIf="tournaments.length === 0">
+        <p>No estás inscrito en ningún torneo aún.</p>
+        <a routerLink="/tournaments/list" class="btn btn-primary">Explorar Torneos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vista para Organizadores -->
+  <section class="organizer-section" *ngIf="isOrganizer()">
+    <div class="section-header">
+      <h2>Mis Torneos Organizados</h2>
+      <a routerLink="/tournaments/create" class="btn btn-create">+ Crear Torneo</a>
+    </div>
+
+    <p class="section-description">
+      Administra los torneos que has creado.
+    </p>
+
+    <div class="loading-state" *ngIf="loading">
+      <p>Cargando tus torneos...</p>
+    </div>
+
+    <div class="error-state" *ngIf="error">
+      <p>{{ error }}</p>
+    </div>
+
+    <div class="tournaments-grid" *ngIf="!loading && !error">
+      <div class="tournament-card" *ngFor="let tournament of myTournaments">
+        <div class="card-image" [style.backgroundImage]="'url(' + (tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3 class="tournament-title">{{ tournament.name }}</h3>
+            <span class="status-badge" [ngClass]="{
+              'status-active': tournament.status === 'ongoing',
+              'status-upcoming': tournament.status === 'upcoming' || tournament.status === 'registration',
+              'status-finished': tournament.status === 'finished'
+            }">
+              {{ tournament.status === 'ongoing' ? 'Activo' : (tournament.status === 'upcoming' || tournament.status === 'registration' ? 'Próximo' : 'Finalizado') }}
+            </span>
+          </div>
+          <p class="tournament-meta">{{ tournament.tournamentType === 'league' ? 'Liga' : (tournament.tournamentType === 'elimination' ? 'Eliminación' : 'Híbrido') }} • {{ tournament.maxTeams }} equipos</p>
+          <div class="card-details">
+            <div class="detail-item" *ngIf="tournament.startDate">
+              <span class="detail-label">Fecha inicio:</span>
+              <span class="detail-value">{{ tournament.startDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Inscritos:</span>
+              <span class="detail-value">{{ tournament.currentTeams }} / {{ tournament.maxTeams }}</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a [routerLink]="['/tournaments/detail', tournament.id]" class="btn btn-secondary">Gestionar</a>
+            <a [routerLink]="['/tournaments/standings', tournament.id]" class="btn btn-primary">Ver Tabla</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="myTournaments.length === 0">
+        <p>No has creado ningún torneo todavía.</p>
+        <a routerLink="/tournaments/create" class="btn btn-primary">Crear tu Primer Torneo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vista para Árbitros -->
+  <section class="referee-section" *ngIf="isReferee()">
+    <div class="section-header">
+      <h2>Torneos Asignados</h2>
+      <a routerLink="/tournaments/list" class="see-all-link">Ver todos los torneos</a>
+    </div>
+
+    <p class="section-description">
+      Torneos en los que estás asignado como árbitro.
+    </p>
+
+    <div class="loading-state" *ngIf="loading">
+      <p>Cargando torneos asignados...</p>
+    </div>
+
+    <div class="error-state" *ngIf="error">
+      <p>{{ error }}</p>
+    </div>
+
+    <div class="tournaments-grid" *ngIf="!loading && !error">
+      <div class="tournament-card" *ngFor="let tournament of tournaments">
+        <div class="card-image" [style.backgroundImage]="'url(' + (tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3 class="tournament-title">{{ tournament.name }}</h3>
+            <span class="status-badge" [ngClass]="{
+              'status-active': tournament.status === 'ongoing',
+              'status-upcoming': tournament.status === 'upcoming' || tournament.status === 'registration',
+              'status-finished': tournament.status === 'finished'
+            }">
+              {{ tournament.status === 'ongoing' ? 'Activo' : (tournament.status === 'upcoming' || tournament.status === 'registration' ? 'Próximo' : 'Finalizado') }}
+            </span>
+          </div>
+          <p class="tournament-meta">{{ tournament.tournamentType === 'league' ? 'Liga' : (tournament.tournamentType === 'elimination' ? 'Eliminación' : 'Híbrido') }} • {{ tournament.maxTeams }} equipos</p>
+          <div class="card-details">
+            <div class="detail-item" *ngIf="tournament.startDate">
+              <span class="detail-label">Fecha inicio:</span>
+              <span class="detail-value">{{ tournament.startDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Partidos pendientes:</span>
+              <span class="detail-value">Por definir</span>
+            </div>
+          </div>
+          <a [routerLink]="['/tournaments/detail', tournament.id]" class="btn btn-primary">Ver Partidos</a>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="tournaments.length === 0">
+        <p>No tienes torneos asignados actualmente.</p>
+        <a routerLink="/tournaments/list" class="btn btn-primary">Explorar Torneos</a>
       </div>
     </div>
   </section>

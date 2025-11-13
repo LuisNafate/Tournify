@@ -50,6 +50,16 @@ export class UserService {
   }
 
   /**
+   * Cambia el rol del usuario actual
+   * @param role Nuevo rol ('player', 'organizer', 'referee')
+   * @returns Observable con el nuevo token y usuario actualizado
+   */
+  switchRole(role: 'player' | 'organizer' | 'referee'): Observable<{ token: string; user: User }> {
+    return this.http.post<{ token: string; user: User }>(`${this.apiUrl}/me/switch-role`, { role })
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Maneja errores de HTTP
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
