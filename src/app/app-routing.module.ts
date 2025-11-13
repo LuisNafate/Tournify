@@ -28,6 +28,11 @@ const routes: Routes = [
       {
         path: 'tournaments',
         loadChildren: () => import('./modules/tournaments/tournaments.module').then(m => m.TournamentsModule)
+      },
+      {
+        path: 'teams',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./modules/teams/teams.module').then(m => m.TeamsModule)
       }
       // ... futuras rutas protegidas irían aquí
     ]
