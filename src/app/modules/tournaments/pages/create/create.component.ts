@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TournamentService } from '../../services/tournament.service';
+import { SportService } from '../../../../core/services/sport.service';
 import { CreateTournamentRequest } from '../../../../core/models/tournament.model';
+import { Sport } from '../../../../core/models/sport.model';
 
 // Interface para el modelo del torneo
 interface Tournament {
@@ -117,14 +119,38 @@ export class CreateComponent implements OnInit {
   submitting = false;
   submitError: string | null = null;
 
+  // Lista de deportes disponibles cargada desde el backend
+  availableSports: Sport[] = [];
+  loadingSports = false;
+
   constructor(
     private router: Router,
     private authService: AuthService,
-    private tournamentService: TournamentService
+    private tournamentService: TournamentService,
+    private sportService: SportService
   ) {}
 
   ngOnInit(): void {
     // El AuthGuard ya maneja la verificación de autenticación
+    this.loadSports();
+  }
+
+  // Cargar deportes desde el backend
+  loadSports(): void {
+    this.loadingSports = true;
+    this.sportService.getAll().subscribe({
+      next: (sports) => {
+        this.availableSports = sports;
+        this.loadingSports = false;
+        console.log('Deportes cargados:', sports);
+      },
+      error: (err) => {
+        console.error('Error al cargar deportes:', err);
+        this.loadingSports = false;
+        // Usar valores por defecto si falla la carga
+        alert('No se pudieron cargar los deportes. Por favor, recarga la página.');
+      }
+    });
   }
 
   // Obtener nombre legible del deporte
@@ -138,54 +164,73 @@ export class CreateComponent implements OnInit {
     return sports[sport] || sport;
   }
 
+  // Obtener el deporte seleccionado actualmente
+  getSelectedSport(): Sport | undefined {
+    return this.availableSports.find(s => s.id === this.tournament.sport);
+  }
+
   // Método para actualizar configuración deportiva según el deporte seleccionado
   onSportChange(): void {
+    // Buscar el deporte seleccionado
+    const selectedSport = this.availableSports.find(s => s.id === this.tournament.sport);
+
+    if (!selectedSport) {
+      this.tournament.sportSettings = {};
+      return;
+    }
+
+    // Usar la categoría del deporte para determinar si es esport
+    const isEsport = selectedSport.category === 'esport';
+
     // Si se cambia el deporte y no es eSports, limpiar subtipo y reglas
-    if (this.tournament.sport !== 'esports') {
+    if (!isEsport) {
       this.tournament.sportSubType = undefined;
       this.tournament.rules = undefined;
     }
-    switch (this.tournament.sport) {
-      case 'football':
-        this.tournament.sportSettings = {
-          matchDuration: 90,
-          halves: 2,
-          halfDuration: 45,
-          extraTime: true,
-          penalties: true,
-          playersPerTeam: 11,
-          substitutions: 5
-        };
-        break;
-      case 'basketball':
-        this.tournament.sportSettings = {
-          matchDuration: 40,
-          halves: 4,
-          halfDuration: 10,
-          extraTime: true,
-          penalties: false,
-          playersPerTeam: 5,
-          substitutions: 99
-        };
-        break;
-      case 'volleyball':
-        this.tournament.sportSettings = {
-          sets: 5,
-          pointsToWin: 25,
-          playersPerTeam: 6,
-          substitutions: 6
-        };
-        break;
-      case 'esports':
-        this.tournament.sportSettings = {
-          playersPerTeam: 5,
-          substitutions: 2
-        };
-        // inicializar reglas vacías; el usuario elegirá el subtipo
-        this.tournament.rules = this.tournament.rules || '';
-        break;
-      default:
-        this.tournament.sportSettings = {};
+
+    // Configurar settings basados en el nombre del deporte
+    const sportName = selectedSport.name.toLowerCase();
+
+    if (sportName.includes('fútbol') || sportName.includes('football') || sportName.includes('soccer')) {
+      this.tournament.sportSettings = {
+        matchDuration: 90,
+        halves: 2,
+        halfDuration: 45,
+        extraTime: true,
+        penalties: true,
+        playersPerTeam: selectedSport.defaultPlayersPerTeam || 11,
+        substitutions: 5
+      };
+    } else if (sportName.includes('baloncesto') || sportName.includes('basketball')) {
+      this.tournament.sportSettings = {
+        matchDuration: 40,
+        halves: 4,
+        halfDuration: 10,
+        extraTime: true,
+        penalties: false,
+        playersPerTeam: selectedSport.defaultPlayersPerTeam || 5,
+        substitutions: 99
+      };
+    } else if (sportName.includes('voleibol') || sportName.includes('volleyball')) {
+      this.tournament.sportSettings = {
+        sets: 5,
+        pointsToWin: 25,
+        playersPerTeam: selectedSport.defaultPlayersPerTeam || 6,
+        substitutions: 6
+      };
+    } else if (isEsport) {
+      this.tournament.sportSettings = {
+        playersPerTeam: selectedSport.defaultPlayersPerTeam || 5,
+        substitutions: 2
+      };
+      // inicializar reglas vacías; el usuario elegirá el subtipo
+      this.tournament.rules = this.tournament.rules || '';
+    } else {
+      // Deporte genérico
+      this.tournament.sportSettings = {
+        playersPerTeam: selectedSport.defaultPlayersPerTeam || 11,
+        matchDuration: 90
+      };
     }
   }
 
@@ -258,46 +303,74 @@ export class CreateComponent implements OnInit {
     this.submitting = true;
     this.submitError = null;
 
-    // Convertir el formulario local al formato de la API
-    const createRequest: CreateTournamentRequest = {
-      name: this.tournament.name,
-      description: this.tournament.description,
-      sportId: this.tournament.sport, // Nota: Necesitarás obtener el ID real del deporte
-      tournamentType: this.tournament.tournamentType as 'league' | 'elimination' | 'hybrid',
-      eliminationMode: this.tournament.eliminationMode as 'single' | 'double' | 'group_stage',
-      startDate: this.tournament.startDate,
-      endDate: this.tournament.endDate,
-      registrationDeadline: this.tournament.endDate, // Ajustar según necesites
-      location: this.tournament.location,
-      prizePool: this.tournament.registrationFee?.toString(),
-      rules: this.tournament.rules,
-      bannerUrl: undefined, // La imagen se subiría por separado
-      sportSettings: {
-        matchDuration: this.tournament.sportSettings?.matchDuration || 90,
-        playersPerTeam: this.tournament.sportSettings?.playersPerTeam || 11,
-        halves: this.tournament.sportSettings?.halves,
-        overtimeEnabled: this.tournament.sportSettings?.extraTime,
-        penaltiesEnabled: this.tournament.sportSettings?.penalties
-      },
-      groupConfig: this.tournament.hasGroupStage ? {
-        numGroups: this.tournament.numberOfGroups || 4,
-        teamsPerGroup: this.tournament.teamsPerGroup || 4,
-        advancePerGroup: this.tournament.teamsAdvancePerGroup || 2
-      } : undefined,
-      maxTeams: this.tournament.maxTeams
+    // Convertir sportSettings a JSON string como espera el backend
+    const sportSettingsJson = JSON.stringify({
+      matchDuration: this.tournament.sportSettings?.matchDuration || 90,
+      playersPerTeam: this.tournament.sportSettings?.playersPerTeam || 11,
+      halves: this.tournament.sportSettings?.halves,
+      overtimeEnabled: this.tournament.sportSettings?.extraTime,
+      penaltiesEnabled: this.tournament.sportSettings?.penalties,
+      sets: this.tournament.sportSettings?.sets,
+      pointsToWin: this.tournament.sportSettings?.pointsToWin,
+      substitutions: this.tournament.sportSettings?.substitutions
+    });
+
+    // Convertir fechas a formato ISO 8601 si es necesario
+    const formatDateToISO = (dateStr: string): string => {
+      if (!dateStr) return new Date().toISOString();
+      // Si ya viene en formato datetime-local (YYYY-MM-DDTHH:mm), agregamos segundos y zona
+      if (dateStr.includes('T')) {
+        return new Date(dateStr).toISOString();
+      }
+      // Si solo es fecha (YYYY-MM-DD), agregamos hora
+      return new Date(dateStr + 'T00:00:00Z').toISOString();
     };
+
+    // Crear el payload que coincida EXACTAMENTE con el backend
+    const createRequest: any = {
+      name: this.tournament.name,
+      description: this.tournament.description || null,
+      sportId: this.tournament.sport, // UUID del deporte
+      sportSubType: this.tournament.sportSubType || null,
+      tournamentType: this.tournament.tournamentType,
+      category: this.tournament.category || null,
+      eliminationMode: this.tournament.eliminationMode || null,
+      location: this.tournament.location || null,
+      startDate: formatDateToISO(this.tournament.startDate),
+      endDate: this.tournament.endDate ? formatDateToISO(this.tournament.endDate) : null,
+      registrationDeadline: this.tournament.endDate ? formatDateToISO(this.tournament.endDate) : null,
+      maxTeams: this.tournament.maxTeams,
+      registrationFee: this.tournament.registrationFee || 0.0,
+      prizePool: this.tournament.registrationFee?.toString() || null,
+      isPrivate: this.tournament.isPrivate,
+      requiresApproval: this.tournament.requiresApproval,
+      accessCode: this.tournament.accessCode || null,
+      hasGroupStage: this.tournament.hasGroupStage,
+      numberOfGroups: this.tournament.hasGroupStage ? (this.tournament.numberOfGroups || null) : null,
+      teamsPerGroup: this.tournament.hasGroupStage ? (this.tournament.teamsPerGroup || null) : null,
+      teamsAdvancePerGroup: this.tournament.hasGroupStage ? (this.tournament.teamsAdvancePerGroup || null) : null,
+      sportSettings: sportSettingsJson,
+      allowTies: this.tournament.allowTies,
+      pointsForWin: this.tournament.pointsForWin,
+      pointsForDraw: this.tournament.pointsForDraw,
+      pointsForLoss: this.tournament.pointsForLoss,
+      rulesText: this.tournament.rules || null
+    };
+
+    console.log('Enviando solicitud de creación:', createRequest);
 
     this.tournamentService.createTournament(createRequest).subscribe({
       next: (tournament) => {
         console.log('Torneo creado exitosamente:', tournament);
         alert('¡Torneo creado exitosamente!');
+        this.submitting = false;
         this.router.navigate(['/tournaments/detail', tournament.id]);
       },
       error: (err) => {
         console.error('Error al crear torneo:', err);
         this.submitError = 'Error al crear el torneo. Por favor, intenta de nuevo.';
         this.submitting = false;
-        alert(this.submitError);
+        alert(this.submitError + '\n\nDetalle: ' + (err.error?.error || err.message || 'Error desconocido'));
       }
     });
   }

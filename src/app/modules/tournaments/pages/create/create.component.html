@@ -109,15 +109,15 @@
                 <label for="sport" class="label">Deporte <span class="required">*</span></label>
                 <select id="sport" [(ngModel)]="tournament.sport" name="sport" class="form-control" (ngModelChange)="onSportChange()" required>
                   <option value="">Selecciona un deporte</option>
-                  <option value="football">Fútbol</option>
-                  <option value="basketball">Baloncesto</option>
-                  <option value="volleyball">Voleibol</option>
-                  <option value="esports">eSports</option>
+                  <option *ngFor="let sport of availableSports" [value]="sport.id">
+                    {{ sport.name }}
+                  </option>
                 </select>
+                <small class="form-hint" *ngIf="loadingSports">Cargando deportes...</small>
               </div>
 
               <!-- Selector secundario para tipos de eSports -->
-              <div class="form-group col-6" *ngIf="tournament.sport === 'esports'">
+              <div class="form-group col-6" *ngIf="getSelectedSport()?.category === 'esport'">
                 <label for="esportSubtype" class="label">Juego <span class="required">*</span></label>
                 <select id="esportSubtype" [(ngModel)]="tournament.sportSubType" name="sportSubType" class="form-control" (ngModelChange)="onEsportSubtypeChange()" required>
                   <option value="">Selecciona un juego</option>
