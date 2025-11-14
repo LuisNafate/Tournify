@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TournamentService } from '../../services/tournament.service';
+import { TeamService } from '../../services/team.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { Team } from '../../../../core/models/team.model';
 
 @Component({
   selector: 'app-join',
@@ -18,13 +20,17 @@ export class JoinComponent implements OnInit {
   tournamentId!: string;
   isAuthenticated: boolean = false;
   loading = false;
+  loadingTeams = false;
   error: string | null = null;
+  myTeams: Team[] = [];
+  submitting = false;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private tournamentService: TournamentService,
+    private teamService: TeamService,
     private authService: AuthService
   ) {}
 
@@ -41,21 +47,12 @@ export class JoinComponent implements OnInit {
 
     // Inicializar el formulario
     this.joinForm = this.fb.group({
-      teamName: ['', [Validators.required, Validators.minLength(3)]],
-      teamMembers: ['', [Validators.required, Validators.min(1)]],
-      captainName: ['', Validators.required],
-      captainEmail: ['', [Validators.required, Validators.email]],
-      captainPhone: ['', Validators.required],
-      additionalInfo: ['']
+      teamId: ['', Validators.required]
     });
 
-    // Si el usuario está autenticado, prellenar algunos campos
+    // Si está autenticado, cargar sus equipos
     if (this.isAuthenticated) {
-      const user = this.authService.usuarioActualValue;
-      this.joinForm.patchValue({
-        captainName: user?.username || '',
-        captainEmail: user?.email || ''
-      });
+      this.loadMyTeams();
     }
   }
 
@@ -76,6 +73,22 @@ export class JoinComponent implements OnInit {
     });
   }
 
+  loadMyTeams(): void {
+    this.loadingTeams = true;
+
+    this.teamService.getMyTeams().subscribe({
+      next: (teams) => {
+        this.myTeams = teams;
+        this.loadingTeams = false;
+      },
+      error: (err) => {
+        console.error('Error loading teams:', err);
+        this.loadingTeams = false;
+        // No mostrar error, simplemente no habrá equipos disponibles
+      }
+    });
+  }
+
   onSubmit(): void {
     if (!this.isAuthenticated) {
       alert('Debes iniciar sesión para unirte a un torneo');
@@ -86,22 +99,33 @@ export class JoinComponent implements OnInit {
 
     if (this.joinForm.invalid) {
       this.joinForm.markAllAsTouched();
+      alert('Por favor, selecciona un equipo');
       return;
     }
 
-    // TODO: Necesitamos implementar la creación de equipo primero
-    // El endpoint /tournaments/{id}/join espera un teamId
-    // Por ahora, mostrar un mensaje indicando que falta implementar Teams
-    console.log('Solicitud de registro:', {
-      tournamentId: this.tournamentId,
-      ...this.joinForm.value
-    });
+    this.submitting = true;
+    const teamId = this.joinForm.value.teamId;
 
-    alert('Funcionalidad en desarrollo. Primero necesitas crear un equipo en la sección de Teams.');
-    // Una vez que tengamos Teams implementado:
-    // 1. Crear el equipo con los datos del formulario
-    // 2. Usar el teamId retornado para llamar a joinTournament()
-    // this.tournamentService.joinTournament(this.tournamentId, teamId).subscribe(...)
+    this.tournamentService.joinTournament(this.tournamentId, teamId).subscribe({
+      next: () => {
+        this.submitting = false;
+        alert('¡Te has unido al torneo exitosamente!');
+        this.router.navigate(['/tournaments/detail', this.tournamentId]);
+      },
+      error: (err) => {
+        console.error('Error joining tournament:', err);
+        this.submitting = false;
+        alert('Error al unirte al torneo: ' + (err.message || 'Error desconocido'));
+      }
+    });
+  }
+
+  createNewTeam(): void {
+    // Guardar la URL actual para volver después de crear el equipo
+    const returnUrl = `/tournaments/join/${this.tournamentId}`;
+    this.router.navigate(['/teams/create'], {
+      queryParams: { returnUrl }
+    });
   }
 
   cancel(): void {
