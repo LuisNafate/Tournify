@@ -1,105 +1,135 @@
 <section class="join-tournament-container">
+  <!-- Header -->
   <div class="join-header">
     <h1>Unirse al Torneo</h1>
-    <p *ngIf="tournament">{{ tournament.name }}</p>
+    <p *ngIf="tournament" class="tournament-name">{{ tournament.name }}</p>
   </div>
 
+  <!-- Alert para usuarios no autenticados -->
   <div class="alert-info" *ngIf="!isAuthenticated">
     <p>Para unirte a este torneo, debes iniciar sesión o registrarte.</p>
   </div>
 
-  <form [formGroup]="joinForm" (ngSubmit)="onSubmit()" class="join-form">
-    <div class="form-section">
-      <h2>Información del Equipo</h2>
+  <!-- Loading state -->
+  <div *ngIf="loading || loadingTeams" class="loading-container">
+    <div class="spinner"></div>
+    <p>{{ loading ? 'Cargando torneo...' : 'Cargando tus equipos...' }}</p>
+  </div>
 
-      <div class="form-group">
-        <label for="teamName">Nombre del Equipo *</label>
-        <input
-          type="text"
-          id="teamName"
-          formControlName="teamName"
-          placeholder="Ej: Los Tigres"
-          [class.error]="joinForm.get('teamName')?.invalid && joinForm.get('teamName')?.touched">
-        <span class="error-message" *ngIf="joinForm.get('teamName')?.invalid && joinForm.get('teamName')?.touched">
-          El nombre del equipo es requerido (mínimo 3 caracteres)
-        </span>
+  <!-- Error state -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="btn-retry" (click)="loadTournament(tournamentId)">Reintentar</button>
+  </div>
+
+  <!-- Formulario principal -->
+  <form
+    *ngIf="isAuthenticated && !loading && !error"
+    [formGroup]="joinForm"
+    (ngSubmit)="onSubmit()"
+    class="join-form">
+
+    <div class="form-section">
+      <div class="section-header">
+        <h2>Selecciona tu Equipo</h2>
+        <button
+          type="button"
+          class="btn-create-team"
+          (click)="createNewTeam()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Crear Nuevo Equipo
+        </button>
       </div>
 
-      <div class="form-group">
-        <label for="teamMembers">Número de Jugadores *</label>
-        <input
-          type="number"
-          id="teamMembers"
-          formControlName="teamMembers"
-          placeholder="Ej: 5"
-          min="1"
-          [class.error]="joinForm.get('teamMembers')?.invalid && joinForm.get('teamMembers')?.touched">
-        <span class="error-message" *ngIf="joinForm.get('teamMembers')?.invalid && joinForm.get('teamMembers')?.touched">
-          El número de jugadores es requerido
+      <!-- Empty state -->
+      <div *ngIf="myTeams.length === 0 && !loadingTeams" class="empty-teams-state">
+        <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <h3>No tienes equipos creados</h3>
+        <p>Para unirte a este torneo, primero necesitas crear un equipo.</p>
+        <button type="button" class="btn-create-large" (click)="createNewTeam()">
+          Crear mi primer equipo
+        </button>
+      </div>
+
+      <!-- Team selection -->
+      <div *ngIf="myTeams.length > 0" class="teams-selection">
+        <div
+          *ngFor="let team of myTeams"
+          class="team-option"
+          [class.selected]="joinForm.value.teamId === team.id"
+          (click)="joinForm.patchValue({ teamId: team.id })">
+
+          <input
+            type="radio"
+            [id]="'team-' + team.id"
+            formControlName="teamId"
+            [value]="team.id">
+
+          <label [for]="'team-' + team.id" class="team-card">
+            <!-- Team Logo -->
+            <div class="team-logo">
+              <img
+                *ngIf="team.logoUrl"
+                [src]="team.logoUrl"
+                [alt]="team.name">
+              <div *ngIf="!team.logoUrl" class="default-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Team Info -->
+            <div class="team-info">
+              <h4 class="team-name">{{ team.name }}</h4>
+              <p class="team-short-name" *ngIf="team.shortName">{{ team.shortName }}</p>
+              <p class="team-description" *ngIf="team.description">{{ team.description }}</p>
+            </div>
+
+            <!-- Selection indicator -->
+            <div class="check-indicator">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </label>
+        </div>
+
+        <!-- Validation error -->
+        <span
+          class="error-message"
+          *ngIf="joinForm.get('teamId')?.invalid && joinForm.get('teamId')?.touched">
+          Por favor, selecciona un equipo
         </span>
       </div>
     </div>
 
-    <div class="form-section">
-      <h2>Información del Capitán</h2>
-
-      <div class="form-group">
-        <label for="captainName">Nombre del Capitán *</label>
-        <input
-          type="text"
-          id="captainName"
-          formControlName="captainName"
-          placeholder="Nombre completo"
-          [class.error]="joinForm.get('captainName')?.invalid && joinForm.get('captainName')?.touched">
-        <span class="error-message" *ngIf="joinForm.get('captainName')?.invalid && joinForm.get('captainName')?.touched">
-          El nombre del capitán es requerido
+    <!-- Form Actions -->
+    <div class="form-actions" *ngIf="myTeams.length > 0">
+      <button
+        type="button"
+        class="btn-cancel"
+        (click)="cancel()"
+        [disabled]="submitting">
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="joinForm.invalid || submitting">
+        <span *ngIf="!submitting">Unirse al Torneo</span>
+        <span *ngIf="submitting">
+          <span class="spinner-small"></span>
+          Uniéndose...
         </span>
-      </div>
-
-      <div class="form-group">
-        <label for="captainEmail">Email del Capitán *</label>
-        <input
-          type="email"
-          id="captainEmail"
-          formControlName="captainEmail"
-          placeholder="email@ejemplo.com"
-          [class.error]="joinForm.get('captainEmail')?.invalid && joinForm.get('captainEmail')?.touched">
-        <span class="error-message" *ngIf="joinForm.get('captainEmail')?.invalid && joinForm.get('captainEmail')?.touched">
-          Email válido requerido
-        </span>
-      </div>
-
-      <div class="form-group">
-        <label for="captainPhone">Teléfono del Capitán *</label>
-        <input
-          type="tel"
-          id="captainPhone"
-          formControlName="captainPhone"
-          placeholder="(555) 123-4567"
-          [class.error]="joinForm.get('captainPhone')?.invalid && joinForm.get('captainPhone')?.touched">
-        <span class="error-message" *ngIf="joinForm.get('captainPhone')?.invalid && joinForm.get('captainPhone')?.touched">
-          El teléfono es requerido
-        </span>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h2>Información Adicional</h2>
-
-      <div class="form-group">
-        <label for="additionalInfo">Comentarios o Información Adicional</label>
-        <textarea
-          id="additionalInfo"
-          formControlName="additionalInfo"
-          placeholder="Agrega cualquier información relevante para el organizador..."
-          rows="4"></textarea>
-      </div>
-    </div>
-
-    <div class="form-actions">
-      <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
-      <button type="submit" class="btn-submit" [disabled]="joinForm.invalid && isAuthenticated">
-        Enviar Solicitud
       </button>
     </div>
   </form>
