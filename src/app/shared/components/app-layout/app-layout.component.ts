@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
-import { Observable, filter, map, mergeMap, combineLatest } from 'rxjs';
+import { Observable, filter, map, mergeMap, combineLatest, startWith } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -28,9 +28,10 @@ export class AppLayoutComponent implements OnInit {
   ) {} // El constructor se queda vacío
 
   ngOnInit(): void {
-    // 5. Observable que nos dice si la RUTA actual quiere ocultar el sidebar
+    // Observable que detecta cambios de ruta
     const routeData$ = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
+      startWith(new NavigationEnd(0, this.router.url, this.router.url)),
       map(() => {
         let route = this.activatedRoute;
         while (route.firstChild) {
@@ -39,17 +40,32 @@ export class AppLayoutComponent implements OnInit {
         return route;
       }),
       mergeMap(route => route.data),
-      map(data => !data['hideSidebar']) // Emite 'true' si el sidebar debe mostrarse
+      map(data => !data['hideSidebar']),
+      startWith(true) // Por defecto mostrar sidebar
     );
 
-    // 6. Observable que nos dice si el USUARIO está logueado
+    // Observable que detecta si hay usuario logueado
     const isLoggedIn$ = this.authService.usuarioActual$.pipe(
-      map(user => !!user) // Emite 'true' si hay un usuario
+      map(user => {
+        const isLogged = !!user;
+        console.log('AppLayout - Usuario logueado:', isLogged, user?.role);
+        return isLogged;
+      }),
+      startWith(!!this.authService.usuarioActualValue) // Inicializar con valor actual
     );
 
-    // 7. Combinamos ambas lógicas
+    // Combinar ambas lógicas
     this.showSidebar$ = combineLatest([isLoggedIn$, routeData$]).pipe(
-      map(([isLoggedIn, routeAllows]) => isLoggedIn && routeAllows)
+      map(([isLoggedIn, routeAllows]) => {
+        const shouldShow = isLoggedIn && routeAllows && !this.isPublicRoute(this.router.url);
+        console.log('AppLayout - Mostrar sidebar:', shouldShow, { isLoggedIn, routeAllows, url: this.router.url });
+        return shouldShow;
+      })
     );
+  }
+
+  private isPublicRoute(url: string): boolean {
+    const publicRoutes = ['/login', '/register', '/landing', '/auth/login', '/auth/register', '/'];
+    return publicRoutes.some(route => url === route || url.startsWith(route + '?'));
   }
 }
