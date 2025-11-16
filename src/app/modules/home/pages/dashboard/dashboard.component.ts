@@ -96,4 +96,24 @@ export class DashboardComponent implements OnInit {
     if (this.isReferee()) return 'Panel de Árbitro';
     return 'Dashboard';
   }
+
+  deleteTournament(tournamentId: string, tournamentName: string): void {
+    const confirmMessage = `¿Estás seguro de que deseas eliminar el torneo "${tournamentName}"?\n\nEsta acción no se puede deshacer.`;
+
+    if (confirm(confirmMessage)) {
+      this.loading = true;
+      this.tournamentService.delete(tournamentId).subscribe({
+        next: () => {
+          console.log('Torneo eliminado exitosamente');
+          // Recargar la lista de torneos del organizador
+          this.loadOrganizerTournaments();
+        },
+        error: (err: any) => {
+          console.error('Error al eliminar torneo:', err);
+          this.error = err.error?.message || 'Error al eliminar el torneo. Por favor, intenta de nuevo.';
+          this.loading = false;
+        }
+      });
+    }
+  }
 }

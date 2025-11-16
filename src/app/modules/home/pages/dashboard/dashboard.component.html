@@ -108,7 +108,8 @@
           </div>
           <div class="card-actions">
             <a [routerLink]="['/tournaments/detail', tournament.id]" class="btn btn-secondary">Gestionar</a>
-            <a [routerLink]="['/tournaments/standings', tournament.id]" class="btn btn-primary">Ver Tabla</a>
+            <a [routerLink]="['/tournaments/edit', tournament.id]" class="btn btn-warning">Editar</a>
+            <button (click)="deleteTournament(tournament.id, tournament.name)" class="btn btn-danger">Eliminar</button>
           </div>
         </div>
       </div>
