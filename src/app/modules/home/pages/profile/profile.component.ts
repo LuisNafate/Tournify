@@ -160,6 +160,13 @@ export class ProfileComponent implements OnInit {
     return roles[role] || role;
   }
 
+  /**
+   * Navega de regreso al dashboard
+   */
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
   getInitials(): string {
     if (!this.currentUser) return 'U';
     const first = this.currentUser.firstName?.[0] || '';
