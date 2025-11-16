@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TournamentService } from '../../../tournaments/services/tournament.service';
 import { Tournament } from '../../../../core/models/tournament.model';
 import { AuthService } from '../../../../core/services/auth.service';
+import { TournamentService } from '../../../../core/services/tournament.service';
 import { User } from '../../../../core/models/user.model';
 
 @Component({
@@ -42,66 +42,40 @@ export class DashboardComponent implements OnInit {
   }
 
   loadPlayerTournaments(): void {
-    // Temporalmente mostrar vacío hasta implementar endpoint de torneos seguidos
-    // TODO: Implementar GET /tournaments/followed en el backend
-    this.tournaments = [];
-    this.loading = false;
-    
-    /* COMENTADO HASTA QUE EXISTA EL ENDPOINT CORRECTO
-    this.tournamentService.getTournaments({ page: 0, limit: 6 }).subscribe({
-      next: (response) => {
-        this.tournaments = response.content;
+    // Obtener torneos seguidos del usuario
+    this.tournamentService.getFollowedTournaments().subscribe({
+      next: (tournaments) => {
+        this.tournaments = tournaments;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading tournaments:', err);
-        this.error = 'Error al cargar los torneos.';
+        console.error('Error loading followed tournaments:', err);
+        this.tournaments = [];
         this.loading = false;
       }
     });
-    */
   }
 
   loadOrganizerTournaments(): void {
-    // Temporalmente mostrar vacío hasta implementar endpoint de mis torneos
-    // TODO: Implementar GET /tournaments/my-tournaments en el backend
-    this.myTournaments = [];
-    this.loading = false;
-    
-    /* COMENTADO HASTA QUE EXISTA EL ENDPOINT CORRECTO
-    this.tournamentService.getTournaments({ page: 0, limit: 10 }).subscribe({
-      next: (response) => {
-        this.myTournaments = response.content;
+    // Obtener torneos creados por el organizador
+    this.tournamentService.getMyTournaments().subscribe({
+      next: (tournaments) => {
+        this.myTournaments = tournaments;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading tournaments:', err);
-        this.error = 'Error al cargar tus torneos.';
+        console.error('Error loading my tournaments:', err);
+        this.myTournaments = [];
         this.loading = false;
       }
     });
-    */
   }
 
   loadRefereeTournaments(): void {
-    // Temporalmente mostrar vacío hasta implementar endpoint de torneos asignados
-    // TODO: Implementar GET /tournaments/assigned en el backend
+    // Torneos en los que el árbitro está asignado
+    // TODO: Implementar GET /tournaments/assigned en el backend cuando se implemente la funcionalidad de árbitros
     this.tournaments = [];
     this.loading = false;
-    
-    /* COMENTADO HASTA QUE EXISTA EL ENDPOINT CORRECTO
-    this.tournamentService.getTournaments({ page: 0, limit: 6 }).subscribe({
-      next: (response) => {
-        this.tournaments = response.content;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading tournaments:', err);
-        this.error = 'Error al cargar los torneos asignados.';
-        this.loading = false;
-      }
-    });
-    */
   }
 
   isPlayer(): boolean {
