@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TournamentService } from '../../services/tournament.service';
 import { TournamentWithDetails } from '../../../../core/models/tournament.model';
 
@@ -16,7 +16,8 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private tournamentService: TournamentService
+    private tournamentService: TournamentService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +68,24 @@ export class DetailComponent implements OnInit {
         console.error('Error toggling follow:', err);
         this.error = 'Error al actualizar el seguimiento. Intenta de nuevo.';
         this.followLoading = false;
+      }
+    });
+  }
+
+  onDeleteTournament(): void {
+    if (!this.tournament) return;
+
+    this.loading = true;
+    this.tournamentService.deleteTournament(this.tournament.id).subscribe({
+      next: () => {
+        console.log('Torneo eliminado exitosamente');
+        // Redirigir al dashboard después de eliminar
+        this.router.navigate(['/home']);
+      },
+      error: (err: any) => {
+        console.error('Error al eliminar torneo:', err);
+        this.error = err.error?.message || 'Error al eliminar el torneo. Por favor, intenta de nuevo.';
+        this.loading = false;
       }
     });
   }
