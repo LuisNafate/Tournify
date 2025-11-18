@@ -1,15 +1,102 @@
-.edit-tournament-container {
+/* ========================================
+   EDIT TOURNAMENT PAGE
+   ======================================== */
+
+.edit-tournament-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #000000;
+  background-image:
+    radial-gradient(circle at top left, rgba(139, 92, 246, 0.12) 0%, transparent 35%),
+    radial-gradient(circle at bottom right, rgba(79, 70, 229, 0.12) 0%, transparent 35%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ========== SIDEBAR ========== */
+.sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, rgba(15, 18, 42, 0.95) 0%, rgba(10, 14, 39, 0.98) 100%);
+  border-right: 1px solid rgba(139, 92, 246, 0.15);
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 1.5rem 0;
+  overflow-y: auto;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.7rem 1rem;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.nav-link:hover {
+  background: rgba(139, 92, 246, 0.08);
+  color: #ffffff;
+}
+
+.nav-link.active {
+  background: rgba(139, 92, 246, 0.12);
+  color: #ffffff;
+  border-left: 3px solid #8b5cf6;
+}
+
+.nav-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ========== MAIN CONTAINER ========== */
+.main-container {
+  flex: 1;
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
-  background: #0a0e27;
-  min-height: 100vh;
+  width: 100%;
 }
 
 /* Header */
 .page-header {
   margin-bottom: 2rem;
   text-align: center;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.btn-back:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.5);
+  transform: translateX(-4px);
+}
+
+.btn-back svg {
+  width: 20px;
+  height: 20px;
 }
 
 .page-header h1 {
