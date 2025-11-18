@@ -1,0 +1,355 @@
+.match-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Header */
+.detail-header {
+  margin-bottom: 2rem;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  transition: color 0.3s;
+}
+
+.back-button:hover {
+  color: #2196F3;
+}
+
+.back-button .icon {
+  font-size: 1.5rem;
+}
+
+.detail-header h1 {
+  color: #333;
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* Status Banner */
+.status-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.status-label {
+  font-size: 1.1rem;
+}
+
+.round-label {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.status-scheduled {
+  background: linear-gradient(135deg, #64B5F6 0%, #2196F3 100%);
+  color: white;
+}
+
+.status-live {
+  background: linear-gradient(135deg, #FF5252 0%, #F44336 100%);
+  color: white;
+  animation: pulse-live 2s infinite;
+}
+
+.status-finished {
+  background: linear-gradient(135deg, #81C784 0%, #4CAF50 100%);
+  color: white;
+}
+
+.status-postponed {
+  background: linear-gradient(135deg, #FFB74D 0%, #FF9800 100%);
+  color: white;
+}
+
+.status-cancelled {
+  background: linear-gradient(135deg, #E0E0E0 0%, #9E9E9E 100%);
+  color: #424242;
+}
+
+@keyframes pulse-live {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 82, 82, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 82, 82, 0.8);
+  }
+}
+
+/* Teams Section */
+.teams-section {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 3rem;
+  background: white;
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.team-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.team-container.winner {
+  background: linear-gradient(135deg, #FFF9C4 0%, #FFEB3B 30%);
+  box-shadow: 0 8px 16px rgba(255, 235, 59, 0.3);
+  transform: scale(1.05);
+}
+
+.team-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.team-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin: 0;
+}
+
+.score {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #2196F3;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.winner-badge {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+
+.vs-divider {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #999;
+  text-align: center;
+}
+
+/* Info Card */
+.info-card, .notes-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.info-card h3, .notes-card h3 {
+  color: #333;
+  font-size: 1.3rem;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Notes */
+.notes-card p {
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Actions */
+.actions-section {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.update-button {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+.update-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(33, 150, 243, 0.4);
+}
+
+.update-button .icon {
+  font-size: 1.2rem;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #2196F3;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Error State */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+}
+
+.error-icon {
+  font-size: 4rem;
+}
+
+.error-container p {
+  color: #f44336;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.retry-button {
+  background: #2196F3;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.retry-button:hover {
+  background: #1976D2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .match-detail-container {
+    padding: 1rem;
+  }
+
+  .teams-section {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .vs-divider {
+    transform: rotate(90deg);
+    margin: 0;
+  }
+
+  .team-logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .team-name {
+    font-size: 1.2rem;
+  }
+
+  .score {
+    font-size: 2.5rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-header h1 {
+    font-size: 1.5rem;
+  }
+}

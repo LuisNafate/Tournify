@@ -1,0 +1,148 @@
+<div class="update-container" *ngIf="!loading && !error && match">
+  <!-- Header -->
+  <div class="update-header">
+    <button class="back-button" (click)="cancel()">
+      <span class="icon">←</span> Volver
+    </button>
+    <h1>Actualizar Resultado</h1>
+  </div>
+
+  <!-- Match Info Banner -->
+  <div class="match-info-banner">
+    <div class="team-info">
+      <img 
+        [src]="match.homeTeam?.logoUrl || '/assets/icons/default-team.png'" 
+        [alt]="match.homeTeam?.name"
+        onerror="this.src='/assets/icons/default-team.png'"
+      />
+      <span>{{ match.homeTeam?.name || 'Equipo Local' }}</span>
+    </div>
+    <div class="vs">VS</div>
+    <div class="team-info">
+      <img 
+        [src]="match.awayTeam?.logoUrl || '/assets/icons/default-team.png'" 
+        [alt]="match.awayTeam?.name"
+        onerror="this.src='/assets/icons/default-team.png'"
+      />
+      <span>{{ match.awayTeam?.name || 'Equipo Visitante' }}</span>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions" *ngIf="match.status !== 'finished' && match.status !== 'cancelled'">
+    <button 
+      class="action-btn start-btn" 
+      (click)="startMatch()"
+      *ngIf="match.status !== 'ongoing'"
+    >
+      ▶ Iniciar Partido
+    </button>
+    <button 
+      class="action-btn finish-btn" 
+      (click)="finishMatch()"
+      *ngIf="match.status === 'ongoing'"
+    >
+      🏁 Finalizar Partido
+    </button>
+  </div>
+
+  <!-- Update Form -->
+  <form [formGroup]="updateForm" (ngSubmit)="onSubmit()" class="update-form">
+    <!-- Scores Section -->
+    <div class="scores-section">
+      <h3>Marcador</h3>
+      <div class="scores-grid">
+        <div class="score-input-group">
+          <label>{{ match.homeTeam?.name || 'Equipo Local' }}</label>
+          <input 
+            type="number" 
+            formControlName="scoreHome"
+            min="0"
+            class="score-input"
+          />
+          <div class="error-message" *ngIf="updateForm.get('scoreHome')?.invalid && updateForm.get('scoreHome')?.touched">
+            Ingresa un marcador válido
+          </div>
+        </div>
+
+        <div class="score-divider">-</div>
+
+        <div class="score-input-group">
+          <label>{{ match.awayTeam?.name || 'Equipo Visitante' }}</label>
+          <input 
+            type="number" 
+            formControlName="scoreAway"
+            min="0"
+            class="score-input"
+          />
+          <div class="error-message" *ngIf="updateForm.get('scoreAway')?.invalid && updateForm.get('scoreAway')?.touched">
+            Ingresa un marcador válido
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Section -->
+    <div class="form-group">
+      <label for="status">Estado del Partido</label>
+      <select id="status" formControlName="status" class="form-control">
+        <option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Notes Section -->
+    <div class="form-group">
+      <label for="notes">Notas / Observaciones</label>
+      <textarea 
+        id="notes" 
+        formControlName="notes" 
+        class="form-control"
+        rows="4"
+        placeholder="Incidencias, tarjetas, lesiones, etc."
+      ></textarea>
+    </div>
+
+    <!-- Winner Preview -->
+    <div class="winner-preview" *ngIf="updateForm.value.scoreHome !== updateForm.value.scoreAway && updateForm.value.status === 'finished'">
+      <div class="preview-icon">🏆</div>
+      <div class="preview-text">
+        Ganador: 
+        <strong>
+          {{ updateForm.value.scoreHome > updateForm.value.scoreAway ? match.homeTeam?.name : match.awayTeam?.name }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div class="form-error" *ngIf="error">
+      <span class="error-icon">⚠️</span>
+      {{ error }}
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="saving">
+        Cancelar
+      </button>
+      <button type="submit" class="btn-save" [disabled]="updateForm.invalid || saving">
+        <span *ngIf="!saving">💾 Guardar Cambios</span>
+        <span *ngIf="saving">Guardando...</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Cargando partido...</p>
+</div>
+
+<!-- Error State -->
+<div class="error-container" *ngIf="error && !match">
+  <div class="error-icon">⚠️</div>
+  <p>{{ error }}</p>
+  <button class="retry-button" (click)="loadMatch()">Reintentar</button>
+</div>

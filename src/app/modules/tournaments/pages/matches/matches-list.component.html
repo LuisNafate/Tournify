@@ -1,0 +1,165 @@
+<div class="matches-list-container">
+  <!-- Header -->
+  <div class="matches-header">
+    <button class="btn-back-icon" (click)="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Volver al Torneo
+    </button>
+    <h1>Partidos</h1>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <div class="filter-group">
+      <label for="status-filter">Estado:</label>
+      <select 
+        id="status-filter" 
+        [(ngModel)]="selectedStatus"
+        (change)="onStatusChange($event)">
+        <option value="">Todos los estados</option>
+        <option value="scheduled">Programado</option>
+        <option value="live">En Vivo</option>
+        <option value="finished">Finalizado</option>
+        <option value="postponed">Pospuesto</option>
+        <option value="cancelled">Cancelado</option>
+      </select>
+    </div>
+
+    <div class="filter-group" *ngIf="availableRounds.length > 0">
+      <label for="round-filter">Ronda:</label>
+      <select 
+        id="round-filter" 
+        [(ngModel)]="selectedRound"
+        (change)="onRoundChange($event)">
+        <option value="">Todas las rondas</option>
+        <option *ngFor="let round of availableRounds" [value]="round">
+          {{ round }}
+        </option>
+      </select>
+    </div>
+
+    <button class="btn-clear-filters" (click)="clearFilters()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+      </svg>
+      Limpiar filtros
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando partidos...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="btn-retry" (click)="loadMatches()">Reintentar</button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && filteredMatches.length === 0" class="empty-container">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+      <line x1="3" y1="9" x2="21" y2="9"/>
+      <line x1="9" y1="21" x2="9" y2="9"/>
+    </svg>
+    <h3>No hay partidos {{ selectedStatus || selectedRound ? 'con estos filtros' : '' }}</h3>
+    <p *ngIf="selectedStatus || selectedRound">Intenta ajustar los filtros de búsqueda</p>
+    <button *ngIf="selectedStatus || selectedRound" class="btn btn-primary" (click)="clearFilters()">
+      Limpiar filtros
+    </button>
+  </div>
+
+  <!-- Lista de Partidos -->
+  <div *ngIf="!loading && filteredMatches.length > 0" class="matches-grid">
+    <div 
+      *ngFor="let match of filteredMatches" 
+      class="match-card"
+      [class]="getStatusClass(match.status)"
+      (click)="viewMatchDetail(match.id)">
+      
+      <!-- Header del partido -->
+      <div class="match-card-header">
+        <span class="match-round" *ngIf="match.roundName">
+          {{ match.roundName }}
+        </span>
+        <span class="match-status" [class]="getStatusClass(match.status)">
+          {{ getStatusLabel(match.status) }}
+        </span>
+      </div>
+
+      <!-- Equipos y Marcador -->
+      <div class="match-teams">
+        <div class="team team-home">
+          <div class="team-logo">
+            <img *ngIf="match.homeTeam?.logoUrl" [src]="match.homeTeam?.logoUrl" [alt]="match.homeTeam?.name">
+            <div *ngIf="!match.homeTeam?.logoUrl" class="default-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+          </div>
+          <span class="team-name">{{ match.homeTeam?.name || 'TBD' }}</span>
+        </div>
+
+        <div class="match-score">
+          <span class="score-home">{{ match.scoreHome ?? '-' }}</span>
+          <span class="score-separator">:</span>
+          <span class="score-away">{{ match.scoreAway ?? '-' }}</span>
+        </div>
+
+        <div class="team team-away">
+          <span class="team-name">{{ match.awayTeam?.name || 'TBD' }}</span>
+          <div class="team-logo">
+            <img *ngIf="match.awayTeam?.logoUrl" [src]="match.awayTeam?.logoUrl" [alt]="match.awayTeam?.name">
+            <div *ngIf="!match.awayTeam?.logoUrl" class="default-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info adicional -->
+      <div class="match-info">
+        <div class="info-item" *ngIf="match.scheduledAt">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span>{{ match.scheduledAt | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="info-item" *ngIf="match.location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span>{{ match.location }}</span>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="match-actions" *ngIf="canUpdateResult(match)">
+        <button 
+          class="btn-update-result" 
+          (click)="updateResult(match.id, $event)"
+          *ngIf="match.status === 'scheduled' || match.status === 'ongoing'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          Actualizar Resultado
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
