@@ -81,6 +81,24 @@ export class TournamentService {
   }
 
   /**
+   * Obtener mis torneos (organizador)
+   * GET /tournaments/my-tournaments
+   */
+  getMyTournaments(): Observable<PaginatedResponse<Tournament>> {
+    return this.http.get<Tournament[]>(`${this.apiUrl}/my-tournaments`).pipe(
+      map((tournaments: Tournament[]) => {
+        return {
+          content: tournaments,
+          page: 0,
+          size: tournaments.length,
+          totalElements: tournaments.length,
+          totalPages: 1
+        };
+      })
+    );
+  }
+
+  /**
    * Obtener detalle de un torneo específico
    * GET /tournaments/{id}
    */

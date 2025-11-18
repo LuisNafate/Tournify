@@ -1,7 +1,12 @@
 <section class="tournaments-list-page">
   
   <div class="list-header">
-    <h2>Torneos Disponibles</h2>
+    <h2>
+      <ng-container *ngIf="currentUser?.role === 'organizer'">Mis Torneos</ng-container>
+      <ng-container *ngIf="currentUser?.role === 'player'">Torneos Disponibles</ng-container>
+      <ng-container *ngIf="currentUser?.role === 'referee'">Torneos Asignados</ng-container>
+      <ng-container *ngIf="!currentUser">Torneos Disponibles</ng-container>
+    </h2>
     <div class="search-bar">
       <input 
         type="text" 
