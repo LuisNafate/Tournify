@@ -40,4 +40,4 @@ jobs:
                 aws-region: us-east-1
 
             - name: Deploy to S3
-              run: aws s3 sync dist/"spotify-player"/browser s3://amzn-bucket-static-torneos001  --delete --exclude ".*"
+              run: aws s3 sync dist/tournify/browser s3://amzn-bucket-static-torneos001  --delete --exclude ".*"
