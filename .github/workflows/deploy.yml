@@ -22,6 +22,9 @@ jobs:
                 node-version: '22'
                 cache: npm
 
+            - name: CHECK PATH
+              run: pwd
+
             - name: Install dependencies
               run: npm ci
 
