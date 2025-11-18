@@ -42,8 +42,16 @@
             <span class="detail-value">{{ tournament.prize }}</span>
           </div>
         </div>
-        
-        <a [routerLink]="['/tournaments/detail', tournament.id]" class="btn btn-primary">Ver Detalles</a>
+
+        <div class="card-actions">
+          <a [routerLink]="['/tournaments/detail', tournament.id]" class="btn btn-secondary">Ver Detalles</a>
+          <button
+            *ngIf="tournament.status === 'upcoming'"
+            [routerLink]="['/tournaments/join', tournament.id]"
+            class="btn btn-join">
+            Unirse
+          </button>
+        </div>
       </div>
     </div>
 

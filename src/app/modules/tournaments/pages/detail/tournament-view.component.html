@@ -8,6 +8,12 @@
   </div>
 
   <h1 class="tournament-title">{{ tournament.name }}</h1>
+
+  <div class="action-buttons" *ngIf="tournament.status === 'Inscripciones Abiertas'">
+    <button class="btn-join-tournament" (click)="joinTournament()">
+      Unirse al Torneo
+    </button>
+  </div>
   
   <div class="tournament-info">
     <div class="info-item">

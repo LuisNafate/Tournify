@@ -1,0 +1,185 @@
+.join-tournament-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.join-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.join-header h1 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.join-header p {
+  color: #7f8c8d;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.alert-info {
+  background-color: #e3f2fd;
+  border-left: 4px solid #2196f3;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+}
+
+.alert-info p {
+  margin: 0;
+  color: #1976d2;
+}
+
+.join-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.form-section h2 {
+  color: #2c3e50;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.form-group input.error {
+  border-color: #e74c3c;
+}
+
+.form-group input.error:focus {
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.error-message {
+  display: block;
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid #f0f0f0;
+}
+
+.btn-cancel,
+.btn-submit {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel {
+  background-color: #ecf0f1;
+  color: #7f8c8d;
+}
+
+.btn-cancel:hover {
+  background-color: #d5dbdb;
+}
+
+.btn-submit {
+  background-color: #3498db;
+  color: white;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.btn-submit:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .join-tournament-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .join-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-section {
+    padding: 1rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-cancel,
+  .btn-submit {
+    width: 100%;
+  }
+}

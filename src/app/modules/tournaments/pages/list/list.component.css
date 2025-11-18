@@ -165,12 +165,17 @@
   color: #ffffff;
 }
 
+/* Acciones de la tarjeta */
+.card-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto; /* Empuja los botones al fondo de la tarjeta */
+}
+
 /*
- * Botón (estilos tomados de landing.component.css)
+ * Botones (estilos tomados de landing.component.css)
  */
 .btn {
-  display: block; /* Para que ocupe el ancho */
-  width: 100%;
   padding: 0.9rem 1.5rem;
   border-radius: 50px;
   font-weight: 600;
@@ -180,7 +185,7 @@
   font-size: 1rem;
   text-decoration: none;
   text-align: center;
-  margin-top: auto; /* Empuja el botón al fondo de la tarjeta */
+  flex: 1; /* Los botones se dividen el espacio equitativamente */
 }
 
 .btn-primary {
@@ -192,5 +197,33 @@
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(102, 0, 212, 0.5);
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: rgba(139, 92, 246, 0.2);
+  color: #8b5cf6;
+  border: 1px solid rgba(139, 92, 246, 0.5);
+}
+
+.btn-secondary:hover {
+  background: rgba(139, 92, 246, 0.3);
+  border-color: rgba(139, 92, 246, 0.8);
+  transform: translateY(-2px);
+}
+
+.btn-join {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-join:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.6);
   filter: brightness(1.1);
 }
