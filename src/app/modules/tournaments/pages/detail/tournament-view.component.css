@@ -110,6 +110,34 @@
   filter: brightness(1.1);
 }
 
+.btn-bracket {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.8rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-bracket svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-bracket:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.5);
+  filter: brightness(1.1);
+}
+
 .btn-edit {
   display: flex;
   align-items: center;
@@ -220,6 +248,20 @@
   font-weight: 700;
   color: #fff;
   margin-bottom: 1.5rem;
+}
+
+.empty-teams {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.empty-teams p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  margin: 0;
 }
 
 .teams-grid {

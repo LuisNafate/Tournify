@@ -55,6 +55,12 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
+  viewBracket(): void {
+    if (this.tournament) {
+      this.router.navigate(['/tournaments', this.tournament.id, 'bracket']);
+    }
+  }
+
   onFollowClick(): void {
     this.followToggle.emit();
   }

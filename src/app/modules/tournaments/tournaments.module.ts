@@ -11,6 +11,7 @@ import { EditComponent } from './pages/edit/edit.component';
 import { MatchesListComponent } from './pages/matches/matches-list.component';
 import { MatchDetailComponent } from './pages/matches/match-detail.component';
 import { MatchUpdateResultComponent } from './pages/matches/match-update-result.component';
+import { BracketComponent } from './pages/bracket/bracket.component';
 
 // Módulo de torneos
 @NgModule({
@@ -22,7 +23,8 @@ import { MatchUpdateResultComponent } from './pages/matches/match-update-result.
     EditComponent,
     MatchesListComponent,
     MatchDetailComponent,
-    MatchUpdateResultComponent
+    MatchUpdateResultComponent,
+    BracketComponent
   ],
   imports: [
     CommonModule,

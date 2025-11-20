@@ -147,6 +147,15 @@ export class TournamentService {
   }
 
   /**
+   * Generar bracket de eliminación
+   * POST /tournaments/{id}/generate-bracket
+   */
+  generateBracket(tournamentId: string, startDate?: string): Observable<any> {
+    const body = startDate ? { startDate } : {};
+    return this.http.post(`${this.apiUrl}/${tournamentId}/generate-bracket`, body);
+  }
+
+  /**
    * Eliminar un torneo
    * DELETE /tournaments/{id}
    */

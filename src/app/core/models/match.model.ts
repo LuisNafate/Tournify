@@ -80,6 +80,8 @@ export interface MatchStatistics {
 }
 
 export interface MatchWithDetails extends Match {
+  roundNumber?: number;
+  winnerId?: string | null;
   homeTeam?: {
     id: string;
     name: string;
