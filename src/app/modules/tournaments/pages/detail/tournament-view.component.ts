@@ -87,6 +87,8 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
     // Normalizar ambos IDs a string y comparar
     const currentUserId = String(currentUser.id).trim();
     const tournamentOrganizerId = String(this.tournament.organizerId).trim();
+    const isOwner = currentUserId === tournamentOrganizerId;
+    const hasOrganizerRole = currentUser.role === 'organizer' || currentUser.role === 'admin';
 
     // Log para debugging
     console.log('Checking organizer:', {
@@ -94,10 +96,12 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
       currentUserRole: currentUser.role,
       tournamentOrganizerId,
       tournamentName: this.tournament.name,
-      isMatch: currentUserId === tournamentOrganizerId
+      isOwner,
+      hasOrganizerRole,
+      canEdit: isOwner && hasOrganizerRole
     });
 
-    // Comparar IDs
-    return currentUserId === tournamentOrganizerId;
+    // Debe ser el dueño del torneo Y tener rol de organizador/admin
+    return isOwner && hasOrganizerRole;
   }
 }
