@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import {
   Team,
@@ -27,8 +27,17 @@ export class TeamService {
    * GET /teams/my
    */
   getMyTeams(): Observable<Team[]> {
-    return this.http.get<Team[]>(`${this.apiUrl}/my`)
-      .pipe(catchError(this.handleError));
+    const url = `${this.apiUrl}/my`;
+    console.log('[TeamService] Solicitando equipos desde:', url);
+
+    return this.http.get<Team[]>(url)
+      .pipe(
+        tap((teams) => console.log('[TeamService] Equipos recibidos:', teams)),
+        catchError((error) => {
+          console.error('[TeamService] Error al obtener equipos:', error);
+          return this.handleError(error);
+        })
+      );
   }
 
   /**
