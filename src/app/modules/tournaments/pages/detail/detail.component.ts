@@ -34,7 +34,30 @@ export class DetailComponent implements OnInit {
     this.tournamentService.getTournamentById(id).subscribe({
       next: (tournament: TournamentWithDetails) => {
         this.tournament = tournament;
-        this.loading = false;
+        
+        // Cargar registraciones (equipos inscritos)
+        this.tournamentService.getRegistrations(id).subscribe({
+          next: (registrations) => {
+            // Mapear registraciones a formato TournamentTeam
+            if (this.tournament) {
+              this.tournament.teams = registrations.map(reg => ({
+                id: reg.teamId,
+                tournamentId: reg.tournamentId,
+                name: reg.teamName,
+                captainId: '', // No tenemos esta info en la registración
+                logoUrl: reg.teamLogoUrl,
+                players: [], // Se podría cargar después si es necesario
+                createdAt: reg.registrationDate
+              }));
+            }
+            this.loading = false;
+          },
+          error: (err) => {
+            console.error('Error loading registrations:', err);
+            // No mostramos error, solo dejamos teams vacío
+            this.loading = false;
+          }
+        });
       },
       error: (err) => {
         console.error('Error loading tournament:', err);
