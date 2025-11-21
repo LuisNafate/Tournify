@@ -1,0 +1,140 @@
+<div class="match-create-container">
+  <!-- Header -->
+  <div class="create-header">
+    <button class="btn-back-icon" (click)="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Volver
+    </button>
+    <h1>Crear Nuevo Partido</h1>
+  </div>
+
+  <!-- Error Global -->
+  <div *ngIf="error" class="alert alert-error">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    {{ error }}
+  </div>
+
+  <!-- Formulario -->
+  <form [formGroup]="matchForm" (ngSubmit)="onSubmit()" class="match-form">
+    
+    <!-- Equipos -->
+    <div class="form-section">
+      <h3>Equipos</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="homeTeamId">
+            Equipo Local <span class="required">*</span>
+          </label>
+          <select 
+            id="homeTeamId" 
+            formControlName="homeTeamId"
+            [class.invalid]="f['homeTeamId'].invalid && f['homeTeamId'].touched">
+            <option value="">Seleccionar equipo local</option>
+            <option *ngFor="let team of teams" [value]="team.id">
+              {{ team.name }}
+            </option>
+          </select>
+          <div class="error-message" *ngIf="f['homeTeamId'].invalid && f['homeTeamId'].touched">
+            Debes seleccionar un equipo local
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="awayTeamId">
+            Equipo Visitante <span class="required">*</span>
+          </label>
+          <select 
+            id="awayTeamId" 
+            formControlName="awayTeamId"
+            [class.invalid]="f['awayTeamId'].invalid && f['awayTeamId'].touched">
+            <option value="">Seleccionar equipo visitante</option>
+            <option *ngFor="let team of teams" [value]="team.id">
+              {{ team.name }}
+            </option>
+          </select>
+          <div class="error-message" *ngIf="f['awayTeamId'].invalid && f['awayTeamId'].touched">
+            Debes seleccionar un equipo visitante
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detalles del Partido -->
+    <div class="form-section">
+      <h3>Detalles del Partido</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="roundName">Nombre de Ronda</label>
+          <input 
+            type="text" 
+            id="roundName" 
+            formControlName="roundName"
+            placeholder="Ej: Final, Semifinal, Cuartos">
+        </div>
+
+        <div class="form-group">
+          <label for="matchNumber">
+            Número de Partido <span class="required">*</span>
+          </label>
+          <input 
+            type="number" 
+            id="matchNumber" 
+            formControlName="matchNumber"
+            min="1"
+            [class.invalid]="f['matchNumber'].invalid && f['matchNumber'].touched">
+          <div class="error-message" *ngIf="f['matchNumber'].invalid && f['matchNumber'].touched">
+            El número de partido debe ser mayor a 0
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="scheduledAt">Fecha y Hora</label>
+          <input 
+            type="datetime-local" 
+            id="scheduledAt" 
+            formControlName="scheduledAt">
+        </div>
+
+        <div class="form-group">
+          <label for="location">Ubicación</label>
+          <input 
+            type="text" 
+            id="location" 
+            formControlName="location"
+            placeholder="Ej: Estadio Municipal">
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="form-actions">
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        (click)="goBack()"
+        [disabled]="loading">
+        Cancelar
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-primary" 
+        [disabled]="loading || matchForm.invalid">
+        <span *ngIf="!loading">Crear Partido</span>
+        <span *ngIf="loading">
+          <div class="spinner-small"></div>
+          Creando...
+        </span>
+      </button>
+    </div>
+  </form>
+</div>

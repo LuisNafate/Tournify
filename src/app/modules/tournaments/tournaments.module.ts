@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TournamentsRoutingModule } from './tournaments-routing.module';
 
@@ -11,6 +11,7 @@ import { EditComponent } from './pages/edit/edit.component';
 import { MatchesListComponent } from './pages/matches/matches-list.component';
 import { MatchDetailComponent } from './pages/matches/match-detail.component';
 import { MatchUpdateResultComponent } from './pages/matches/match-update-result.component';
+import { MatchCreateComponent } from './pages/matches/match-create.component';
 import { BracketComponent } from './pages/bracket/bracket.component';
 
 // Módulo de torneos
@@ -24,6 +25,7 @@ import { BracketComponent } from './pages/bracket/bracket.component';
     MatchesListComponent,
     MatchDetailComponent,
     MatchUpdateResultComponent,
+    MatchCreateComponent,
     BracketComponent
   ],
   imports: [
@@ -31,6 +33,9 @@ import { BracketComponent } from './pages/bracket/bracket.component';
     FormsModule,
     ReactiveFormsModule,
     TournamentsRoutingModule
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class TournamentsModule { }
