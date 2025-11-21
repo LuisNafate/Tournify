@@ -89,4 +89,44 @@ export class DetailComponent implements OnInit {
       }
     });
   }
+
+  onStartTournament(): void {
+    if (!this.tournament) return;
+
+    this.loading = true;
+    this.error = null;
+
+    this.tournamentService.startTournament(this.tournament.id).subscribe({
+      next: (updatedTournament) => {
+        console.log('Torneo iniciado exitosamente');
+        // Recargar el torneo para actualizar el estado
+        this.loadTournament(this.tournament!.id);
+      },
+      error: (err: any) => {
+        console.error('Error al iniciar torneo:', err);
+        this.error = 'Error al iniciar el torneo. Por favor, intenta de nuevo.';
+        this.loading = false;
+      }
+    });
+  }
+
+  onFinishTournament(): void {
+    if (!this.tournament) return;
+
+    this.loading = true;
+    this.error = null;
+
+    this.tournamentService.finishTournament(this.tournament.id).subscribe({
+      next: (updatedTournament) => {
+        console.log('Torneo finalizado exitosamente');
+        // Recargar el torneo para actualizar el estado
+        this.loadTournament(this.tournament!.id);
+      },
+      error: (err: any) => {
+        console.error('Error al finalizar torneo:', err);
+        this.error = 'Error al finalizar el torneo. Por favor, intenta de nuevo.';
+        this.loading = false;
+      }
+    });
+  }
 }

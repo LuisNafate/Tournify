@@ -23,6 +23,27 @@
             </svg>
             VER BRACKET
           </button>
+          <button class="btn-registrations" (click)="manageRegistrations()" *ngIf="tournament.status === 'registration' || tournament.status === 'upcoming'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="8.5" cy="7" r="4"/>
+              <polyline points="17 11 19 13 23 9"/>
+            </svg>
+            GESTIONAR INSCRIPCIONES
+          </button>
+          <button class="btn-start" (click)="onStartTournament()" *ngIf="canStartTournament()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            INICIAR TORNEO
+          </button>
+          <button class="btn-finish" (click)="onFinishTournament()" *ngIf="canFinishTournament()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            FINALIZAR TORNEO
+          </button>
           <button class="btn-edit" (click)="editTournament()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>

@@ -10,6 +10,7 @@ import { MatchesListComponent } from './pages/matches/matches-list.component';
 import { MatchDetailComponent } from './pages/matches/match-detail.component';
 import { MatchUpdateResultComponent } from './pages/matches/match-update-result.component';
 import { BracketComponent } from './pages/bracket/bracket.component';
+import { RegistrationsComponent } from './pages/registrations/registrations.component';
 import { AuthGuard } from '../../core/guards/auth.guard';
 
 // Rutas del módulo tournaments
@@ -29,6 +30,11 @@ const routes: Routes = [
   },
   { path: 'detail/:id', component: DetailComponent },
   { path: 'join/:id', component: JoinComponent },
+  {
+    path: ':id/registrations',
+    component: RegistrationsComponent,
+    canActivate: [AuthGuard]
+  },
   // crear equipo asociado a un torneo (opcional tournamentId)
   { path: 'teams/create/:tournamentId', component: CreateTeamComponent, canActivate: [AuthGuard] },
   // Rutas de partidos
