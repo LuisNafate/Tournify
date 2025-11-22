@@ -140,4 +140,18 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
     // Debe ser el dueño del torneo Y tener rol de organizador/admin
     return isOwner && hasOrganizerRole;
   }
+
+  getTeamInitials(name: string): string {
+    if (!name) return '?';
+    const words = name.trim().split(' ');
+    if (words.length === 1) {
+      return name.substring(0, 2).toUpperCase();
+    }
+    return words.map(w => w[0]).join('').substring(0, 2).toUpperCase();
+  }
+
+  onImageError(event: any): void {
+    // Ocultar imagen si falla la carga
+    event.target.style.display = 'none';
+  }
 }
