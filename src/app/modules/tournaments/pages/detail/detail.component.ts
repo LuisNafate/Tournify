@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TournamentService } from '../../services/tournament.service';
 import { TournamentWithDetails } from '../../../../core/models/tournament.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
   tournament: TournamentWithDetails | null = null;
   loading = false;
   error: string | null = null;
   followLoading = false;
+  private routeSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,23 +23,37 @@ export class DetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.loadTournament(id);
+    // Suscribirse a cambios en los parámetros de la ruta
+    this.routeSubscription = this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        console.log('Cargando torneo con ID:', id);
+        this.loadTournament(id);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Cancelar suscripción al destruir el componente
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
     }
   }
 
   loadTournament(id: string): void {
     this.loading = true;
     this.error = null;
+    console.log('Iniciando carga del torneo...');
 
     this.tournamentService.getTournamentById(id).subscribe({
       next: (tournament: TournamentWithDetails) => {
+        console.log('Torneo cargado desde el servidor:', tournament);
         this.tournament = tournament;
         
         // Cargar registraciones aprobadas (equipos inscritos)
         this.tournamentService.getRegistrations(id, 'approved').subscribe({
           next: (registrations) => {
+            console.log('Registraciones cargadas:', registrations);
             // Mapear registraciones a formato TournamentTeam
             if (this.tournament) {
               this.tournament.teams = registrations.map(reg => ({
@@ -51,6 +67,7 @@ export class DetailComponent implements OnInit {
               }));
             }
             this.loading = false;
+            console.log('Torneo completamente cargado:', this.tournament);
           },
           error: (err) => {
             console.error('Error loading registrations:', err);
