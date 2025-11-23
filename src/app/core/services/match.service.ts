@@ -48,7 +48,26 @@ export class MatchService {
    * @returns Observable con el partido creado
    */
   create(match: CreateMatchRequest): Observable<Match> {
-    return this.http.post<Match>(this.apiUrl, match)
+    // Extraer tournamentId del request
+    const tournamentId = match.tournamentId;
+    if (!tournamentId) {
+      return throwError(() => new Error('Tournament ID is required'));
+    }
+    
+    // Mapear campos del frontend al formato del backend
+    const backendRequest = {
+      teamHomeId: match.homeTeamId,
+      teamAwayId: match.awayTeamId,
+      scheduledDate: match.scheduledAt,
+      location: match.location,
+      roundName: match.roundName,
+      roundNumber: match.roundNumber,
+      matchNumber: match.matchNumber,
+      groupId: match.groupId,
+      refereeId: match.refereeId
+    };
+    
+    return this.http.post<Match>(`${environment.apiUrl}/tournaments/${tournamentId}/matches`, backendRequest)
       .pipe(catchError(this.handleError));
   }
 

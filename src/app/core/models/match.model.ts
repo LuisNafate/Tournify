@@ -105,12 +105,14 @@ export interface MatchWithDetails extends Match {
 export interface CreateMatchRequest {
   tournamentId: string;
   roundName?: string;
-  matchNumber: number;
+  roundNumber?: number;
+  matchNumber?: number;
   homeTeamId?: string;
   awayTeamId?: string;
   refereeId?: string;
   scheduledAt?: string;
   location?: string;
+  groupId?: string;
 }
 
 export interface UpdateMatchRequest {
