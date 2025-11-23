@@ -150,6 +150,22 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
     return words.map(w => w[0]).join('').substring(0, 2).toUpperCase();
   }
 
+  getSportName(): string {
+    if (!this.tournament?.sport) return '';
+    if (typeof this.tournament.sport === 'string') {
+      return this.tournament.sport;
+    }
+    return this.tournament.sport.name || '';
+  }
+
+  getOrganizerName(): string {
+    if (!this.tournament?.organizer) return '';
+    if (typeof this.tournament.organizer === 'string') {
+      return this.tournament.organizer;
+    }
+    return this.tournament.organizer.username || '';
+  }
+
   onImageError(event: any): void {
     // Ocultar imagen si falla la carga
     event.target.style.display = 'none';

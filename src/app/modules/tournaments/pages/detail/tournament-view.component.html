@@ -2,7 +2,7 @@
   <div class="tournament-banner">
     <img [src]="tournament.image" [alt]="tournament.name">
     <div class="banner-overlay">
-      <span class="organizer-badge">Organizador: {{ tournament.organizer }}</span>
+      <span class="organizer-badge">Organizador: {{ getOrganizerName() }}</span>
       <div class="banner-buttons">
         <!-- Botones para el organizador -->
         <ng-container *ngIf="isOrganizer()">
@@ -95,7 +95,7 @@
   <div class="tournament-info">
     <div class="info-item">
       <span class="label">Deporte:</span>
-      <span class="value">{{ tournament.sport }}</span>
+      <span class="value">{{ getSportName() }}</span>
     </div>
     <div class="info-item">
       <span class="label">Estado:</span>
@@ -103,15 +103,19 @@
     </div>
     <div class="info-item" *ngIf="tournament.startDate">
       <span class="label">Fecha inicio:</span>
-      <span class="value">{{ tournament.startDate }}</span>
+      <span class="value">{{ tournament.startDate | date:'short' }}</span>
     </div>
     <div class="info-item">
       <span class="label">Equipos:</span>
-      <span class="value">{{ tournament.enrolled }} / {{ tournament.maxTeams }}</span>
+      <span class="value">{{ tournament.currentTeams || (tournament.teams?.length || 0) }} / {{ tournament.maxTeams }}</span>
     </div>
-    <div class="info-item">
+    <div class="info-item" *ngIf="tournament.prizePool">
       <span class="label">Premio:</span>
-      <span class="value">{{ tournament.prize }}</span>
+      <span class="value">{{ tournament.prizePool }}</span>
+    </div>
+    <div class="info-item" *ngIf="tournament.location">
+      <span class="label">Ubicación:</span>
+      <span class="value">{{ tournament.location }}</span>
     </div>
     <div class="info-item" *ngIf="tournament.winner">
       <span class="label">Ganador:</span>
