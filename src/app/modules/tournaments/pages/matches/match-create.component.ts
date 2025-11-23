@@ -121,6 +121,8 @@ export class MatchCreateComponent implements OnInit {
       refereeId: formValue.refereeId || null
     };
 
+    console.log('Sending match data:', matchData);
+
     this.matchService.create(matchData).subscribe({
       next: (match) => {
         console.log('Match created:', match);
