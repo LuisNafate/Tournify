@@ -68,10 +68,21 @@ export class MatchCreateComponent implements OnInit {
   }
 
   loadTeams(): void {
-    // Cargar equipos desde el torneo
-    this.tournamentService.getTournamentById(this.tournamentId).subscribe({
-      next: (tournament: any) => {
-        this.teams = tournament.teams || [];
+    // Cargar equipos inscritos (registraciones aprobadas)
+    this.tournamentService.getRegistrations(this.tournamentId, 'approved').subscribe({
+      next: (registrations: any[]) => {
+        // Mapear registraciones a formato de equipo
+        this.teams = registrations.map(reg => ({
+          id: reg.teamId,
+          name: reg.teamName,
+          logoUrl: reg.teamLogoUrl
+        }));
+        
+        console.log('Equipos cargados:', this.teams);
+        
+        if (this.teams.length === 0) {
+          this.error = 'No hay equipos inscritos en este torneo. Por favor, inscribe equipos primero.';
+        }
       },
       error: (err: any) => {
         console.error('Error loading teams:', err);
