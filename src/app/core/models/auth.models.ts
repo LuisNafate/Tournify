@@ -14,6 +14,7 @@ export interface RegisterRequest {
   firstName: string;
   lastName: string;
   role: UserRole;
+  photoUrl?: string;
 }
 
 export interface AuthResponse {

@@ -31,6 +31,16 @@
       </div>
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+        <!-- Foto de perfil -->
+        <div class="form-group profile-picture-group">
+          <label>Foto de perfil (Opcional)</label>
+          <div class="profile-picture-container">
+            <img [src]="photoPreview || 'assets/images/default-avatar.png'" alt="Foto de perfil" class="profile-picture-preview">
+            <input type="file" #photoInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+            <button type="button" class="btn-change-photo" (click)="photoInput.click()">Cambiar Foto</button>
+          </div>
+        </div>
+
         <!-- Nombre de usuario -->
         <div class="form-group">
           <label for="username">Nombre de usuario *</label>
