@@ -123,11 +123,24 @@ export class TournamentService {
   }
 
   /**
-   * Crear un nuevo torneo
-   * POST /tournaments
+   * Crear un nuevo torneo con imagen
+   * POST /tournaments (multipart/form-data)
    */
-  createTournament(tournament: CreateTournamentRequest): Observable<Tournament> {
-    return this.http.post<Tournament>(this.apiUrl, tournament);
+  createTournament(data: CreateTournamentRequest, imageFile: File | null): Observable<Tournament> {
+    const formData = new FormData();
+
+    // 1. Agregamos el JSON en el campo 'data' (como espera el backend Ktor)
+    // Es importante hacer JSON.stringify porque formData solo acepta strings o blobs
+    formData.append('data', JSON.stringify(data));
+
+    // 2. Agregamos la imagen en el campo 'image' si existe
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+
+    // Nota: No establezcas el Content-Type header manualmente aquí.
+    // Angular/Navegador lo hará automáticamente con el boundary correcto para Multipart.
+    return this.http.post<Tournament>(this.apiUrl, formData);
   }
 
   /**
