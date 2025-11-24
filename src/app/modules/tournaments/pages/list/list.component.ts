@@ -72,28 +72,26 @@ export class ListComponent implements OnInit {
       next: (response: PaginatedResponse<Tournament>) => {
         let filteredTournaments = response.content;
 
-        // Si es organizador, aplicar filtros en el frontend
-        if (this.currentUser?.role === 'organizer') {
-          // Filtro por deporte
-          if (this.selectedSportId) {
-            filteredTournaments = filteredTournaments.filter(t => t.sportId === this.selectedSportId);
-          }
-          // Filtro por estado
-          if (this.selectedStatus) {
-            filteredTournaments = filteredTournaments.filter(t => t.status === this.selectedStatus);
-          }
-          // Filtro por tipo
-          if (this.selectedType) {
-            filteredTournaments = filteredTournaments.filter(t => t.tournamentType === this.selectedType);
-          }
-          // Filtro por búsqueda
-          if (this.searchTerm) {
-            const term = this.searchTerm.toLowerCase();
-            filteredTournaments = filteredTournaments.filter(t => 
-              t.name.toLowerCase().includes(term) || 
-              (t.description && t.description.toLowerCase().includes(term))
-            );
-          }
+        // Aplicar filtros en el frontend (aplica tanto a organizadores como a la vista de explorar)
+        // Filtro por deporte
+        if (this.selectedSportId) {
+          filteredTournaments = filteredTournaments.filter(t => t.sportId === this.selectedSportId);
+        }
+        // Filtro por estado
+        if (this.selectedStatus) {
+          filteredTournaments = filteredTournaments.filter(t => t.status === this.selectedStatus);
+        }
+        // Filtro por tipo
+        if (this.selectedType) {
+          filteredTournaments = filteredTournaments.filter(t => t.tournamentType === this.selectedType);
+        }
+        // Filtro por búsqueda
+        if (this.searchTerm) {
+          const term = this.searchTerm.toLowerCase();
+          filteredTournaments = filteredTournaments.filter(t => 
+            t.name.toLowerCase().includes(term) || 
+            (t.description && t.description.toLowerCase().includes(term))
+          );
         }
 
         this.tournaments = filteredTournaments;
