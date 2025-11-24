@@ -47,8 +47,9 @@ export class EditComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.tournamentId = id;
-      this.loadTournament(id);
+      // Cargar deportes primero, luego el torneo
       this.loadSports();
+      this.loadTournament(id);
     } else {
       this.error = 'ID de torneo no proporcionado';
     }
@@ -60,6 +61,8 @@ export class EditComponent implements OnInit {
 
     this.tournamentService.getTournamentById(id).subscribe({
       next: (tournament) => {
+        console.log('Torneo recibido del backend:', tournament);
+        
         // Verificar que el usuario actual sea el organizador
         const currentUser = this.authService.usuarioActualValue;
         if (tournament.organizerId !== currentUser?.id) {
@@ -70,13 +73,25 @@ export class EditComponent implements OnInit {
 
         // Cargar los datos del torneo, formateando las fechas para inputs datetime-local
         this.tournament = {
-          ...tournament,
+          name: tournament.name || '',
+          sportId: tournament.sportId || '',
+          sport: tournament.sportId || '', // Para el select del formulario
+          sportSubType: tournament.sportSubType || '',
+          tournamentType: tournament.tournamentType || '',
+          category: tournament.category || '',
+          eliminationMode: tournament.eliminationMode || '',
+          location: tournament.location || '',
           startDate: tournament.startDate ? this.formatDateForInput(tournament.startDate) : '',
           endDate: tournament.endDate ? this.formatDateForInput(tournament.endDate) : '',
           registrationDeadline: tournament.registrationDeadline
             ? this.formatDateForInput(tournament.registrationDeadline)
-            : ''
+            : '',
+          maxTeams: tournament.maxTeams || 16,
+          description: tournament.description || '',
+          rules: tournament.rulesText || tournament.rules || '',
+          prizePool: tournament.prizePool || ''
         };
+        console.log('Torneo cargado para edición:', this.tournament);
         this.loading = false;
       },
       error: (err) => {
@@ -91,6 +106,7 @@ export class EditComponent implements OnInit {
     this.sportService.getAll().subscribe({
       next: (sports: Sport[]) => {
         this.sports = sports;
+        console.log('Deportes cargados:', sports);
       },
       error: (err: any) => {
         console.error('Error loading sports:', err);
