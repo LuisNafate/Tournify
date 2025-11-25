@@ -344,7 +344,7 @@ export class CreateComponent implements OnInit {
       prizePool: this.tournament.registrationFee?.toString() || undefined,
       isPrivate: this.tournament.isPrivate,
       requiresApproval: this.tournament.requiresApproval,
-      accessCode: this.tournament.accessCode || undefined,
+      // accessCode removed — no longer used in the form
       hasGroupStage: this.tournament.hasGroupStage,
       numberOfGroups: this.tournament.hasGroupStage ? (this.tournament.numberOfGroups || undefined) : undefined,
       teamsPerGroup: this.tournament.hasGroupStage ? (this.tournament.teamsPerGroup || undefined) : undefined,
