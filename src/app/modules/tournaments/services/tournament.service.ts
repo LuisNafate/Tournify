@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import {
@@ -155,8 +156,10 @@ export class TournamentService {
    * Inscribir un equipo al torneo
    * POST /tournaments/{id}/join
    */
-  joinTournament(tournamentId: string, teamId: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/${tournamentId}/join`, { teamId });
+  joinTournament(tournamentId: string, teamId: string): Observable<HttpResponse<any>> {
+    // Devolver la respuesta completa para que el frontend pueda distinguir
+    // entre aprobación inmediata y solicitud pendiente según el backend.
+    return this.http.post<any>(`${this.apiUrl}/${tournamentId}/join`, { teamId }, { observe: 'response' });
   }
 
   /**
