@@ -33,6 +33,7 @@
   <div *ngIf="!loading && !error" class="tournaments-container">
     <div *ngFor="let tournament of tournaments" class="tournament-card">
       <div class="tournament-header">
+        <div class="tournament-thumb" [style.backgroundImage]="'url(' + (tournament.imageUrl || tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
         <div class="tournament-info">
           <h3 class="tournament-name">{{ tournament.name }}</h3>
           <p class="tournament-organizer">

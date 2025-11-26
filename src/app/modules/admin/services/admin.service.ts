@@ -29,6 +29,8 @@ export interface TournamentListItem {
   currentTeams: number;
   maxTeams: number;
   createdAt: string;
+  bannerUrl?: string | null;
+  imageUrl?: string | null;
 }
 
 @Injectable({
