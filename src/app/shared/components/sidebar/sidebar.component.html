@@ -1,43 +1,83 @@
 <aside class="sidebar">
   <nav class="sidebar-nav">
     <a routerLink="/dashboard" routerLinkActive="active" 
-       [routerLinkActiveOptions]="{exact: true}">
-       <span>🏠 Inicio</span>
+       [routerLinkActiveOptions]="{exact: true}" class="nav-link">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Inicio</span>
     </a>
 
     <!-- Opciones para Jugadores -->
     <ng-container *ngIf="isPlayer()">
-      <a routerLink="/tournaments/list" routerLinkActive="active">
-         <span>🏆 Explorar Torneos</span>
+      <a routerLink="/tournaments/list" routerLinkActive="active" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span>Explorar Torneos</span>
       </a>
-      <a routerLink="/teams/my-teams" routerLinkActive="active">
-         <span>👥 Mis Equipos</span>
+      <a routerLink="/teams/my-teams" routerLinkActive="active" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>Mis Equipos</span>
       </a>
-      <a routerLink="/dashboard/profile" routerLinkActive="active">
-         <span>👤 Mi Perfil</span>
+      <a routerLink="/dashboard/profile" routerLinkActive="active" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Mi Perfil</span>
       </a>
     </ng-container>
 
     <!-- Opciones para Organizadores -->
     <ng-container *ngIf="isOrganizer()">
-      <a routerLink="/tournaments/create" routerLinkActive="active">
-         <span>➕ Crear Torneo</span>
+      <a routerLink="/tournaments/create" routerLinkActive="active" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Crear Torneo</span>
       </a>
-      <a routerLink="/tournaments/list" routerLinkActive="active">
-         <span>🏆 Mis Torneos</span>
+      <a routerLink="/tournaments/list" routerLinkActive="active" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span>Mis Torneos</span>
       </a>
-      <a routerLink="/dashboard/profile" routerLinkActive="active">
-         <span>👤 Mi Perfil</span>
+      <a routerLink="/dashboard/profile" routerLinkActive="active" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Mi Perfil</span>
       </a>
     </ng-container>
 
     <!-- Opciones para Árbitros -->
     <ng-container *ngIf="isReferee()">
-      <a routerLink="/tournaments/list" routerLinkActive="active">
-         <span>⚽ Torneos Asignados</span>
+      <a routerLink="/tournaments/list" routerLinkActive="active" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+        <span>Torneos Asignados</span>
       </a>
-      <a routerLink="/dashboard/profile" routerLinkActive="active">
-         <span>👤 Mi Perfil</span>
+      <a routerLink="/dashboard/profile" routerLinkActive="active" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Mi Perfil</span>
       </a>
     </ng-container>
   </nav>

@@ -6,84 +6,89 @@
 .create-tournament-page {
   display: flex;
   min-height: 100vh;
-  background-color: #000000;
-  background-image:
-    radial-gradient(circle at top left, rgba(139, 92, 246, 0.12) 0%, transparent 35%),
-    radial-gradient(circle at bottom right, rgba(79, 70, 229, 0.12) 0%, transparent 35%);
+  background: #0a0e27;
+  padding-top: 65px; /* Espacio para el navbar */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* ========== SIDEBAR ========== */
 .sidebar {
-  width: 280px;
-  background: linear-gradient(180deg, rgba(15, 18, 42, 0.95) 0%, rgba(10, 14, 39, 0.98) 100%);
-  border-right: 1px solid rgba(139, 92, 246, 0.15);
-  display: flex;
-  flex-direction: column;
-  backdrop-filter: blur(10px);
+  width: 250px;
+  background: rgba(15, 23, 42, 0.8);
+  border-right: 1px solid rgba(139, 92, 246, 0.2);
+  padding: 1.25rem 0;
+  position: fixed;
+  top: 65px;
+  height: calc(100vh - 65px);
+  overflow-y: auto;
 }
 
 .sidebar-nav {
-  flex: 1;
-  padding: 1.5rem 0;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 1rem;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.7rem 1rem;
-  color: #94a3b8;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  border-radius: 8px;
   transition: all 0.2s;
+  font-weight: 500;
 }
 
 .nav-link:hover {
-  background: rgba(139, 92, 246, 0.08);
-  color: #ffffff;
+  background: rgba(139, 92, 246, 0.1);
+  color: #c4b5fd;
 }
 
 .nav-link.active {
-  background: rgba(139, 92, 246, 0.12);
+  background: rgba(139, 92, 246, 0.2);
   color: #ffffff;
   border-left: 3px solid #8b5cf6;
 }
 
 .nav-icon {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
 }
 
 /* ========== MAIN CONTAINER ========== */
 .main-container {
+  margin-left: 250px;
   flex: 1;
+  padding: 2rem;
+  max-width: calc(100% - 250px);
   overflow-y: auto;
-  padding: 1.5rem 2rem;
-  background: transparent;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .breadcrumb {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.8125rem;
-  color: #94a3b8;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .breadcrumb a {
   color: #8b5cf6;
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 .breadcrumb a:hover {
@@ -91,11 +96,12 @@
 }
 
 .separator {
-  color: #475569;
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .current {
-  color: #e2e8f0;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
 }
 
 .btn-new {
