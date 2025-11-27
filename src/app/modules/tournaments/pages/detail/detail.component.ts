@@ -23,7 +23,6 @@ export class DetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Suscribirse a cambios en los parámetros de la ruta
     this.routeSubscription = this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
@@ -49,6 +48,8 @@ export class DetailComponent implements OnInit, OnDestroy {
       next: (tournament: TournamentWithDetails) => {
         console.log('Torneo cargado desde el servidor:', tournament);
         this.tournament = tournament;
+        // Actualizar el título de la página
+        document.title = `${tournament.name} - Tournify`;
         
         // Cargar registraciones aprobadas (equipos inscritos)
         this.tournamentService.getRegistrations(id, 'approved').subscribe({
