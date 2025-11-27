@@ -20,7 +20,7 @@
         
         <div class="user-dropdown" (click)="toggleDropdown()">
           <div class="user-info">
-            <img src="assets/images/Avatar.png" alt="Avatar" class="profile-avatar" />
+            <img [src]="user.avatarUrl || 'assets/images/Avatar.png'" alt="Avatar" class="profile-avatar" />
             <div class="user-details">
               <span class="profile-name">{{ user.firstName || user.username }}</span>
               <span class="profile-role">{{ getRoleLabel(user.role) }}</span>
