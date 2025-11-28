@@ -157,4 +157,13 @@ export class MatchesListComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/tournaments/detail', this.tournamentId]);
   }
+
+  getTeamInitials(teamName: string | null | undefined): string {
+    if (!teamName) return 'TBD';
+    const words = teamName.trim().split(' ');
+    if (words.length === 1) {
+      return teamName.substring(0, 2).toUpperCase();
+    }
+    return words.slice(0, 2).map(word => word.charAt(0)).join('').toUpperCase();
+  }
 }
