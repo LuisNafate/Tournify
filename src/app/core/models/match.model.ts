@@ -92,6 +92,9 @@ export interface MatchWithDetails extends Match {
     name: string;
     logoUrl?: string;
   };
+  // Propiedades alternativas que viene del backend
+  homeTeamName?: string;
+  awayTeamName?: string;
   referee?: {
     id: string;
     username: string;
