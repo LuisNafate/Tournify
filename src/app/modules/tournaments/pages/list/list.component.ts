@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Tournament } from '../../../../core/models/tournament.model'; // Importamos nuestro modelo
+import { TournamentLegacy } from '../../../../core/models/legacy.types'; // Importamos el tipo legacy
 
 // Componente para listar torneos
 @Component({
@@ -10,7 +10,7 @@ import { Tournament } from '../../../../core/models/tournament.model'; // Import
 export class ListComponent {
 
   // Aquí creamos la lista de torneos
-  tournaments: Tournament[] = [
+  tournaments: TournamentLegacy[] = [
     {
       id: '1',
       name: 'Copa Primavera 2024',
