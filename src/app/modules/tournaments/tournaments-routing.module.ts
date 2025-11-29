@@ -12,6 +12,7 @@ import { MatchUpdateResultComponent } from './pages/matches/match-update-result.
 import { MatchCreateComponent } from './pages/matches/match-create.component';
 import { BracketComponent } from './pages/bracket/bracket.component';
 import { RegistrationsComponent } from './pages/registrations/registrations.component';
+import { GroupsComponent } from './pages/groups/groups.component';
 import { AuthGuard } from '../../core/guards/auth.guard';
 
 // Rutas del módulo tournaments
@@ -46,6 +47,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: ':tournamentId/bracket', component: BracketComponent },
+  // Ruta de grupos
+  { path: ':tournamentId/groups', component: GroupsComponent },
   { path: 'matches/:id', component: MatchDetailComponent },
   {
     path: 'matches/:id/update',

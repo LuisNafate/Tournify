@@ -1,0 +1,116 @@
+<section class="groups-page">
+  <div class="page-header">
+    <h2>Fase de Grupos</h2>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando grupos...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="btn-retry" (click)="loadGroups()">Reintentar</button>
+  </div>
+
+  <!-- Groups Display -->
+  <div *ngIf="!loading && !error && groupsData" class="groups-container">
+
+    <!-- Empty State -->
+    <div *ngIf="groupsData.totalGroups === 0" class="empty-state">
+      <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/>
+        <rect x="14" y="3" width="7" height="7"/>
+        <rect x="14" y="14" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/>
+      </svg>
+      <h3>No hay grupos configurados</h3>
+      <p>Este torneo aún no tiene grupos creados.</p>
+    </div>
+
+    <!-- Groups Grid -->
+    <div *ngIf="groupsData.totalGroups > 0" class="groups-grid">
+      <div *ngFor="let groupData of groupsData.groups" class="group-card">
+
+        <!-- Group Header -->
+        <div class="group-header">
+          <h3 class="group-name">{{ groupData.group.name }}</h3>
+          <span class="teams-count">{{ groupData.standings.length }} equipos</span>
+        </div>
+
+        <!-- Standings Table -->
+        <div class="standings-table">
+          <table>
+            <thead>
+              <tr>
+                <th class="col-position">Pos</th>
+                <th class="col-team">Equipo</th>
+                <th class="col-stat">PJ</th>
+                <th class="col-stat">G</th>
+                <th class="col-stat">E</th>
+                <th class="col-stat">P</th>
+                <th class="col-stat">GF</th>
+                <th class="col-stat">GC</th>
+                <th class="col-stat">DG</th>
+                <th class="col-points">Pts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let standing of groupData.standings"
+                  [class.first-place]="standing.position === 1"
+                  [class.qualified]="standing.position <= 2">
+                <td class="col-position">
+                  <span class="position-badge">{{ standing.position }}</span>
+                </td>
+                <td class="col-team">
+                  <div class="team-info">
+                    <div class="team-logo" [class.has-image]="getTeamLogo(standing)">
+                      <img
+                        *ngIf="getTeamLogo(standing)"
+                        [src]="getTeamLogo(standing)"
+                        [alt]="getTeamName(standing)">
+                      <span *ngIf="!getTeamLogo(standing)" class="team-initials">
+                        {{ getTeamInitials(getTeamName(standing)) }}
+                      </span>
+                    </div>
+                    <span class="team-name">{{ getTeamName(standing) }}</span>
+                  </div>
+                </td>
+                <td class="col-stat">{{ standing.played }}</td>
+                <td class="col-stat stat-wins">{{ standing.won }}</td>
+                <td class="col-stat">{{ standing.drawn }}</td>
+                <td class="col-stat stat-losses">{{ standing.lost }}</td>
+                <td class="col-stat">{{ standing.goalsFor }}</td>
+                <td class="col-stat">{{ standing.goalsAgainst }}</td>
+                <td class="col-stat" [class.positive]="standing.goalDifference > 0"
+                    [class.negative]="standing.goalDifference < 0">
+                  {{ standing.goalDifference > 0 ? '+' : '' }}{{ standing.goalDifference }}
+                </td>
+                <td class="col-points">
+                  <span class="points-badge">{{ standing.points }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty standings -->
+        <div *ngIf="groupData.standings.length === 0" class="empty-standings">
+          <p>No hay equipos en este grupo</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div *ngIf="groupsData.totalGroups > 0" class="legend">
+      <div class="legend-item">
+        <span class="legend-color qualified"></span>
+        <span class="legend-text">Clasifican a siguiente fase</span>
+      </div>
+    </div>
+
+  </div>
+</section>

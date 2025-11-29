@@ -69,6 +69,21 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
+  viewGroups(): void {
+    if (this.tournament) {
+      this.router.navigate(['/tournaments', this.tournament.id, 'groups']);
+    }
+  }
+
+  hasGroups(): boolean {
+    // Mostrar botón de grupos si:
+    // 1. El torneo es de tipo 'hybrid' (tiene fase de grupos)
+    // 2. O si tiene configuración de grupos
+    return this.tournament?.tournamentType === 'hybrid' ||
+           this.tournament?.tournamentType === 'league' ||
+           (this.tournament?.groupConfig && this.tournament.groupConfig.numGroups > 0);
+  }
+
   manageRegistrations(): void {
     if (this.tournament) {
       this.router.navigate(['/tournaments', this.tournament.id, 'registrations']);
