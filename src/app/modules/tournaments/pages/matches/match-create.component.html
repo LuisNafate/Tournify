@@ -114,6 +114,21 @@
             placeholder="Ej: Estadio Municipal">
         </div>
       </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="refereeId">Árbitro Asignado</label>
+          <select 
+            id="refereeId" 
+            formControlName="refereeId">
+            <option value="">Sin árbitro asignado</option>
+            <option *ngFor="let referee of referees" [value]="referee.id">
+              {{ referee.firstName }} {{ referee.lastName }} ({{ referee.username }})
+            </option>
+          </select>
+          <small class="form-help">Opcional: Asigna un árbitro para este partido</small>
+        </div>
+      </div>
     </div>
 
     <!-- Botones -->
