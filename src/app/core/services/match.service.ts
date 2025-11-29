@@ -53,20 +53,25 @@ export class MatchService {
     if (!tournamentId) {
       return throwError(() => new Error('Tournament ID is required'));
     }
-    
-    // Mapear campos del frontend al formato del backend
-    const backendRequest = {
-      teamHomeId: match.homeTeamId,
-      teamAwayId: match.awayTeamId,
-      scheduledDate: match.scheduledAt,
-      location: match.location,
-      roundName: match.roundName,
-      roundNumber: match.roundNumber,
-      matchNumber: match.matchNumber,
-      groupId: match.groupId,
-      refereeId: match.refereeId
+
+    // Preparar request para el backend
+    // Enviamos los datos tal cual, el backend debe manejar estos nombres
+    const backendRequest: any = {
+      homeTeamId: match.homeTeamId,
+      awayTeamId: match.awayTeamId,
+      matchNumber: match.matchNumber
     };
-    
+
+    // Campos opcionales
+    if (match.scheduledAt) backendRequest.scheduledAt = match.scheduledAt;
+    if (match.location) backendRequest.location = match.location;
+    if (match.roundName) backendRequest.roundName = match.roundName;
+    if (match.roundNumber) backendRequest.roundNumber = match.roundNumber;
+    if (match.groupId) backendRequest.groupId = match.groupId;
+    if (match.refereeId) backendRequest.refereeId = match.refereeId;
+
+    console.log('MatchService: Sending to backend:', backendRequest);
+
     return this.http.post<Match>(`${environment.apiUrl}/tournaments/${tournamentId}/matches`, backendRequest)
       .pipe(catchError(this.handleError));
   }
