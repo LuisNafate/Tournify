@@ -22,7 +22,8 @@ export class AuthService {
         id: 'user-123',
         username: 'Luvia Magali Hidalgo',
         email: email,
-        role: 'organizer'
+        role: 'organizer',
+        createdAt: new Date().toISOString()
       };
       this.usuarioActualSubject.next(fakeUser);
       return of(fakeUser);
@@ -40,7 +41,8 @@ export class AuthService {
       id: 'user-456',
       username: 'Luis Alberto Nafate',
       email: email,
-      role: role
+      role: role,
+      createdAt: new Date().toISOString()
     };
      this.router.navigate(['/tournaments/list']);
     this.usuarioActualSubject.next(fakeUser);
