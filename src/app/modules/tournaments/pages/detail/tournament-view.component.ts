@@ -90,6 +90,12 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
+  manageReferees(): void {
+    if (this.tournament) {
+      this.router.navigate(['/tournaments', this.tournament.id, 'referees']);
+    }
+  }
+
   onFollowClick(): void {
     this.followToggle.emit();
   }

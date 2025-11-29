@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Tournament } from '../../../../core/models/tournament.model';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TournamentService } from '../../../../core/services/tournament.service';
+import { RefereeService } from '../../../../core/services/referee.service';
+import { MatchService } from '../../../../core/services/match.service';
 import { User } from '../../../../core/models/user.model';
+import { MatchWithDetails } from '../../../../core/models/match.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,12 +17,15 @@ export class DashboardComponent implements OnInit {
   currentUser: User | null = null;
   tournaments: Tournament[] = [];
   myTournaments: Tournament[] = [];
+  refereeMatches: MatchWithDetails[] = [];
   loading = false;
   error: string | null = null;
 
   constructor(
     private tournamentService: TournamentService,
-    private authService: AuthService
+    private authService: AuthService,
+    private refereeService: RefereeService,
+    private matchService: MatchService
   ) {}
 
   ngOnInit(): void {
@@ -81,10 +87,18 @@ export class DashboardComponent implements OnInit {
   }
 
   loadRefereeTournaments(): void {
-    // Torneos en los que el árbitro está asignado
-    // TODO: Implementar GET /tournaments/assigned en el backend cuando se implemente la funcionalidad de árbitros
-    this.tournaments = [];
-    this.loading = false;
+    // Obtener partidos asignados al árbitro
+    this.refereeService.getMyMatches().subscribe({
+      next: (matches) => {
+        this.refereeMatches = matches;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading referee matches:', err);
+        this.refereeMatches = [];
+        this.loading = false;
+      }
+    });
   }
 
   isPlayer(): boolean {
