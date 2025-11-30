@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   loginError: string | null = null;
+  isLoading: boolean = false;
+  showPassword: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -33,10 +35,12 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     const { email, password } = this.loginForm.value;
-    this.authService.login(email, password).subscribe(
-      {
+    
+    this.authService.login(email, password).subscribe({
       next: () => {
+        this.isLoading = false;
         // Verificar si hay una URL de retorno guardada
         const returnUrl = sessionStorage.getItem('returnUrl');
 
@@ -51,9 +55,25 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.loginError = err.message || 'Correo o contraseña incorrectos. Inténtalo de nuevo.';
+        this.isLoading = false;
+        console.error('Error en login:', err);
+        if (err.status === 401) {
+          this.loginError = 'Correo o contraseña incorrectos.';
+        } else if (err.status === 0) {
+          this.loginError = 'No se pudo conectar con el servidor. Verifica tu conexión.';
+        } else {
+          this.loginError = err.error?.message || 'Error al iniciar sesión. Inténtalo de nuevo.';
+        }
       }
-    }
-    );
+    });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  hasError(field: string, error: string): boolean {
+    const control = this.loginForm.get(field);
+    return !!(control && control.hasError(error) && control.touched);
   }
 }

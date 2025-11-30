@@ -15,18 +15,33 @@
 
     <div class="navbar-actions">
       <div *ngIf="usuarioActual$ | async as user; else loggedOut" class="profile-menu">
-        
-        <img src="assets/images/Avatar.png" alt="Avatar" class="profile-avatar" />
-        <span class="profile-name">{{ user.username }}</span>
-        
-        <button (click)="logout()" class="btn-logout">Cerrar sesión</button>
-
+        <div class="user-info">
+          <img src="assets/images/Avatar.png" alt="Avatar" class="profile-avatar" />
+          <div class="user-details">
+            <span class="profile-name">{{ user.firstName || user.username }}</span>
+            <span class="profile-role">{{ getRoleLabel(user.role) }}</span>
+          </div>
+        </div>
+        <button (click)="logout()" class="btn-logout">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Salir
+        </button>
       </div>
 
       <ng-template #loggedOut>
-        <a routerLink="/auth/login" class="btn-login">Inicio de sesión</a>
+        <a routerLink="/auth/login" class="btn-login">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+          Iniciar sesión
+        </a>
       </ng-template>
-
     </div>
   </div>
 </nav>

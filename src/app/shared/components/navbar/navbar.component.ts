@@ -14,11 +14,19 @@ export class NavbarComponent {
   public usuarioActual$: Observable<User | null>;
 
   constructor(private authService: AuthService) {
-
     this.usuarioActual$ = this.authService.usuarioActual$;
   }
 
   logout(): void {
     this.authService.logout();
+  }
+
+  getRoleLabel(role: string): string {
+    const roleLabels: { [key: string]: string } = {
+      'player': 'Jugador',
+      'organizer': 'Organizador',
+      'referee': 'Árbitro'
+    };
+    return roleLabels[role] || role;
   }
 }

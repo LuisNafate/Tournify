@@ -13,6 +13,7 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   registerError: string | null = null;
   isLoading = false;
+  showPassword = false;
 
   // Opciones de rol
   roles: { value: UserRole; label: string }[] = [
@@ -76,12 +77,23 @@ export class RegisterComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
-        this.registerError = err.message || 'Error al registrar usuario. Inténtalo de nuevo.';
+        console.error('Error en registro:', err);
+        if (err.status === 409) {
+          this.registerError = 'El correo o nombre de usuario ya están en uso.';
+        } else if (err.status === 0) {
+          this.registerError = 'No se pudo conectar con el servidor. Verifica tu conexión.';
+        } else {
+          this.registerError = err.error?.message || 'Error al registrar. Inténtalo de nuevo.';
+        }
       },
       complete: () => {
         this.isLoading = false;
       }
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   /**
