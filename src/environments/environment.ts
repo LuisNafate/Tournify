@@ -3,7 +3,7 @@
  */
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8081', // URL del backend Ktor
+  apiUrl: 'http://localhost:8081', // URL del backend Ktor (sin /api)
   tokenKey: 'tournify_token',
   userKey: 'tournify_user'
 };

@@ -10,36 +10,40 @@
   <div class="tournaments-grid">
 
     <div class="tournament-card" *ngFor="let tournament of tournaments">
-      
-      <div class="card-image" [style.backgroundImage]="'url(' + tournament.imageUrl + ')'"></div>
-      
+
+      <div class="card-image" [style.backgroundImage]="'url(' + (tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
+
       <div class="card-content">
         <div class="card-header">
           <h3 class="tournament-title">{{ tournament.name }}</h3>
-          
+
           <span class="status-badge" [ngClass]="{
             'status-active': tournament.status === 'ongoing',
-            'status-upcoming': tournament.status === 'upcoming',
+            'status-upcoming': tournament.status === 'upcoming' || tournament.status === 'registration',
             'status-finished': tournament.status === 'finished'
           }">
-            {{ tournament.status === 'ongoing' ? 'Activo' : (tournament.status === 'upcoming' ? 'Próximo' : 'Finalizado') }}
+            {{ tournament.status === 'ongoing' ? 'Activo' : (tournament.status === 'upcoming' || tournament.status === 'registration' ? 'Próximo' : 'Finalizado') }}
           </span>
         </div>
-        
-        <p class="tournament-meta">{{ tournament.sportType }} • {{ tournament.maxTeams }} equipos</p>
-        
+
+        <p class="tournament-meta">{{ tournament.tournamentType === 'league' ? 'Liga' : (tournament.tournamentType === 'elimination' ? 'Eliminación' : 'Híbrido') }} • {{ tournament.maxTeams }} equipos</p>
+
         <div class="card-details">
-          <div class="detail-item">
+          <div class="detail-item" *ngIf="tournament.startDate">
             <span class="detail-label">Fecha inicio:</span>
-            <span class="detail-value">{{ tournament.startDate }}</span>
+            <span class="detail-value">{{ tournament.startDate | date:'dd/MM/yyyy' }}</span>
           </div>
           <div class="detail-item">
             <span class="detail-label">Inscritos:</span>
-            <span class="detail-value">{{ tournament.participants }} / {{ tournament.maxTeams }}</span>
+            <span class="detail-value">{{ tournament.currentTeams }} / {{ tournament.maxTeams }}</span>
           </div>
-          <div class="detail-item">
+          <div class="detail-item" *ngIf="tournament.prizePool">
             <span class="detail-label">Premio:</span>
-            <span class="detail-value">{{ tournament.prize }}</span>
+            <span class="detail-value">{{ tournament.prizePool }}</span>
+          </div>
+          <div class="detail-item" *ngIf="tournament.location">
+            <span class="detail-label">Ubicación:</span>
+            <span class="detail-value">{{ tournament.location }}</span>
           </div>
         </div>
 
