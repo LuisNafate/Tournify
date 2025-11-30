@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import {
   Tournament,
@@ -33,7 +34,7 @@ export class TournamentService {
 
     if (filters) {
       if (filters.page !== undefined) {
-        params = params.set('page', filters.page.toString());
+        params = params.set('page', (filters.page + 1).toString()); // Backend usa páginas base 1
       }
       if (filters.limit !== undefined) {
         params = params.set('size', filters.limit.toString());
@@ -61,7 +62,20 @@ export class TournamentService {
       }
     }
 
-    return this.http.get<PaginatedResponse<Tournament>>(this.apiUrl, { params });
+    return this.http.get<Tournament[]>(this.apiUrl, { params }).pipe(
+      map((tournaments: Tournament[]) => {
+        // Adaptar el array a la estructura de paginación esperada
+        const page = filters?.page || 0;
+        const size = filters?.limit || 10;
+        return {
+          content: tournaments,
+          page: page,
+          size: size,
+          totalElements: tournaments.length,
+          totalPages: 1 // Sin información real de paginación del backend
+        };
+      })
+    );
   }
 
   /**
