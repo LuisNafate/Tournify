@@ -22,7 +22,7 @@
         <div class="team-initials">{{ (match.homeTeam?.name || match.homeTeamName || 'EL').substring(0, 2).toUpperCase() }}</div>
       </div>
       <h2 class="team-name">{{ match.homeTeam?.name || match.homeTeamName || 'Equipo Local' }}</h2>
-      <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
+      <div class="score" *ngIf="match.status === 'finished' || match.status === 'live'">
         {{ match.scoreHome ?? 0 }}
       </div>
       <span class="winner-badge" *ngIf="getWinnerIndicator(match.homeTeam?.id)">
@@ -45,7 +45,7 @@
         <div class="team-initials">{{ (match.awayTeam?.name || match.awayTeamName || 'EV').substring(0, 2).toUpperCase() }}</div>
       </div>
       <h2 class="team-name">{{ match.awayTeam?.name || match.awayTeamName || 'Equipo Visitante' }}</h2>
-      <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
+      <div class="score" *ngIf="match.status === 'finished' || match.status === 'live'">
         {{ match.scoreAway ?? 0 }}
       </div>
       <span class="winner-badge" *ngIf="getWinnerIndicator(match.awayTeam?.id)">

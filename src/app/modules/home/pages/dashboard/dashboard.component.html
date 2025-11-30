@@ -145,10 +145,10 @@
           <span class="tournament-name">{{ match.tournament?.name || match.tournamentName || 'Torneo' }}</span>
           <span class="match-status" [ngClass]="{
             'status-scheduled': match.status === 'scheduled',
-            'status-ongoing': match.status === 'ongoing',
+            'status-ongoing': match.status === 'live',
             'status-finished': match.status === 'finished'
           }">
-            {{ match.status === 'scheduled' ? 'Programado' : (match.status === 'ongoing' ? 'En Vivo' : 'Finalizado') }}
+            {{ match.status === 'scheduled' ? 'Programado' : (match.status === 'live' ? 'En Vivo' : 'Finalizado') }}
           </span>
         </div>
         

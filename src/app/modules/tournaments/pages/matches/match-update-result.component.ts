@@ -19,7 +19,7 @@ export class MatchUpdateResultComponent implements OnInit {
 
   statusOptions = [
     { value: 'scheduled', label: 'Programado' },
-    { value: 'ongoing', label: 'En Vivo' },
+    { value: 'live', label: 'En Vivo' },
     { value: 'finished', label: 'Finalizado' },
     { value: 'postponed', label: 'Pospuesto' },
     { value: 'cancelled', label: 'Cancelado' }
@@ -117,9 +117,9 @@ export class MatchUpdateResultComponent implements OnInit {
 
     this.matchService.start(this.matchId).subscribe({
       next: () => {
-        this.updateForm.patchValue({ status: 'ongoing' as MatchStatus });
+        this.updateForm.patchValue({ status: 'live' as MatchStatus });
         if (this.match) {
-          this.match.status = 'ongoing';
+          this.match.status = 'live';
         }
       },
       error: (err) => {
