@@ -15,8 +15,10 @@ import { AuthService } from '../../../../core/services/auth.service';
 export class JoinComponent implements OnInit {
   joinForm!: FormGroup;
   tournament: any;
-  tournamentId!: number;
+  tournamentId!: string;
   isAuthenticated: boolean = false;
+  loading = false;
+  error: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -28,8 +30,11 @@ export class JoinComponent implements OnInit {
 
   ngOnInit(): void {
     // Obtener el ID del torneo desde la URL
-    this.tournamentId = Number(this.route.snapshot.paramMap.get('id'));
-    this.tournament = this.tournamentService.getTournamentById(this.tournamentId);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.tournamentId = id;
+      this.loadTournament(id);
+    }
 
     // Verificar si el usuario está autenticado
     this.isAuthenticated = !!this.authService.usuarioActualValue;
@@ -54,10 +59,26 @@ export class JoinComponent implements OnInit {
     }
   }
 
+  loadTournament(id: string): void {
+    this.loading = true;
+    this.error = null;
+
+    this.tournamentService.getTournamentById(id).subscribe({
+      next: (tournament) => {
+        this.tournament = tournament;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading tournament:', err);
+        this.error = 'Error al cargar el torneo.';
+        this.loading = false;
+      }
+    });
+  }
+
   onSubmit(): void {
     if (!this.isAuthenticated) {
       alert('Debes iniciar sesión para unirte a un torneo');
-      // Guardar la URL actual para volver después del login
       sessionStorage.setItem('returnUrl', `/tournaments/join/${this.tournamentId}`);
       this.router.navigate(['/auth/login']);
       return;
@@ -68,7 +89,6 @@ export class JoinComponent implements OnInit {
       return;
     }
 
-    // Aquí iría la lógica para enviar la solicitud al backend
     console.log('Solicitud de registro:', {
       tournamentId: this.tournamentId,
       ...this.joinForm.value
