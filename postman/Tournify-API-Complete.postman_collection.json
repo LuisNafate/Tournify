@@ -296,6 +296,154 @@
             "description": "Obtiene información de un usuario específico por su ID"
           },
           "response": []
+        },
+        {
+          "name": "Switch User Role",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.environment.set('auth_token', jsonData.token);",
+                  "    pm.environment.set('user_role', jsonData.user.role);",
+                  "    console.log('Rol cambiado exitosamente a:', jsonData.user.role);",
+                  "    console.log('Nuevo token guardado');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"organizer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me/switch-role",
+              "host": ["{{base_url}}"],
+              "path": ["users", "me", "switch-role"]
+            },
+            "description": "Cambia el rol del usuario autenticado. Valores válidos: player, organizer, referee. Retorna un nuevo token JWT con el rol actualizado."
+          },
+          "response": []
+        },
+        {
+          "name": "Switch to Player Role",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.environment.set('auth_token', jsonData.token);",
+                  "    pm.environment.set('user_role', jsonData.user.role);",
+                  "    console.log('Rol cambiado a PLAYER');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"player\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me/switch-role",
+              "host": ["{{base_url}}"],
+              "path": ["users", "me", "switch-role"]
+            },
+            "description": "Cambia el rol del usuario a PLAYER"
+          },
+          "response": []
+        },
+        {
+          "name": "Switch to Referee Role",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.environment.set('auth_token', jsonData.token);",
+                  "    pm.environment.set('user_role', jsonData.user.role);",
+                  "    console.log('Rol cambiado a REFEREE');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"referee\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me/switch-role",
+              "host": ["{{base_url}}"],
+              "path": ["users", "me", "switch-role"]
+            },
+            "description": "Cambia el rol del usuario a REFEREE"
+          },
+          "response": []
         }
       ]
     },

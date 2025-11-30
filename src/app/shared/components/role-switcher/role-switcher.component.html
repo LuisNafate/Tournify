@@ -1,0 +1,52 @@
+<div class="role-switcher">
+  <button 
+    class="role-button" 
+    (click)="toggleDropdown()"
+    [disabled]="isChanging"
+    title="Cambiar de rol">
+    <span class="role-icon">{{ getCurrentRoleIcon() }}</span>
+    <span class="role-label">{{ getCurrentRoleLabel() }}</span>
+    <svg 
+      class="dropdown-icon" 
+      [class.rotate]="showDropdown"
+      width="16" 
+      height="16" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
+
+  <div class="dropdown-menu" *ngIf="showDropdown">
+    <div class="dropdown-header">
+      <span>Cambiar a:</span>
+    </div>
+    <button 
+      *ngFor="let role of roles"
+      class="dropdown-item"
+      [class.active]="role.value === currentRole"
+      [disabled]="role.value === currentRole || isChanging"
+      (click)="onRoleClick(role.value)">
+      <span class="item-icon">{{ role.icon }}</span>
+      <span class="item-label">{{ role.label }}</span>
+      <svg 
+        *ngIf="role.value === currentRole" 
+        class="check-icon" 
+        width="16" 
+        height="16" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-width="2">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </button>
+  </div>
+
+  <div class="loading-overlay" *ngIf="isChanging">
+    <div class="spinner"></div>
+    <span>Cambiando rol...</span>
+  </div>
+</div>

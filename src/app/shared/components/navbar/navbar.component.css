@@ -139,6 +139,11 @@
   gap: 1rem;
 }
 
+/* Contenedor del role-switcher */
+.profile-menu app-role-switcher {
+  display: block;
+}
+
 .user-info {
   display: flex;
   align-items: center;

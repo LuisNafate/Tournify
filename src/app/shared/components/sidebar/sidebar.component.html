@@ -2,15 +2,40 @@
   <nav class="sidebar-nav">
     <a routerLink="/dashboard" routerLinkActive="active" 
        [routerLinkActiveOptions]="{exact: true}">
-       <span>Inicio</span>
+       <span>🏠 Inicio</span>
     </a>
-    <a routerLink="/tournaments/list" routerLinkActive="active">
-       <span>Torneos</span>
-    </a>
-    <a routerLink="/tournaments/create" routerLinkActive="active">
-       <span>Crear Torneo</span>
-    </a>
-    <a routerLink="/dashboard/profile" routerLinkActive="active"> <span>Mi Perfil</span>
-    </a>
+
+    <!-- Opciones para Jugadores -->
+    <ng-container *ngIf="isPlayer()">
+      <a routerLink="/tournaments/list" routerLinkActive="active">
+         <span>🏆 Explorar Torneos</span>
+      </a>
+      <a routerLink="/dashboard/profile" routerLinkActive="active">
+         <span>👤 Mi Perfil</span>
+      </a>
+    </ng-container>
+
+    <!-- Opciones para Organizadores -->
+    <ng-container *ngIf="isOrganizer()">
+      <a routerLink="/tournaments/create" routerLinkActive="active">
+         <span>➕ Crear Torneo</span>
+      </a>
+      <a routerLink="/tournaments/list" routerLinkActive="active">
+         <span>🏆 Mis Torneos</span>
+      </a>
+      <a routerLink="/dashboard/profile" routerLinkActive="active">
+         <span>👤 Mi Perfil</span>
+      </a>
+    </ng-container>
+
+    <!-- Opciones para Árbitros -->
+    <ng-container *ngIf="isReferee()">
+      <a routerLink="/tournaments/list" routerLinkActive="active">
+         <span>⚽ Torneos Asignados</span>
+      </a>
+      <a routerLink="/dashboard/profile" routerLinkActive="active">
+         <span>👤 Mi Perfil</span>
+      </a>
+    </ng-container>
   </nav>
 </aside>
