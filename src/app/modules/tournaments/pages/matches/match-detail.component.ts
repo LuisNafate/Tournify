@@ -67,9 +67,17 @@ export class MatchDetailComponent implements OnInit {
     const currentUser = this.authService.usuarioActualValue;
     if (!currentUser) return false;
     
-    return currentUser.role === 'admin' || 
-           currentUser.role === 'referee' ||
-           this.match.refereeId === currentUser.id;
+    // Admin puede actualizar cualquier partido
+    if (currentUser.role === 'admin') return true;
+    
+    // Árbitro solo puede actualizar si está asignado al partido
+    if (currentUser.role === 'referee') {
+      return this.match.refereeId === currentUser.id;
+    }
+    
+    // Organizador puede actualizar partidos de su torneo
+    // (esto se validará en el backend también)
+    return currentUser.role === 'organizer';
   }
 
   updateResult(): void {
