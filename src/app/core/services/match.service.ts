@@ -120,8 +120,8 @@ export class MatchService {
   /**
    * Actualiza el marcador de un partido
    * @param matchId ID del partido
-   * @param score1 Marcador equipo 1
-   * @param score2 Marcador equipo 2
+   * @param scoreHome Marcador equipo local
+   * @param scoreAway Marcador equipo visitante
    * @param winnerId ID del equipo ganador (opcional)
    * @param status Estado del partido (opcional)
    * @param notes Notas del partido (opcional)
@@ -129,16 +129,18 @@ export class MatchService {
    */
   updateScore(
     matchId: string, 
-    score1: number, 
-    score2: number, 
+    scoreHome: number, 
+    scoreAway: number, 
     winnerId?: string,
     status?: string,
     notes?: string
   ): Observable<Match> {
-    const body: any = { score1, score2 };
+    const body: any = { scoreHome, scoreAway };
     if (winnerId) body.winnerId = winnerId;
     if (status) body.status = status;
     if (notes) body.notes = notes;
+    
+    console.log('MatchService.updateScore - Sending:', body);
     
     return this.http.put<Match>(`${this.apiUrl}/${matchId}/result`, body)
       .pipe(catchError(this.handleError));
