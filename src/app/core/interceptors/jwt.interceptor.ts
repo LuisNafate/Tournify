@@ -9,6 +9,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 /**
  * Interceptor JWT
@@ -48,7 +49,7 @@ export class JwtInterceptor implements HttpInterceptor {
    * Obtiene el token del localStorage
    */
   private getToken(): string | null {
-    return localStorage.getItem('token');
+    return localStorage.getItem(environment.tokenKey);
   }
 
   /**
@@ -56,8 +57,8 @@ export class JwtInterceptor implements HttpInterceptor {
    */
   private handleUnauthorized(): void {
     // Limpiar token y redirigir al login
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem(environment.tokenKey);
+    localStorage.removeItem(environment.userKey);
     this.router.navigate(['/login']);
   }
 }
