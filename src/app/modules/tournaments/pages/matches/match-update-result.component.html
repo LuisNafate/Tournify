@@ -12,21 +12,23 @@
   <!-- Match Info Banner -->
   <div class="match-info-banner">
     <div class="team-info">
-      <img 
-        [src]="match.homeTeam?.logoUrl || '/assets/icons/default-team.png'" 
-        [alt]="match.homeTeam?.name"
-        onerror="this.src='/assets/icons/default-team.png'"
-      />
-      <span>{{ match.homeTeam?.name || 'Equipo Local' }}</span>
+      <div class="team-logo">
+        <div class="team-initials">{{ getTeamInitials(match.homeTeam?.name || match.homeTeamName || 'EL') }}</div>
+      </div>
+      <div class="team-labels">
+        <span class="team-role">Equipo Local</span>
+        <span class="team-name">{{ match.homeTeam?.name || match.homeTeamName || 'Equipo Local' }}</span>
+      </div>
     </div>
     <div class="vs">VS</div>
     <div class="team-info">
-      <img 
-        [src]="match.awayTeam?.logoUrl || '/assets/icons/default-team.png'" 
-        [alt]="match.awayTeam?.name"
-        onerror="this.src='/assets/icons/default-team.png'"
-      />
-      <span>{{ match.awayTeam?.name || 'Equipo Visitante' }}</span>
+      <div class="team-logo">
+        <div class="team-initials">{{ getTeamInitials(match.awayTeam?.name || match.awayTeamName || 'EV') }}</div>
+      </div>
+      <div class="team-labels">
+        <span class="team-role">Equipo Visitante</span>
+        <span class="team-name">{{ match.awayTeam?.name || match.awayTeamName || 'Equipo Visitante' }}</span>
+      </div>
     </div>
   </div>
 

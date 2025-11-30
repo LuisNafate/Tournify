@@ -57,18 +57,43 @@
   flex: 1;
 }
 
-.team-info img {
-  width: 50px;
-  height: 50px;
+.team-logo {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  object-fit: cover;
   background: white;
-  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.team-info span {
+.team-initials {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #667eea;
+  letter-spacing: 1px;
+}
+
+.team-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.team-role {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.team-name {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
+  color: white;
 }
 
 .vs {

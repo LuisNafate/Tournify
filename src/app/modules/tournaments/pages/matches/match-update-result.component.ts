@@ -156,4 +156,13 @@ export class MatchUpdateResultComponent implements OnInit {
     const option = this.statusOptions.find(opt => opt.value === status);
     return option ? option.label : status;
   }
+
+  getTeamInitials(name: string): string {
+    if (!name) return '??';
+    const words = name.trim().split(' ');
+    if (words.length === 1) {
+      return name.substring(0, 2).toUpperCase();
+    }
+    return words.map(w => w[0]).join('').substring(0, 2).toUpperCase();
+  }
 }
