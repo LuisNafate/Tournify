@@ -6,7 +6,9 @@ import { environment } from '../../../../environments/environment';
 import {
   Tournament,
   TournamentWithDetails,
-  TournamentFilters
+  TournamentFilters,
+  CreateTournamentRequest,
+  UpdateTournamentRequest
 } from '../../../core/models/tournament.model';
 
 export interface PaginatedResponse<T> {
@@ -84,5 +86,53 @@ export class TournamentService {
    */
   getTournamentById(id: string): Observable<TournamentWithDetails> {
     return this.http.get<TournamentWithDetails>(`${this.apiUrl}/${id}`);
+  }
+
+  /**
+   * Seguir un torneo
+   * POST /tournaments/{id}/follow
+   */
+  followTournament(id: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${id}/follow`, {});
+  }
+
+  /**
+   * Dejar de seguir un torneo
+   * DELETE /tournaments/{id}/follow
+   */
+  unfollowTournament(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}/follow`);
+  }
+
+  /**
+   * Crear un nuevo torneo
+   * POST /tournaments
+   */
+  createTournament(tournament: CreateTournamentRequest): Observable<Tournament> {
+    return this.http.post<Tournament>(this.apiUrl, tournament);
+  }
+
+  /**
+   * Actualizar un torneo existente
+   * PUT /tournaments/{id}
+   */
+  updateTournament(id: string, tournament: UpdateTournamentRequest): Observable<Tournament> {
+    return this.http.put<Tournament>(`${this.apiUrl}/${id}`, tournament);
+  }
+
+  /**
+   * Inscribir un equipo al torneo
+   * POST /tournaments/{id}/join
+   */
+  joinTournament(tournamentId: string, teamId: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${tournamentId}/join`, { teamId });
+  }
+
+  /**
+   * Eliminar un torneo
+   * DELETE /tournaments/{id}
+   */
+  deleteTournament(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

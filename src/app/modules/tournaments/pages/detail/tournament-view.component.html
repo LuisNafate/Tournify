@@ -4,8 +4,10 @@
     <div class="banner-overlay">
       <span class="organizer-badge">Organizador: {{ tournament.organizer }}</span>
       <div class="banner-buttons">
-        <button class="btn-follow">SEGUIR</button>
-        <button *ngIf="tournament.status === 'Próximo'" class="btn-join-tournament" (click)="joinTournament()">
+        <button class="btn-follow" (click)="onFollowClick()" [disabled]="followLoading">
+          {{ followLoading ? 'CARGANDO...' : (tournament.isFollowing ? 'DEJAR DE SEGUIR' : 'SEGUIR') }}
+        </button>
+        <button *ngIf="tournament.status === 'registration' || tournament.status === 'upcoming'" class="btn-join-tournament" (click)="joinTournament()">
           UNIRSE AL TORNEO
         </button>
       </div>

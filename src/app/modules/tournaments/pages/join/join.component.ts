@@ -89,13 +89,19 @@ export class JoinComponent implements OnInit {
       return;
     }
 
+    // TODO: Necesitamos implementar la creación de equipo primero
+    // El endpoint /tournaments/{id}/join espera un teamId
+    // Por ahora, mostrar un mensaje indicando que falta implementar Teams
     console.log('Solicitud de registro:', {
       tournamentId: this.tournamentId,
       ...this.joinForm.value
     });
 
-    alert('¡Solicitud enviada exitosamente! El organizador revisará tu petición.');
-    this.router.navigate(['/tournaments/detail', this.tournamentId]);
+    alert('Funcionalidad en desarrollo. Primero necesitas crear un equipo en la sección de Teams.');
+    // Una vez que tengamos Teams implementado:
+    // 1. Crear el equipo con los datos del formulario
+    // 2. Usar el teamId retornado para llamar a joinTournament()
+    // this.tournamentService.joinTournament(this.tournamentId, teamId).subscribe(...)
   }
 
   cancel(): void {
