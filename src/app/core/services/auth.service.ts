@@ -47,11 +47,27 @@ export class AuthService {
    * @param username Nombre de usuario
    * @param email Email
    * @param password Contraseña
+   * @param firstName Nombre
+   * @param lastName Apellido
    * @param role Rol del usuario
    * @returns Observable con el usuario registrado
    */
-  public register(username: string, email: string, password: string, role: 'player' | 'organizer' | 'referee'): Observable<User> {
-    const registerRequest: RegisterRequest = { username, email, password, role };
+  public register(
+    username: string, 
+    email: string, 
+    password: string, 
+    firstName: string,
+    lastName: string,
+    role: 'player' | 'organizer' | 'referee'
+  ): Observable<User> {
+    const registerRequest: RegisterRequest = { 
+      username, 
+      email, 
+      password, 
+      firstName,
+      lastName,
+      role 
+    };
     
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, registerRequest)
       .pipe(
@@ -133,10 +149,10 @@ export class AuthService {
       id: authUser.id,
       username: authUser.username,
       email: authUser.email,
+      firstName: authUser.firstName,
+      lastName: authUser.lastName,
       role: authUser.role,
-      avatarUrl: authUser.avatarUrl,
-      createdAt: authUser.createdAt,
-      updatedAt: authUser.updatedAt
+      avatarUrl: authUser.avatarUrl
     };
   }
 
