@@ -1,6 +1,6 @@
 /* Estilos generales del dashboard */
 .dashboard-page {
-  padding: 1rem;
+  padding: 0;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -300,7 +300,11 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
+  .dashboard-page {
+    padding: 1.5rem;
+  }
+
   .welcome-header h1 {
     font-size: 1.8rem;
   }
@@ -317,5 +321,15 @@
 
   .card-actions {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-page {
+    padding: 1rem;
+  }
+
+  .welcome-header h1 {
+    font-size: 1.5rem;
   }
 }
