@@ -62,7 +62,21 @@ export class TeamDetailComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading team:', err);
-        this.error = 'Error al cargar el equipo. Por favor, intenta de nuevo.';
+
+        // Manejar diferentes tipos de error
+        if (err?.status === 403) {
+          this.error = 'No tienes permiso para ver este equipo. Solo los miembros del equipo pueden ver sus detalles.';
+        } else if (err?.status === 404) {
+          this.error = 'El equipo no existe o fue eliminado.';
+        } else if (err?.status === 401) {
+          this.error = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.';
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+        } else {
+          this.error = err?.message || 'Error al cargar el equipo. Por favor, intenta de nuevo.';
+        }
+
         this.loading = false;
       }
     });
