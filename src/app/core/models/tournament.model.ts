@@ -102,19 +102,31 @@ export interface TeamStats {
 export interface CreateTournamentRequest {
   name: string;
   description?: string;
-  sportId: string;
-  tournamentType: TournamentType;
-  eliminationMode?: EliminationMode;
-  startDate?: string;
+  sportId: string; // UUID del deporte
+  sportSubType?: string;
+  tournamentType: string;
+  category?: string;
+  eliminationMode?: string;
+  location?: string;
+  startDate: string; // ISO 8601
   endDate?: string;
   registrationDeadline?: string;
-  location?: string;
-  prizePool?: string;
-  rules?: string;
-  bannerUrl?: string;
-  sportSettings: SportSettings;
-  groupConfig?: GroupConfig;
   maxTeams: number;
+  registrationFee?: number;
+  prizePool?: string;
+  isPrivate: boolean;
+  requiresApproval: boolean;
+  accessCode?: string;
+  hasGroupStage: boolean;
+  numberOfGroups?: number;
+  teamsPerGroup?: number;
+  teamsAdvancePerGroup?: number;
+  sportSettings?: string; // JSON stringificado
+  allowTies: boolean;
+  pointsForWin: number;
+  pointsForDraw: number;
+  pointsForLoss: number;
+  rulesText?: string;
 }
 
 export interface UpdateTournamentRequest {

@@ -327,39 +327,41 @@ export class CreateComponent implements OnInit {
     };
 
     // Crear el payload que coincida EXACTAMENTE con el backend
-    const createRequest: any = {
+    const createRequest: CreateTournamentRequest = {
       name: this.tournament.name,
-      description: this.tournament.description || null,
+      description: this.tournament.description || undefined,
       sportId: this.tournament.sport, // UUID del deporte
-      sportSubType: this.tournament.sportSubType || null,
+      sportSubType: this.tournament.sportSubType || undefined,
       tournamentType: this.tournament.tournamentType,
-      category: this.tournament.category || null,
-      eliminationMode: this.tournament.eliminationMode || null,
-      location: this.tournament.location || null,
+      category: this.tournament.category || undefined,
+      eliminationMode: this.tournament.eliminationMode || undefined,
+      location: this.tournament.location || undefined,
       startDate: formatDateToISO(this.tournament.startDate),
-      endDate: this.tournament.endDate ? formatDateToISO(this.tournament.endDate) : null,
-      registrationDeadline: this.tournament.endDate ? formatDateToISO(this.tournament.endDate) : null,
+      endDate: this.tournament.endDate ? formatDateToISO(this.tournament.endDate) : undefined,
+      registrationDeadline: this.tournament.endDate ? formatDateToISO(this.tournament.endDate) : undefined,
       maxTeams: this.tournament.maxTeams,
       registrationFee: this.tournament.registrationFee || 0.0,
-      prizePool: this.tournament.registrationFee?.toString() || null,
+      prizePool: this.tournament.registrationFee?.toString() || undefined,
       isPrivate: this.tournament.isPrivate,
       requiresApproval: this.tournament.requiresApproval,
-      accessCode: this.tournament.accessCode || null,
+      accessCode: this.tournament.accessCode || undefined,
       hasGroupStage: this.tournament.hasGroupStage,
-      numberOfGroups: this.tournament.hasGroupStage ? (this.tournament.numberOfGroups || null) : null,
-      teamsPerGroup: this.tournament.hasGroupStage ? (this.tournament.teamsPerGroup || null) : null,
-      teamsAdvancePerGroup: this.tournament.hasGroupStage ? (this.tournament.teamsAdvancePerGroup || null) : null,
+      numberOfGroups: this.tournament.hasGroupStage ? (this.tournament.numberOfGroups || undefined) : undefined,
+      teamsPerGroup: this.tournament.hasGroupStage ? (this.tournament.teamsPerGroup || undefined) : undefined,
+      teamsAdvancePerGroup: this.tournament.hasGroupStage ? (this.tournament.teamsAdvancePerGroup || undefined) : undefined,
       sportSettings: sportSettingsJson,
       allowTies: this.tournament.allowTies,
       pointsForWin: this.tournament.pointsForWin,
       pointsForDraw: this.tournament.pointsForDraw,
       pointsForLoss: this.tournament.pointsForLoss,
-      rulesText: this.tournament.rules || null
+      rulesText: this.tournament.rules || undefined
     };
 
     console.log('Enviando solicitud de creación:', createRequest);
+    console.log('Imagen a subir:', this.tournament.image);
 
-    this.tournamentService.createTournament(createRequest).subscribe({
+    // Llamar al servicio con datos e imagen
+    this.tournamentService.createTournament(createRequest, this.tournament.image || null).subscribe({
       next: (tournament) => {
         console.log('Torneo creado exitosamente:', tournament);
         alert('¡Torneo creado exitosamente!');
