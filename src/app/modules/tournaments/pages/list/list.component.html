@@ -3,8 +3,62 @@
   <div class="list-header">
     <h2>Torneos Disponibles</h2>
     <div class="search-bar">
-      <input type="text" placeholder="Buscar torneo, equipo o juego...">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        placeholder="Buscar torneo...">
     </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <div class="filter-group">
+      <label for="sport-filter">Deporte:</label>
+      <select 
+        id="sport-filter" 
+        [(ngModel)]="selectedSportId"
+        (change)="onSportChange($event)">
+        <option value="">Todos los deportes</option>
+        <option *ngFor="let sport of sports" [value]="sport.id">
+          {{ sport.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="status-filter">Estado:</label>
+      <select 
+        id="status-filter" 
+        [(ngModel)]="selectedStatus"
+        (change)="onStatusChange($event)">
+        <option value="">Todos los estados</option>
+        <option value="registration">Inscripción</option>
+        <option value="upcoming">Próximo</option>
+        <option value="ongoing">En curso</option>
+        <option value="finished">Finalizado</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="type-filter">Tipo:</label>
+      <select 
+        id="type-filter" 
+        [(ngModel)]="selectedType"
+        (change)="onTypeChange($event)">
+        <option value="">Todos los tipos</option>
+        <option value="league">Liga</option>
+        <option value="elimination">Eliminación</option>
+        <option value="hybrid">Híbrido</option>
+      </select>
+    </div>
+
+    <button class="btn-clear-filters" (click)="clearFilters()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+      </svg>
+      Limpiar filtros
+    </button>
   </div>
 
   <div class="tournaments-grid">
@@ -53,5 +107,66 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando torneos...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="btn-retry" (click)="loadTournaments()">Reintentar</button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && tournaments.length === 0" class="empty-container">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/>
+      <path d="m21 21-4.35-4.35"/>
+    </svg>
+    <h3>No se encontraron torneos</h3>
+    <p>Intenta ajustar los filtros de búsqueda</p>
+    <button class="btn btn-primary" (click)="clearFilters()">Limpiar filtros</button>
+  </div>
+
+  <!-- Paginación -->
+  <div *ngIf="!loading && tournaments.length > 0" class="pagination">
+    <button 
+      class="pagination-btn" 
+      (click)="previousPage()" 
+      [disabled]="currentPage === 0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Anterior
+    </button>
+
+    <div class="pagination-numbers">
+      <button 
+        *ngFor="let page of getPageNumbers()" 
+        class="pagination-number" 
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)">
+        {{ page + 1 }}
+      </button>
+    </div>
+
+    <button 
+      class="pagination-btn" 
+      (click)="nextPage()" 
+      [disabled]="currentPage >= totalPages - 1">
+      Siguiente
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Info de resultados -->
+  <div *ngIf="!loading && tournaments.length > 0" class="results-info">
+    <p>Mostrando {{ tournaments.length }} torneos</p>
   </div>
 </section>

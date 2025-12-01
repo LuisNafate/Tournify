@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Tournament, TournamentFilters } from '../../../../core/models/tournament.model';
 import { TournamentService, PaginatedResponse } from '../../services/tournament.service';
+import { SportService } from '../../../../core/services/sport.service';
+import { Sport } from '../../../../core/models/sport.model';
 
 @Component({
   selector: 'app-list',
@@ -11,6 +13,7 @@ export class ListComponent implements OnInit {
   tournaments: Tournament[] = [];
   loading = false;
   error: string | null = null;
+  sports: Sport[] = [];
 
   // Paginación
   currentPage = 0;
@@ -24,10 +27,31 @@ export class ListComponent implements OnInit {
     limit: 10
   };
 
-  constructor(private tournamentService: TournamentService) {}
+  // Variables para filtros
+  searchTerm: string = '';
+  selectedSportId: string = '';
+  selectedStatus: 'registration' | 'upcoming' | 'ongoing' | 'finished' | '' = '';
+  selectedType: 'league' | 'elimination' | 'hybrid' | '' = '';
+
+  constructor(
+    private tournamentService: TournamentService,
+    private sportService: SportService
+  ) {}
 
   ngOnInit(): void {
+    this.loadSports();
     this.loadTournaments();
+  }
+
+  loadSports(): void {
+    this.sportService.getAll().subscribe({
+      next: (sports) => {
+        this.sports = sports;
+      },
+      error: (err) => {
+        console.error('Error loading sports:', err);
+      }
+    });
   }
 
   loadTournaments(): void {
@@ -73,5 +97,53 @@ export class ListComponent implements OnInit {
   goToPage(page: number): void {
     this.filters.page = page;
     this.loadTournaments();
+  }
+
+  // Métodos de filtrado
+  onSearch(): void {
+    this.applyFilters({ search: this.searchTerm || undefined });
+  }
+
+  onSportChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.selectedSportId = target.value;
+    this.applyFilters({ sportId: this.selectedSportId || undefined });
+  }
+
+  onStatusChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.selectedStatus = target.value as any;
+    this.applyFilters({ status: this.selectedStatus || undefined });
+  }
+
+  onTypeChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.selectedType = target.value as any;
+    this.applyFilters({ tournamentType: this.selectedType || undefined });
+  }
+
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.selectedSportId = '';
+    this.selectedStatus = '';
+    this.selectedType = '';
+    this.filters = { page: 0, limit: 10 };
+    this.loadTournaments();
+  }
+
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    const maxPages = Math.min(this.totalPages, 5);
+    let startPage = Math.max(0, this.currentPage - 2);
+    const endPage = Math.min(this.totalPages - 1, startPage + maxPages - 1);
+    
+    if (endPage - startPage < maxPages - 1) {
+      startPage = Math.max(0, endPage - maxPages + 1);
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 }
