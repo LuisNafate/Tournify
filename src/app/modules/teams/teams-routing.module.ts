@@ -9,17 +9,20 @@ const routes: Routes = [
   {
     path: 'my-teams',
     component: MyTeamsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { hideSidebar: true }
   },
   {
     path: 'create',
     component: CreateTeamComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { hideSidebar: true }
   },
   {
     path: ':id',
     component: TeamDetailComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { hideSidebar: true }
   }
 ];
 

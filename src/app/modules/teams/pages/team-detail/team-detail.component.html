@@ -1,42 +1,93 @@
-<div class="team-detail-container">
-  <!-- Loading -->
-  <div *ngIf="loading" class="loading-container">
-    <div class="spinner"></div>
-    <p>Cargando equipo...</p>
-  </div>
+<div class="team-detail-page">
+  <!-- Sidebar Lateral -->
+  <aside class="sidebar">
+    <!-- Navegación -->
+    <nav class="sidebar-nav">
+      <a routerLink="/teams/my-teams" class="nav-link" routerLinkActive="active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>Mis Equipos</span>
+      </a>
 
-  <!-- Error -->
-  <div *ngIf="error && !loading" class="error-container">
-    <p class="error-message">{{ error }}</p>
-    <button class="btn-retry" (click)="loadTeam(team?.id || '')">Reintentar</button>
-    <button class="btn-back" (click)="goBack()">Volver a Mis Equipos</button>
-  </div>
+      <a routerLink="/teams/my-teams" class="nav-link" routerLinkActive="active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Gestionar Jugadores</span>
+      </a>
 
-  <!-- Team Detail -->
-  <div *ngIf="team && !loading" class="team-detail">
-    <!-- Header -->
-    <div class="team-header">
-      <button class="btn-back-icon" (click)="goBack()">
+      <a routerLink="/tournaments/list" class="nav-link" routerLinkActive="active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span>Mis Torneos</span>
+      </a>
+
+      <a routerLink="/dashboard" class="nav-link" routerLinkActive="active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 3v18"/>
+          <path d="M9 9h12"/>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido Principal -->
+  <main class="main-container">
+    <!-- Header con breadcrumb y botón volver -->
+    <header class="page-header">
+      <div class="breadcrumb">
+        <a routerLink="/dashboard">Inicio</a>
+        <span class="separator">/</span>
+        <a routerLink="/teams/my-teams">Mis Equipos</a>
+        <span class="separator">/</span>
+        <span class="current">{{ team?.name || 'Detalle' }}</span>
+      </div>
+      <button class="btn-back" (click)="goBack()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
-        Volver
+        Volver a Mis Equipos
       </button>
+    </header>
 
-      <div class="team-header-content">
-        <!-- Logo -->
-        <div class="team-logo-large">
-          <img *ngIf="team.logoUrl" [src]="team.logoUrl" [alt]="team.name">
-          <div *ngIf="!team.logoUrl" class="default-logo-large">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-          </div>
-        </div>
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Cargando equipo...</p>
+    </div>
 
-        <!-- Info -->
+    <!-- Error -->
+    <div *ngIf="error && !loading" class="error-container">
+      <p class="error-message">{{ error }}</p>
+      <button class="btn-retry" (click)="loadTeam(team?.id || '')">Reintentar</button>
+    </div>
+
+    <!-- Team Detail -->
+    <div *ngIf="team && !loading" class="team-detail">
+      <!-- Header del equipo -->
+      <div class="team-header">
+        <div class="team-header-content">
+          <!-- Logo -->
+          <div class="team-logo-large">
+            <img *ngIf="team.logoUrl" [src]="team.logoUrl" [alt]="team.name">
+            <div *ngIf="!team.logoUrl" class="default-logo-large">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+          </div>        <!-- Info -->
         <div class="team-info-header">
           <h1>{{ team.name }}</h1>
           <p *ngIf="team.shortName" class="team-short-name">{{ team.shortName }}</p>
@@ -224,5 +275,6 @@
         <p *ngIf="!isCaptain()">El capitán puede agregar miembros al equipo</p>
       </div>
     </div>
-  </div>
+    </div>
+  </main>
 </div>

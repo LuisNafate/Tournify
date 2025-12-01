@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TeamWithMembers, TeamMember, AddMemberRequest, MemberRole } from '../../../../core/models/team.model';
 import { TeamService } from '../../../tournaments/services/team.service';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -9,7 +9,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 @Component({
   selector: 'app-team-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './team-detail.component.html',
   styleUrls: ['./team-detail.component.css']
 })
