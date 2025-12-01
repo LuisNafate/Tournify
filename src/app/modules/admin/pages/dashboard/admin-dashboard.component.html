@@ -133,4 +133,19 @@
       </button>
     </div>
   </div>
+
+  <!-- Recent Tournaments -->
+  <div class="recent-tournaments" *ngIf="recentTournaments && recentTournaments.length > 0">
+    <h2>Torneos Recientes</h2>
+    <div class="recent-grid">
+      <div class="recent-card" *ngFor="let t of recentTournaments">
+        <div class="recent-image" [style.backgroundImage]="'url(' + (t.imageUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
+        <div class="recent-info">
+          <h4>{{ t.name }}</h4>
+          <p class="muted">{{ t.organizerName }}</p>
+          <p class="status">{{ t.status }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
