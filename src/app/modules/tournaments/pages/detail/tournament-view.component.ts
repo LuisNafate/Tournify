@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { MatchService } from '../../../../core/services/match.service';
 import { Subscription } from 'rxjs';
 
 // componente para vista del torneo
@@ -17,12 +18,14 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
   @Output() startTournament = new EventEmitter<void>();
   @Output() finishTournament = new EventEmitter<void>();
 
+  matches: any[] = [];
   private _isOrganizer: boolean = false;
   private userSubscription?: Subscription;
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private matchService: MatchService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +45,8 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
         imageUrl: this.tournament.imageUrl,
         bannerUrl: this.tournament.bannerUrl
       });
+      // Cargar partidos del torneo
+      this.loadMatches();
     }
   }
 
@@ -205,5 +210,57 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
   onBannerImageError(event: any): void {
     // Usar imagen por defecto si falla la carga del banner
     event.target.src = 'assets/images/Background-featured-tournaments.png';
+  }
+
+  loadMatches(): void {
+    if (!this.tournament?.id) return;
+    
+    this.matchService.getByTournament(this.tournament.id).subscribe({
+      next: (matches) => {
+        // Ordenar por fecha y estado (próximos primero)
+        this.matches = matches.sort((a, b) => {
+          // Prioridad: live > scheduled > finished
+          const statusOrder: any = { 'live': 0, 'scheduled': 1, 'finished': 2, 'postponed': 3, 'cancelled': 4 };
+          const statusDiff = (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99);
+          if (statusDiff !== 0) return statusDiff;
+          
+          // Si tienen el mismo estado, ordenar por fecha
+          if (a.scheduledAt && b.scheduledAt) {
+            return new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime();
+          }
+          return 0;
+        });
+      },
+      error: (err) => {
+        console.error('Error loading matches:', err);
+        this.matches = [];
+      }
+    });
+  }
+
+  goToMatch(matchId: string): void {
+    this.router.navigate(['/tournaments/matches', matchId]);
+  }
+
+  getMatchStatusClass(status: string): string {
+    const classes: { [key: string]: string } = {
+      'scheduled': 'status-scheduled',
+      'live': 'status-live',
+      'finished': 'status-finished',
+      'postponed': 'status-postponed',
+      'cancelled': 'status-cancelled'
+    };
+    return classes[status] || '';
+  }
+
+  getMatchStatusLabel(status: string): string {
+    const labels: { [key: string]: string } = {
+      'scheduled': 'Programado',
+      'live': 'En Vivo',
+      'finished': 'Finalizado',
+      'postponed': 'Pospuesto',
+      'cancelled': 'Cancelado'
+    };
+    return labels[status] || status;
   }
 }

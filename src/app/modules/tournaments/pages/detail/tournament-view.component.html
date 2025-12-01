@@ -5,7 +5,9 @@
       [alt]="tournament.name"
       (error)="onBannerImageError($event)">
     <div class="banner-overlay">
-      <span class="organizer-badge">Organizador: {{ getOrganizerName() }}</span>
+      <span class="organizer-badge">
+        Organizador: {{ tournament.organizer?.username || tournament.organizer || 'Desconocido' }}
+      </span>
       <div class="banner-buttons">
         <!-- Botones para el organizador -->
         <ng-container *ngIf="isOrganizer()">
@@ -167,5 +169,56 @@
         <p class="team-members">{{ team.players?.length || 0 }} jugadores</p>
       </div>
     </div>
+  </div>
+
+  <!-- Matches Section -->
+  <div class="matches-section" *ngIf="matches && matches.length > 0">
+    <h2 class="section-title">Próximos Partidos</h2>
+    
+    <div class="matches-list">
+      <div *ngFor="let match of matches.slice(0, 5)" class="match-card" (click)="goToMatch(match.id)">
+        <div class="match-header">
+          <span class="match-round" *ngIf="match.roundName">{{ match.roundName }}</span>
+          <span class="match-status" [ngClass]="getMatchStatusClass(match.status)">
+            {{ getMatchStatusLabel(match.status) }}
+          </span>
+        </div>
+        
+        <div class="match-teams">
+          <div class="match-team match-team-home">
+            <div class="team-logo-small">
+              <div class="team-initials-small">{{ getTeamInitials(match.homeTeam?.name || match.homeTeamName || 'EL') }}</div>
+            </div>
+            <span class="team-name-small">{{ match.homeTeam?.name || match.homeTeamName || 'TBD' }}</span>
+          </div>
+          
+          <div class="match-center">
+            <span class="match-score" *ngIf="match.status === 'finished' || match.status === 'live'">
+              {{ match.scoreHome ?? 0 }}
+            </span>
+            <span class="vs-small">VS</span>
+            <span class="match-score" *ngIf="match.status === 'finished' || match.status === 'live'">
+              {{ match.scoreAway ?? 0 }}
+            </span>
+          </div>
+          
+          <div class="match-team match-team-away">
+            <span class="team-name-small">{{ match.awayTeam?.name || match.awayTeamName || 'TBD' }}</span>
+            <div class="team-logo-small">
+              <div class="team-initials-small">{{ getTeamInitials(match.awayTeam?.name || match.awayTeamName || 'EV') }}</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="match-footer" *ngIf="match.scheduledAt">
+          <span class="match-date">{{ match.scheduledAt | date:'short' }}</span>
+          <span class="match-location" *ngIf="match.location">{{ match.location }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <button class="btn-view-all-matches" (click)="viewMatches()" *ngIf="matches.length > 5">
+      Ver todos los partidos ({{ matches.length }})
+    </button>
   </div>
 </div>
