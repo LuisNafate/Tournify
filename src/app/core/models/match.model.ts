@@ -21,7 +21,7 @@ export interface Match {
   updatedAt?: string | null;
 }
 
-export type MatchStatus = 'scheduled' | 'ongoing' | 'finished' | 'postponed' | 'cancelled';
+export type MatchStatus = 'scheduled' | 'live' | 'finished' | 'postponed' | 'cancelled';
 
 export interface MatchData {
   firstHalfScoreHome?: number;

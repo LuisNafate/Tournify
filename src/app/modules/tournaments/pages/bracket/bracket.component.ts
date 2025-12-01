@@ -124,7 +124,7 @@ export class BracketComponent implements OnInit {
    */
   getMatchClass(match: MatchWithDetails): string {
     if (match.status === 'finished') return 'match-finished';
-    if (match.status === 'ongoing') return 'match-live';
+    if (match.status === 'live') return 'match-live';
     if (!match.homeTeamId || !match.awayTeamId) return 'match-tbd';
     return 'match-scheduled';
   }

@@ -50,7 +50,7 @@ export class MatchDetailComponent implements OnInit {
   getStatusLabel(status: string): string {
     const labels: { [key: string]: string } = {
       'scheduled': 'Programado',
-      'ongoing': 'En Vivo',
+      'live': 'En Vivo',
       'finished': 'Finalizado',
       'postponed': 'Pospuesto',
       'cancelled': 'Cancelado'
