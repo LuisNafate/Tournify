@@ -243,25 +243,13 @@
                     <input type="checkbox" [(ngModel)]="tournament.isPrivate" name="isPrivate" class="checkbox-input">
                     <span class="checkbox-text">Torneo Privado</span>
                   </label>
-                  <small class="form-hint">Solo los equipos invitados o con código de acceso podrán unirse</small>
+                  <small class="form-hint">Solo los equipos invitados podrán unirse</small>
                 </div>
               </div>
             </div>
 
             <div class="form-row" *ngIf="tournament.isPrivate">
-              <div class="form-group col-6">
-                <label for="accessCode" class="label">Código de Acceso</label>
-                <input
-                  type="text"
-                  id="accessCode"
-                  [(ngModel)]="tournament.accessCode"
-                  name="accessCode"
-                  class="form-control"
-                  placeholder="Ej: TORNEO2025">
-                <small class="form-hint">Los equipos necesitarán este código para inscribirse</small>
-              </div>
-
-              <div class="form-group col-6">
+              <div class="form-group col-12">
                 <div class="checkbox-group">
                   <label class="checkbox-label">
                     <input type="checkbox" [(ngModel)]="tournament.requiresApproval" name="requiresApproval" class="checkbox-input">
