@@ -19,11 +19,7 @@
   <div class="teams-section">
     <div class="team-container" [class.winner]="getWinnerIndicator(match.homeTeam?.id)">
       <div class="team-logo">
-        <img 
-          [src]="match.homeTeam?.logoUrl || '/assets/icons/default-team.png'" 
-          [alt]="match.homeTeam?.name"
-          onerror="this.src='/assets/icons/default-team.png'"
-        />
+        <div class="team-initials">{{ (match.homeTeam?.name || 'EL').substring(0, 2).toUpperCase() }}</div>
       </div>
       <h2 class="team-name">{{ match.homeTeam?.name || 'Equipo Local' }}</h2>
       <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
@@ -46,11 +42,7 @@
 
     <div class="team-container" [class.winner]="getWinnerIndicator(match.awayTeam?.id)">
       <div class="team-logo">
-        <img 
-          [src]="match.awayTeam?.logoUrl || '/assets/icons/default-team.png'" 
-          [alt]="match.awayTeam?.name"
-          onerror="this.src='/assets/icons/default-team.png'"
-        />
+        <div class="team-initials">{{ (match.awayTeam?.name || 'EV').substring(0, 2).toUpperCase() }}</div>
       </div>
       <h2 class="team-name">{{ match.awayTeam?.name || 'Equipo Visitante' }}</h2>
       <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
