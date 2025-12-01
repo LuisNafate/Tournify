@@ -2,6 +2,8 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  min-height: 100vh;
+  background: #0a0e27;
 }
 
 /* Loading & Error */
@@ -9,13 +11,21 @@
 .error-container {
   text-align: center;
   padding: 4rem 2rem;
+  background: rgba(26, 29, 62, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.loading-container p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
 }
 
 .spinner {
   width: 48px;
   height: 48px;
-  border: 4px solid #f3f4f6;
-  border-top-color: #4F46E5;
+  border: 4px solid rgba(139, 92, 246, 0.2);
+  border-top-color: #8b5cf6;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1rem;
@@ -26,13 +36,12 @@
 }
 
 .error-container {
-  background: #FEF2F2;
-  border: 1px solid #FCA5A5;
-  border-radius: 8px;
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.3);
 }
 
 .error-message {
-  color: #DC2626;
+  color: #EF4444;
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
@@ -45,24 +54,28 @@
   font-weight: 600;
   cursor: pointer;
   margin: 0 0.5rem;
+  transition: all 0.3s ease;
 }
 
 .btn-retry {
-  background: #DC2626;
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
   color: white;
 }
 
 .btn-retry:hover {
-  background: #B91C1C;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
 }
 
 .btn-back {
-  background: #6B7280;
-  color: white;
+  background: rgba(107, 114, 128, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(107, 114, 128, 0.3);
 }
 
 .btn-back:hover {
-  background: #4B5563;
+  background: rgba(107, 114, 128, 0.3);
+  border-color: rgba(107, 114, 128, 0.5);
 }
 
 /* Header */
@@ -75,10 +88,10 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: transparent;
-  border: 1px solid #D1D5DB;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: 6px;
-  color: #6B7280;
+  color: #8b5cf6;
   cursor: pointer;
   font-size: 0.9rem;
   margin-bottom: 2rem;
@@ -91,15 +104,19 @@
 }
 
 .btn-back-icon:hover {
-  background: #F3F4F6;
-  border-color: #9CA3AF;
-  color: #374151;
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.5);
+  transform: translateX(-4px);
 }
 
 .team-header-content {
   display: flex;
   gap: 2rem;
   align-items: flex-start;
+  background: rgba(26, 29, 62, 0.8);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
 }
 
 .team-logo-large {
@@ -113,24 +130,24 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid #E5E7EB;
+  border: 3px solid rgba(139, 92, 246, 0.3);
 }
 
 .default-logo-large {
   width: 100%;
   height: 100%;
-  background: #F3F4F6;
+  background: rgba(15, 23, 42, 0.8);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid #E5E7EB;
+  border: 3px solid rgba(139, 92, 246, 0.3);
 }
 
 .default-logo-large svg {
   width: 60px;
   height: 60px;
-  color: #9CA3AF;
+  color: #8b5cf6;
 }
 
 .team-info-header {
@@ -140,19 +157,19 @@
 .team-info-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1F2937;
+  color: #ffffff;
   margin: 0 0 0.5rem 0;
 }
 
 .team-short-name {
   font-size: 1.2rem;
-  color: #6B7280;
+  color: rgba(255, 255, 255, 0.6);
   margin: 0 0 1rem 0;
   font-weight: 500;
 }
 
 .team-description {
-  color: #4B5563;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
   line-height: 1.6;
   margin: 0 0 1.5rem 0;
@@ -168,7 +185,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: #6B7280;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.95rem;
 }
 
@@ -176,14 +193,15 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
+  color: #8b5cf6;
 }
 
 /* Members Section */
 .members-section {
-  background: white;
+  background: rgba(26, 29, 62, 0.8);
+  border: 1px solid rgba(139, 92, 246, 0.2);
   border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .section-header {
@@ -192,12 +210,12 @@
   align-items: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #E5E7EB;
+  border-bottom: 2px solid rgba(139, 92, 246, 0.2);
 }
 
 .section-header h2 {
   font-size: 1.5rem;
-  color: #1F2937;
+  color: #ffffff;
   margin: 0;
   display: flex;
   align-items: center;
@@ -206,7 +224,7 @@
 
 .member-count {
   font-size: 1.2rem;
-  color: #6B7280;
+  color: rgba(255, 255, 255, 0.5);
   font-weight: 400;
 }
 
@@ -215,13 +233,13 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: #4F46E5;
+  background: linear-gradient(135deg, #8b5cf6 0%, #4F46E5 100%);
   color: white;
   border: none;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 }
 
 .btn-add-member svg {
@@ -230,15 +248,15 @@
 }
 
 .btn-add-member:hover {
-  background: #4338CA;
+  background: linear-gradient(135deg, #7c3aed 0%, #4338CA 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
 /* Add Member Form */
 .add-member-form {
-  background: #F9FAFB;
-  border: 2px solid #E5E7EB;
+  background: rgba(15, 23, 42, 0.8);
+  border: 2px solid rgba(139, 92, 246, 0.3);
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -246,7 +264,7 @@
 
 .add-member-form h3 {
   margin: 0 0 1.5rem 0;
-  color: #1F2937;
+  color: #ffffff;
   font-size: 1.2rem;
 }
 
@@ -264,7 +282,7 @@
 
 .form-group label {
   margin-bottom: 0.5rem;
-  color: #374151;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -272,25 +290,27 @@
 .form-group input,
 .form-group select {
   padding: 0.75rem;
-  border: 2px solid #D1D5DB;
+  border: 2px solid rgba(139, 92, 246, 0.3);
   border-radius: 6px;
   font-size: 1rem;
   transition: all 0.2s;
+  background: rgba(10, 14, 39, 0.6);
+  color: #ffffff;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #4F46E5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
 }
 
 .form-group input.error {
-  border-color: #DC2626;
+  border-color: #ef4444;
 }
 
 .error-message {
-  color: #DC2626;
+  color: #f87171;
   font-size: 0.85rem;
   margin-top: 0.25rem;
 }
@@ -320,26 +340,29 @@
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 }
 
 .btn-cancel {
-  background: #E5E7EB;
-  color: #6B7280;
+  background: rgba(107, 114, 128, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(107, 114, 128, 0.3);
 }
 
 .btn-cancel:hover:not(:disabled) {
-  background: #D1D5DB;
+  background: rgba(107, 114, 128, 0.3);
+  color: #ffffff;
 }
 
 .btn-submit {
-  background: #4F46E5;
+  background: linear-gradient(135deg, #8b5cf6 0%, #4F46E5 100%);
   color: white;
 }
 
 .btn-submit:hover:not(:disabled) {
-  background: #4338CA;
+  background: linear-gradient(135deg, #7c3aed 0%, #4338CA 100%);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
 }
 
 .btn-submit:disabled,
@@ -357,28 +380,29 @@
 
 .member-card {
   position: relative;
-  background: white;
-  border: 2px solid #E5E7EB;
+  background: rgba(15, 23, 42, 0.8);
+  border: 2px solid rgba(139, 92, 246, 0.2);
   border-radius: 8px;
   padding: 1.5rem;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 }
 
 .member-card:hover {
-  border-color: #4F46E5;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+  transform: translateY(-2px);
 }
 
 .member-card.is-captain {
-  border-color: #F59E0B;
-  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  border-color: rgba(245, 158, 11, 0.5);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(245, 158, 11, 0.1) 100%);
 }
 
 .jersey-badge {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: #4F46E5;
+  background: linear-gradient(135deg, #8b5cf6 0%, #4F46E5 100%);
   color: white;
   font-weight: 700;
   padding: 0.5rem 0.75rem;
@@ -387,7 +411,7 @@
 }
 
 .member-card.is-captain .jersey-badge {
-  background: #F59E0B;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
 }
 
 .member-info {
@@ -405,7 +429,7 @@
 .member-header h4 {
   margin: 0;
   font-size: 1.1rem;
-  color: #1F2937;
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -418,23 +442,27 @@
 }
 
 .role-badge.role-captain {
-  background: #FEF3C7;
-  color: #92400E;
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
 .role-badge.role-player {
-  background: #DBEAFE;
-  color: #1E40AF;
+  background: rgba(139, 92, 246, 0.2);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.4);
 }
 
 .role-badge.role-substitute {
-  background: #E0E7FF;
-  color: #3730A3;
+  background: rgba(79, 70, 229, 0.2);
+  color: #a5b4fc;
+  border: 1px solid rgba(79, 70, 229, 0.4);
 }
 
 .role-badge.role-coach {
-  background: #D1FAE5;
-  color: #065F46;
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.4);
 }
 
 .member-details {
@@ -442,20 +470,20 @@
 }
 
 .member-email {
-  color: #6B7280;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.9rem;
   margin: 0 0 0.25rem 0;
 }
 
 .member-position {
-  color: #4B5563;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.9rem;
   margin: 0;
   font-weight: 500;
 }
 
 .member-joined {
-  color: #9CA3AF;
+  color: rgba(255, 255, 255, 0.4);
   font-size: 0.85rem;
   margin: 0;
 }
@@ -469,9 +497,9 @@
 .btn-remove {
   padding: 0.5rem;
   background: transparent;
-  border: 1px solid #FCA5A5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
   border-radius: 6px;
-  color: #DC2626;
+  color: #f87171;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -483,8 +511,8 @@
 }
 
 .btn-remove:hover {
-  background: #FEF2F2;
-  border-color: #DC2626;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.6);
 }
 
 /* Empty State */
@@ -496,18 +524,18 @@
 .empty-icon {
   width: 80px;
   height: 80px;
-  color: #D1D5DB;
+  color: rgba(139, 92, 246, 0.3);
   margin: 0 auto 1.5rem;
 }
 
 .empty-members h3 {
-  color: #6B7280;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
 }
 
 .empty-members p {
-  color: #9CA3AF;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 1rem;
 }
 

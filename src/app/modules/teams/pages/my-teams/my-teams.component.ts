@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Team } from '../../../../core/models/team.model';
 import { TeamService } from '../../../tournaments/services/team.service';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -8,7 +8,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 @Component({
   selector: 'app-my-teams',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './my-teams.component.html',
   styleUrls: ['./my-teams.component.css']
 })
