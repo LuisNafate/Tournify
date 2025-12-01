@@ -4,6 +4,8 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem;
   margin-top: 4rem;
+  margin-left: 250px;
+  transition: margin-left 0.2s ease;
 }
 
 .footer-container {
@@ -34,5 +36,12 @@
 
 .footer-links a:hover {
   color: #8b5cf6;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .footer {
+    margin-left: 0;
+  }
 }
 

@@ -5,7 +5,6 @@
 /* Container Principal */
 .create-tournament-page {
   display: flex;
-  min-height: 100vh;
   background: #0a0e27;
   padding-top: 65px; /* Espacio para el navbar */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
