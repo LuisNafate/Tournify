@@ -2,7 +2,9 @@
   <!-- Header -->
   <div class="update-header">
     <button class="back-button" (click)="cancel()">
-      <span class="icon">←</span> Volver
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg> Volver
     </button>
     <h1>Actualizar Resultado</h1>
   </div>
@@ -35,14 +37,19 @@
       (click)="startMatch()"
       *ngIf="match.status !== 'ongoing'"
     >
-      ▶ Iniciar Partido
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px;">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg> Iniciar Partido
     </button>
     <button 
       class="action-btn finish-btn" 
       (click)="finishMatch()"
       *ngIf="match.status === 'ongoing'"
     >
-      🏁 Finalizar Partido
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px;">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg> Finalizar Partido
     </button>
   </div>
 
@@ -106,7 +113,16 @@
 
     <!-- Winner Preview -->
     <div class="winner-preview" *ngIf="updateForm.value.scoreHome !== updateForm.value.scoreAway && updateForm.value.status === 'finished'">
-      <div class="preview-icon">🏆</div>
+      <div class="preview-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+        <path d="M4 22h16"/>
+        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+        </svg>
+      </div>
       <div class="preview-text">
         Ganador: 
         <strong>
@@ -117,7 +133,11 @@
 
     <!-- Error Message -->
     <div class="form-error" *ngIf="error">
-      <span class="error-icon">⚠️</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; margin-right: 8px;">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
       {{ error }}
     </div>
 
@@ -127,7 +147,14 @@
         Cancelar
       </button>
       <button type="submit" class="btn-save" [disabled]="updateForm.invalid || saving">
-        <span *ngIf="!saving">💾 Guardar Cambios</span>
+        <span *ngIf="!saving">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px;">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+          <polyline points="17 21 17 13 7 13 7 21"/>
+          <polyline points="7 3 7 8 15 8"/>
+        </svg>
+        Guardar Cambios
+      </span>
         <span *ngIf="saving">Guardando...</span>
       </button>
     </div>
@@ -142,7 +169,13 @@
 
 <!-- Error State -->
 <div class="error-container" *ngIf="error && !match">
-  <div class="error-icon">⚠️</div>
+  <div class="error-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px; margin-bottom: 16px;">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
   <p>{{ error }}</p>
   <button class="retry-button" (click)="loadMatch()">Reintentar</button>
 </div>

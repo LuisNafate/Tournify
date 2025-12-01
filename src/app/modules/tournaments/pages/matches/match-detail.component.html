@@ -2,7 +2,9 @@
   <!-- Header -->
   <div class="detail-header">
     <button class="back-button" (click)="goBack()">
-      <span class="icon">←</span> Volver al Torneo
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px;">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg> Volver al Torneo
     </button>
     <h1>Detalle del Partido</h1>
   </div>
@@ -27,7 +29,17 @@
       <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
         {{ match.scoreHome ?? 0 }}
       </div>
-      <span class="winner-badge" *ngIf="getWinnerIndicator(match.homeTeam?.id)">🏆 Ganador</span>
+      <span class="winner-badge" *ngIf="getWinnerIndicator(match.homeTeam?.id)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+          <path d="M4 22h16"/>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+        </svg>
+        Ganador
+      </span>
     </div>
 
     <div class="vs-divider">VS</div>
@@ -44,7 +56,17 @@
       <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
         {{ match.scoreAway ?? 0 }}
       </div>
-      <span class="winner-badge" *ngIf="getWinnerIndicator(match.awayTeam?.id)">🏆 Ganador</span>
+      <span class="winner-badge" *ngIf="getWinnerIndicator(match.awayTeam?.id)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+          <path d="M4 22h16"/>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+        </svg>
+        Ganador
+      </span>
     </div>
   </div>
 
@@ -53,23 +75,54 @@
     <h3>Información del Partido</h3>
     <div class="info-grid">
       <div class="info-item">
-        <span class="info-label">📅 Fecha Programada</span>
+        <span class="info-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px;">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Fecha Programada
+      </span>
         <span class="info-value">{{ match.scheduledAt | date:'dd/MM/yyyy HH:mm' }}</span>
       </div>
       <div class="info-item" *ngIf="match.playedAt">
-        <span class="info-label">🎯 Fecha de Juego</span>
+        <span class="info-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px;">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="6"/>
+          <circle cx="12" cy="12" r="2"/>
+        </svg>
+        Fecha de Juego
+      </span>
         <span class="info-value">{{ match.playedAt | date:'dd/MM/yyyy HH:mm' }}</span>
       </div>
       <div class="info-item" *ngIf="match.location">
-        <span class="info-label">📍 Ubicación</span>
+        <span class="info-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px;">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        Ubicación
+      </span>
         <span class="info-value">{{ match.location }}</span>
       </div>
       <div class="info-item" *ngIf="match.referee">
-        <span class="info-label">👨‍⚖️ Árbitro</span>
+        <span class="info-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px;">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Árbitro
+      </span>
         <span class="info-value">{{ match.referee.username }}</span>
       </div>
       <div class="info-item">
-        <span class="info-label">🏆 Torneo</span>
+        <span class="info-label">
+          <img src="assets/icons/trophy.svg" alt="trophy icon" style="width: 16px; height: 16px; margin-right: 8px;" />
+          Torneo
+        </span>
         <span class="info-value">{{ match.tournament?.name || 'N/A' }}</span>
       </div>
     </div>
@@ -84,7 +137,21 @@
   <!-- Actions -->
   <div class="actions-section" *ngIf="canUpdateResult() && match.status !== 'cancelled'">
     <button class="update-button" (click)="updateResult()">
-      <span class="icon">✏️</span>
+      <span class="icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+        </svg>
+      </span>
       Actualizar Resultado
     </button>
   </div>
@@ -98,7 +165,25 @@
 
 <!-- Error State -->
 <div class="error-container" *ngIf="error">
-  <div class="error-icon">⚠️</div>
+  <div class="error-icon">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path
+        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+      />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+  </div>
   <p>{{ error }}</p>
   <button class="retry-button" (click)="loadMatch()">Reintentar</button>
 </div>
