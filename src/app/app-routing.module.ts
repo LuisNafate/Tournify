@@ -33,6 +33,10 @@ const routes: Routes = [
         path: 'teams',
         canActivate: [AuthGuard],
         loadChildren: () => import('./modules/teams/teams.module').then(m => m.TeamsModule)
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
       }
       // ... futuras rutas protegidas irían aquí
     ]

@@ -253,6 +253,18 @@
   color: #8b5cf6;
 }
 
+.admin-item {
+  color: #fbbf24;
+}
+
+.admin-item:hover {
+  background: rgba(251, 191, 36, 0.15);
+}
+
+.admin-item svg {
+  color: #f59e0b;
+}
+
 .logout-item {
   color: #fca5a5;
 }
