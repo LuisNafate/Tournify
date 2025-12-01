@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -16,6 +16,16 @@ export class UserService {
   private apiUrl = `${environment.apiUrl}/users`;
 
   constructor(private http: HttpClient) {}
+
+  /**
+   * Obtiene usuarios filtrados por rol
+   * @param role El rol a filtrar (player, organizer, referee, admin)
+   */
+  getUsersByRole(role: string): Observable<User[]> {
+    const params = new HttpParams().set('role', role);
+    return this.http.get<User[]>(this.apiUrl, { params })
+      .pipe(catchError(this.handleError));
+  }
 
   /**
    * Obtiene el perfil del usuario autenticado

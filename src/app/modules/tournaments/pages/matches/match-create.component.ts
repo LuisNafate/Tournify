@@ -5,6 +5,8 @@ import { MatchService } from '../../../../core/services/match.service';
 import { TournamentService } from '../../services/tournament.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { CreateMatchRequest } from '../../../../core/models/match.model';
+import { UserService } from '../../../../core/services/user.service';
+import { User } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-match-create',
@@ -17,6 +19,7 @@ export class MatchCreateComponent implements OnInit {
   loading = false;
   error: string | null = null;
   teams: any[] = [];
+  referees: User[] = [];
   tournament: any = null;
 
   constructor(
@@ -25,7 +28,8 @@ export class MatchCreateComponent implements OnInit {
     private router: Router,
     private matchService: MatchService,
     private tournamentService: TournamentService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {
     this.matchForm = this.fb.group({
       homeTeamId: ['', Validators.required],
@@ -44,7 +48,19 @@ export class MatchCreateComponent implements OnInit {
       this.tournamentId = id;
       this.loadTournament();
       this.loadTeams();
+      this.loadReferees();
     }
+  }
+
+  loadReferees(): void {
+    this.userService.getUsersByRole('referee').subscribe({
+      next: (referees) => {
+        this.referees = referees;
+      },
+      error: (err) => {
+        console.error('Error loading referees:', err);
+      }
+    });
   }
 
   loadTournament(): void {
