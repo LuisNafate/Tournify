@@ -103,9 +103,9 @@
       <div class="match-teams">
         <div class="team team-home">
           <div class="team-logo">
-            <div class="team-initials">{{ getTeamInitials(match.homeTeam?.name) }}</div>
+            <div class="team-initials">{{ getTeamInitials(match.homeTeam?.name || match.homeTeamName) }}</div>
           </div>
-          <span class="team-name">{{ match.homeTeam?.name || 'TBD' }}</span>
+          <span class="team-name">{{ match.homeTeam?.name || match.homeTeamName || 'TBD' }}</span>
         </div>
 
         <div class="match-score">
@@ -115,10 +115,10 @@
         </div>
 
         <div class="team team-away">
-          <span class="team-name">{{ match.awayTeam?.name || 'TBD' }}</span>
           <div class="team-logo">
-            <div class="team-initials">{{ getTeamInitials(match.awayTeam?.name) }}</div>
+            <div class="team-initials">{{ getTeamInitials(match.awayTeam?.name || match.awayTeamName) }}</div>
           </div>
+          <span class="team-name">{{ match.awayTeam?.name || match.awayTeamName || 'TBD' }}</span>
         </div>
       </div>
 
