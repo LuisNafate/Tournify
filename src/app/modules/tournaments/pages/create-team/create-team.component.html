@@ -3,37 +3,64 @@
     <h2>Crear Equipo</h2>
     <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
-        <label>Nombre del equipo</label>
-        <input formControlName="name" />
+        <label for="name">Nombre del equipo *</label>
+        <input 
+          id="name"
+          formControlName="name" 
+          placeholder="Ej: Los Tigres"
+          [class.error]="teamForm.get('name')?.invalid && teamForm.get('name')?.touched" />
+        <span class="error-message" *ngIf="teamForm.get('name')?.invalid && teamForm.get('name')?.touched">
+          El nombre es requerido (mínimo 3 caracteres)
+        </span>
       </div>
 
       <div class="form-row">
-        <label>Miembros</label>
-        <input type="number" formControlName="membersCount" min="1" />
+        <label for="shortName">Nombre corto (opcional)</label>
+        <input 
+          id="shortName"
+          formControlName="shortName" 
+          placeholder="Ej: TIG"
+          maxlength="10" />
       </div>
 
       <div class="form-row">
-        <label>Nombre del capitán</label>
-        <input formControlName="captainName" />
+        <label for="description">Descripción</label>
+        <textarea 
+          id="description"
+          formControlName="description" 
+          placeholder="Describe tu equipo..."
+          rows="3"
+          maxlength="200"></textarea>
       </div>
 
       <div class="form-row">
-        <label>Correo del capitán</label>
-        <input formControlName="captainEmail" type="email" />
+        <label for="contactEmail">Email de contacto</label>
+        <input 
+          id="contactEmail"
+          formControlName="contactEmail" 
+          type="email"
+          placeholder="contacto@equipo.com"
+          [class.error]="teamForm.get('contactEmail')?.invalid && teamForm.get('contactEmail')?.touched" />
+        <span class="error-message" *ngIf="teamForm.get('contactEmail')?.invalid && teamForm.get('contactEmail')?.touched">
+          Email inválido
+        </span>
       </div>
 
       <div class="form-row">
-        <label>Teléfono del capitán</label>
-        <input formControlName="captainPhone" />
-      </div>
-
-      <div class="form-row">
-        <label>Información adicional</label>
-        <textarea formControlName="additionalInfo"></textarea>
+        <label for="contactPhone">Teléfono de contacto</label>
+        <input 
+          id="contactPhone"
+          formControlName="contactPhone" 
+          placeholder="1234567890" />
       </div>
 
       <div class="actions">
-        <button type="submit" [disabled]="isSubmitting">Crear Equipo</button>
+        <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="isSubmitting">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-submit" [disabled]="isSubmitting || teamForm.invalid">
+          {{ isSubmitting ? 'Creando...' : 'Crear Equipo' }}
+        </button>
       </div>
     </form>
   </div>
