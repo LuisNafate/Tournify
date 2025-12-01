@@ -15,9 +15,9 @@ export class RoleSwitcherComponent implements OnInit, OnDestroy {
   showDropdown: boolean = false;
 
   roles: Array<{ value: 'player' | 'organizer' | 'referee'; label: string; icon: string }> = [
-    { value: 'player', label: 'Jugador', icon: '⚽' },
-    { value: 'organizer', label: 'Organizador', icon: '📋' },
-    { value: 'referee', label: 'Árbitro', icon: '🔔' }
+    { value: 'player', label: 'Jugador', icon: 'player' },
+    { value: 'organizer', label: 'Organizador', icon: 'organizer' },
+    { value: 'referee', label: 'Árbitro', icon: 'referee' }
   ];
 
   constructor(
@@ -64,7 +64,7 @@ export class RoleSwitcherComponent implements OnInit, OnDestroy {
 
   getCurrentRoleIcon(): string {
     const role = this.roles.find(r => r.value === this.currentRole);
-    return role ? role.icon : '👤';
+    return role ? role.icon : 'user';
   }
 
   toggleDropdown(): void {
