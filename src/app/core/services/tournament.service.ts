@@ -194,6 +194,16 @@ export class TournamentService {
   }
 
   /**
+   * Obtiene las registraciones (equipos inscritos) de un torneo
+   * @param tournamentId ID del torneo
+   * @returns Observable con array de registraciones
+   */
+  getRegistrations(tournamentId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${tournamentId}/registrations`)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Genera el bracket de eliminación para un torneo
    * @param tournamentId ID del torneo
    * @param startDate Fecha opcional de inicio de los partidos
