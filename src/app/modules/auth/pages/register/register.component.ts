@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { UserRole } from 'src/app/core/models/auth.models';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -14,9 +17,11 @@ export class RegisterComponent implements OnInit {
   registerError: string | null = null;
   isLoading = false;
   showPassword = false;
+  photoPreview: string | ArrayBuffer | null = null;
+  photoFile: File | null = null;
 
   // Opciones de rol
-  roles: { value: UserRole; label: string }[] = [
+  roles: { value: UserRole; label:string }[] = [
     { value: 'player', label: 'Jugador' },
     { value: 'organizer', label: 'Organizador' },
     { value: 'referee', label: 'Árbitro' }
@@ -25,6 +30,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private userService: UserService,
     private router: Router
   ) {}
 
@@ -36,10 +42,34 @@ export class RegisterComponent implements OnInit {
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-      role: ['player', [Validators.required]]
+      role: ['player', [Validators.required]],
+      photo: [null]
     }, {
       validators: this.passwordMatchValidator
     });
+  }
+
+  /**
+   * Maneja la selección de un archivo de imagen
+   */
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      if (file.type.startsWith('image/')) {
+        this.photoFile = file;
+        
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.photoPreview = reader.result;
+        };
+        reader.readAsDataURL(file);
+
+        this.registerForm.patchValue({ photo: file });
+      } else {
+        console.warn('El archivo seleccionado no es una imagen.');
+      }
+    }
   }
 
   /**
@@ -70,21 +100,28 @@ export class RegisterComponent implements OnInit {
     this.isLoading = true;
     const { username, email, password, firstName, lastName, role } = this.registerForm.value;
 
-    this.authService.register(username, email, password, firstName, lastName, role).subscribe({
+    // Subir la foto primero si existe
+    const uploadAndRegister$ = this.photoFile
+      ? this.userService.uploadAvatar(this.photoFile).pipe(
+          switchMap(response => {
+            const userData = { username, email, password, firstName, lastName, role, photoUrl: response.avatarUrl };
+            return this.authService.register(userData);
+          })
+        )
+      : this.authService.register({ username, email, password, firstName, lastName, role });
+
+    uploadAndRegister$.subscribe({
       next: () => {
         console.log('[REGISTER] Registro exitoso, iniciando sesión automática...');
-        // Después del registro exitoso, hacer login automático
         this.authService.login(email, password).subscribe({
           next: () => {
             console.log('[REGISTER] Login automático exitoso');
             this.isLoading = false;
-            // Redirigir al dashboard después del login exitoso
             this.router.navigate(['/dashboard']);
           },
           error: (loginErr) => {
             this.isLoading = false;
             console.error('Error en login automático:', loginErr);
-            // Si falla el login automático, redirigir a login manual
             this.router.navigate(['/login'], { 
               queryParams: { message: 'Registro exitoso. Por favor inicia sesión.' } 
             });
