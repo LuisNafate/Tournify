@@ -162,4 +162,49 @@ export class TournamentService {
   deleteTournament(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  /**
+   * Obtener registros pendientes de un torneo
+   * GET /tournaments/{id}/registrations
+   */
+  getRegistrations(tournamentId: string, status?: string): Observable<any[]> {
+    let params = new HttpParams();
+    if (status) {
+      params = params.set('status', status);
+    }
+    return this.http.get<any[]>(`${this.apiUrl}/${tournamentId}/registrations`, { params });
+  }
+
+  /**
+   * Aprobar un registro de equipo
+   * POST /tournaments/{tournamentId}/registrations/{registrationId}/approve
+   */
+  approveRegistration(tournamentId: string, registrationId: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${tournamentId}/registrations/${registrationId}/approve`, {});
+  }
+
+  /**
+   * Rechazar un registro de equipo
+   * POST /tournaments/{tournamentId}/registrations/{registrationId}/reject
+   */
+  rejectRegistration(tournamentId: string, registrationId: string, reason?: string): Observable<void> {
+    const body = reason ? { reason } : {};
+    return this.http.post<void>(`${this.apiUrl}/${tournamentId}/registrations/${registrationId}/reject`, body);
+  }
+
+  /**
+   * Iniciar un torneo
+   * POST /tournaments/{id}/start
+   */
+  startTournament(tournamentId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${tournamentId}/start`, {});
+  }
+
+  /**
+   * Finalizar un torneo
+   * POST /tournaments/{id}/finish
+   */
+  finishTournament(tournamentId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${tournamentId}/finish`, {});
+  }
 }

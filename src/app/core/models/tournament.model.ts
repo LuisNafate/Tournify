@@ -166,3 +166,20 @@ export interface FollowerStats {
   followersCount: number;
   isFollowing: boolean;
 }
+
+export interface TeamRegistration {
+  id: string; // UUID
+  tournamentId: string;
+  teamId: string;
+  teamName: string;
+  teamLogoUrl?: string | null;
+  captainName: string;
+  status: RegistrationStatus;
+  requiresApproval: boolean;
+  registeredAt: string; // ISO 8601
+  approvedAt?: string | null;
+  rejectedAt?: string | null;
+  rejectionReason?: string | null;
+}
+
+export type RegistrationStatus = 'pending' | 'approved' | 'rejected';

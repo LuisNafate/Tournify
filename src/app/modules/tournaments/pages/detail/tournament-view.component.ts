@@ -14,6 +14,8 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
   @Input() followLoading: boolean = false;
   @Output() followToggle = new EventEmitter<void>();
   @Output() deleteTournament = new EventEmitter<void>();
+  @Output() startTournament = new EventEmitter<void>();
+  @Output() finishTournament = new EventEmitter<void>();
 
   private _isOrganizer: boolean = false;
   private userSubscription?: Subscription;
@@ -61,6 +63,12 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
+  manageRegistrations(): void {
+    if (this.tournament) {
+      this.router.navigate(['/tournaments', this.tournament.id, 'registrations']);
+    }
+  }
+
   onFollowClick(): void {
     this.followToggle.emit();
   }
@@ -78,8 +86,30 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
+  onStartTournament(): void {
+    const confirmMessage = `¿Estás seguro de que deseas iniciar el torneo "${this.tournament?.name}"?\n\nEsto cambiará el estado a "En curso" y cerrará las inscripciones.`;
+    if (confirm(confirmMessage)) {
+      this.startTournament.emit();
+    }
+  }
+
+  onFinishTournament(): void {
+    const confirmMessage = `¿Estás seguro de que deseas finalizar el torneo "${this.tournament?.name}"?\n\nEsto marcará el torneo como completado.`;
+    if (confirm(confirmMessage)) {
+      this.finishTournament.emit();
+    }
+  }
+
   isOrganizer(): boolean {
     return this._isOrganizer;
+  }
+
+  canStartTournament(): boolean {
+    return this.tournament?.status === 'registration' || this.tournament?.status === 'upcoming';
+  }
+
+  canFinishTournament(): boolean {
+    return this.tournament?.status === 'ongoing';
   }
 
   private checkIsOrganizer(): boolean {
