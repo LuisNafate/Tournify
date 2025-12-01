@@ -194,6 +194,18 @@ export class TournamentService {
   }
 
   /**
+   * Genera el bracket de eliminación para un torneo
+   * @param tournamentId ID del torneo
+   * @param startDate Fecha opcional de inicio de los partidos
+   * @returns Observable con la respuesta de generación
+   */
+  generateBracket(tournamentId: string, startDate?: string): Observable<any> {
+    const body = startDate ? { startDate } : {};
+    return this.http.post<any>(`${this.apiUrl}/${tournamentId}/generate-bracket`, body)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Maneja errores de HTTP
    */
   private handleError(error: HttpErrorResponse) {

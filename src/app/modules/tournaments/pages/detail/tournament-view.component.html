@@ -15,6 +15,14 @@
             </svg>
             VER PARTIDOS
           </button>
+          <button class="btn-bracket" (click)="viewBracket()" *ngIf="tournament.tournamentType === 'elimination'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+            VER BRACKET
+          </button>
           <button class="btn-edit" (click)="editTournament()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -41,6 +49,14 @@
               <line x1="3" y1="10" x2="21" y2="10"/>
             </svg>
             VER PARTIDOS
+          </button>
+          <button class="btn-bracket" (click)="viewBracket()" *ngIf="tournament.tournamentType === 'elimination'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+            VER BRACKET
           </button>
           <button class="btn-follow" (click)="onFollowClick()" [disabled]="followLoading">
             {{ followLoading ? 'CARGANDO...' : (tournament.isFollowing ? 'DEJAR DE SEGUIR' : 'SEGUIR') }}
@@ -83,27 +99,24 @@
   </div>
 
   <div class="teams-section">
-    <h2 class="section-title">Equipos</h2>
+    <h2 class="section-title">Equipos Inscritos</h2>
     
-    <div class="teams-grid">
-      <div class="team-card">
-        <img src="assets/images/Cruz-Azul-Logo.png" alt="Equipo" class="team-logo">
-        <h3 class="team-name">Cruz Azul</h3>
-        <p class="team-members">5 jugadores</p>
-      </div>
+    <!-- Loading -->
+    <div *ngIf="!tournament.teams || tournament.teams.length === 0" class="empty-teams">
+      <p>No hay equipos inscritos aún</p>
+    </div>
 
-      <div class="team-card">
-        <img src="assets/images/Pelusa-Caligari-Logo.png" alt="Equipo" class="team-logo">
-        <h3 class="team-name">Pelusa Caligari</h3>
-        <p class="team-members">5 jugadores</p>
+    <!-- Teams Grid -->
+    <div class="teams-grid" *ngIf="tournament.teams && tournament.teams.length > 0">
+      <div *ngFor="let team of tournament.teams" class="team-card">
+        <img 
+          [src]="team.logoUrl || 'assets/images/default-team-logo.png'" 
+          [alt]="team.name" 
+          class="team-logo"
+          (error)="$any($event.target).src='assets/images/default-team-logo.png'">
+        <h3 class="team-name">{{ team.name }}</h3>
+        <p class="team-members">{{ team.players?.length || 0 }} jugadores</p>
       </div>
-
-      <div class="team-card">
-        <img src="assets/images/T1-Logo.png" alt="Equipo" class="team-logo">
-        <h3 class="team-name">T1</h3>
-        <p class="team-members">5 jugadores</p>
-      </div>
-
     </div>
   </div>
 </div>

@@ -1,0 +1,106 @@
+<div class="bracket-container">
+  <!-- Header -->
+  <div class="bracket-header">
+    <button class="btn-back-icon" (click)="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Volver al Torneo
+    </button>
+    <h1>Bracket de Eliminación</h1>
+    
+    <button 
+      *ngIf="matches.length === 0 && !loading" 
+      class="btn-generate-bracket"
+      (click)="generateBracket()"
+      [disabled]="generatingBracket">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+        <line x1="12" y1="22.08" x2="12" y2="12"/>
+      </svg>
+      {{ generatingBracket ? 'Generando...' : 'Generar Bracket' }}
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando bracket...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="btn-retry" (click)="loadBracket()">Reintentar</button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && matches.length === 0" class="empty-container">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+      <line x1="12" y1="22.08" x2="12" y2="12"/>
+    </svg>
+    <h3>No hay bracket generado</h3>
+    <p>Genera el bracket para comenzar el torneo de eliminación</p>
+    <button class="btn btn-primary" (click)="generateBracket()" [disabled]="generatingBracket">
+      {{ generatingBracket ? 'Generando...' : 'Generar Bracket' }}
+    </button>
+  </div>
+
+  <!-- Bracket -->
+  <div *ngIf="!loading && rounds.length > 0" class="bracket-grid">
+    <div *ngFor="let round of rounds" class="bracket-round">
+      <h3 class="round-title">{{ round.name }}</h3>
+      
+      <div class="round-matches">
+        <div 
+          *ngFor="let match of round.matches" 
+          class="bracket-match"
+          [ngClass]="getMatchClass(match)"
+          (click)="viewMatch(match.id)">
+          
+          <!-- Equipo Local -->
+          <div class="bracket-team" [class.winner]="isWinner(match, match.homeTeamId)">
+            <div class="team-info">
+              <img 
+                *ngIf="match.homeTeam?.logoUrl" 
+                [src]="match.homeTeam?.logoUrl" 
+                [alt]="match.homeTeam?.name"
+                class="team-logo-small">
+              <span class="team-name">{{ match.homeTeam?.name || 'TBD' }}</span>
+            </div>
+            <span class="team-score">{{ match.scoreHome ?? '-' }}</span>
+          </div>
+
+          <!-- Separador -->
+          <div class="match-separator"></div>
+
+          <!-- Equipo Visitante -->
+          <div class="bracket-team" [class.winner]="isWinner(match, match.awayTeamId)">
+            <div class="team-info">
+              <img 
+                *ngIf="match.awayTeam?.logoUrl" 
+                [src]="match.awayTeam?.logoUrl" 
+                [alt]="match.awayTeam?.name"
+                class="team-logo-small">
+              <span class="team-name">{{ match.awayTeam?.name || 'TBD' }}</span>
+            </div>
+            <span class="team-score">{{ match.scoreAway ?? '-' }}</span>
+          </div>
+
+          <!-- Metadata -->
+          <div class="match-metadata" *ngIf="match.scheduledAt || match.location">
+            <span *ngIf="match.scheduledAt" class="match-date">
+              {{ match.scheduledAt | date:'dd/MM HH:mm' }}
+            </span>
+            <span *ngIf="match.location" class="match-location">
+              {{ match.location }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
