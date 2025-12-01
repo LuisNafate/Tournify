@@ -299,6 +299,140 @@
   margin-bottom: 1.5rem;
 }
 
+/* Estilos para matches grid (árbitros) */
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.match-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  transition: all 0.3s ease;
+}
+
+.match-card:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+  transform: translateY(-2px);
+}
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.tournament-name {
+  font-size: 0.9rem;
+  color: #8b5cf6;
+  font-weight: 600;
+}
+
+.match-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.match-status.status-scheduled {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+.match-status.status-ongoing {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.match-status.status-finished {
+  background: rgba(100, 116, 139, 0.2);
+  color: #94a3b8;
+}
+
+.match-teams {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0;
+  gap: 1rem;
+}
+
+.match-teams .team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 0.5rem;
+}
+
+.match-teams .team-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+}
+
+.match-teams .team-score {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #8b5cf6;
+}
+
+.match-teams .vs {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.match-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+}
+
+.match-details .detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.match-details .detail-label {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.match-details .detail-value {
+  font-size: 0.85rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.match-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.match-actions .btn {
+  flex: 1;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
 /* Responsive */
 @media (max-width: 968px) {
   .dashboard-page {
@@ -319,7 +453,15 @@
     grid-template-columns: 1fr;
   }
 
+  .matches-grid {
+    grid-template-columns: 1fr;
+  }
+
   .card-actions {
+    flex-direction: column;
+  }
+
+  .match-actions {
     flex-direction: column;
   }
 }
