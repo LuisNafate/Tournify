@@ -1,6 +1,9 @@
 <div class="tournament-view" *ngIf="tournament">
   <div class="tournament-banner">
-    <img [src]="tournament.image" [alt]="tournament.name">
+    <img 
+      [src]="tournament.imageUrl || tournament.bannerUrl || 'assets/images/Background-featured-tournaments.png'" 
+      [alt]="tournament.name"
+      (error)="onBannerImageError($event)">
     <div class="banner-overlay">
       <span class="organizer-badge">Organizador: {{ getOrganizerName() }}</span>
       <div class="banner-buttons">

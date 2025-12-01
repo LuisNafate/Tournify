@@ -36,6 +36,12 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tournament'] && this.tournament) {
       this._isOrganizer = this.checkIsOrganizer();
+      // Log para debugging de la imagen
+      console.log('Tournament data:', {
+        name: this.tournament.name,
+        imageUrl: this.tournament.imageUrl,
+        bannerUrl: this.tournament.bannerUrl
+      });
     }
   }
 
@@ -169,5 +175,10 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
   onImageError(event: any): void {
     // Ocultar imagen si falla la carga
     event.target.style.display = 'none';
+  }
+
+  onBannerImageError(event: any): void {
+    // Usar imagen por defecto si falla la carga del banner
+    event.target.src = 'assets/images/Background-featured-tournaments.png';
   }
 }
