@@ -10,6 +10,8 @@ export interface Tournament {
   organizerId: string; // UUID
   tournamentType: TournamentType;
   eliminationMode?: EliminationMode | null;
+  category?: string | null;
+  sportSubType?: string | null;
   status: TournamentStatus;
   startDate?: string | null; // ISO 8601
   endDate?: string | null; // ISO 8601
@@ -17,12 +19,14 @@ export interface Tournament {
   location?: string | null;
   prizePool?: string | null;
   rules?: string | null;
+  rulesText?: string | null;
   bannerUrl?: string | null;
-  sportSettings: SportSettings;
+  imageUrl?: string | null;
+  sportSettings?: SportSettings;
   groupConfig?: GroupConfig | null;
   currentTeams: number;
   maxTeams: number;
-  createdAt: string; // ISO 8601
+  createdAt?: string; // ISO 8601
   updatedAt?: string | null;
 }
 
@@ -45,12 +49,12 @@ export interface GroupConfig {
 }
 
 export interface TournamentWithDetails extends Tournament {
-  sport?: {
+  sport?: string | {
     id: string;
     name: string;
     category: string;
   };
-  organizer?: {
+  organizer?: string | {
     id: string;
     username: string;
     avatarUrl?: string;
