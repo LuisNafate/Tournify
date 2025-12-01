@@ -7,6 +7,7 @@ import { ListComponent } from './pages/list/list.component';
 import { CreateComponent } from './pages/create/create.component';
 import { DetailComponent } from './pages/detail/detail.component';
 import { TournamentViewComponent } from './pages/detail/tournament-view.component';
+import { EditComponent } from './pages/edit/edit.component';
 
 // Módulo de torneos
 @NgModule({
@@ -14,7 +15,8 @@ import { TournamentViewComponent } from './pages/detail/tournament-view.componen
     ListComponent,
     CreateComponent,
     DetailComponent,
-    TournamentViewComponent
+    TournamentViewComponent,
+    EditComponent
   ],
   imports: [
     CommonModule,
