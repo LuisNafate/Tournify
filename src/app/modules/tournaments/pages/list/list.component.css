@@ -1,7 +1,7 @@
 /* Estilos de la página de lista de torneos */
 .tournaments-list-page {
   /* Añade padding para el navbar y espacio inferior */
-  padding: 100px 2rem 4rem 2rem; 
+  padding: 2rem 2rem 4rem 2rem; 
   max-width: 1400px;
   margin: 0 auto;
   min-height: 100vh;

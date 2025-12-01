@@ -1,20 +1,6 @@
 <div class="create-tournament-page">
   <!-- Sidebar Lateral -->
   <aside class="sidebar">
-    <!-- Perfil de Usuario -->
-    <div class="sidebar-header">
-      <div class="user-profile">
-        <div class="avatar-wrapper">
-          <img src="assets/images/default-avatar.png" alt="Avatar" class="avatar">
-          <div class="status-indicator"></div>
-        </div>
-        <div class="user-details">
-          <h3 class="user-name">Luvia Magali Hidalgo</h3>
-          <a href="#" class="logout-link">Cerrar sesión</a>
-        </div>
-      </div>
-    </div>
-
     <!-- Navegación -->
     <nav class="sidebar-nav">
       <a routerLink="/teams/register" class="nav-link">
@@ -45,15 +31,6 @@
         <span>Arbitraje</span>
       </a>
     </nav>
-
-    <!-- Footer del sidebar -->
-    <div class="sidebar-footer">
-      <button class="collapse-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
-      </button>
-    </div>
   </aside>
 
   <!-- Contenido Principal -->
@@ -63,13 +40,15 @@
       <div class="breadcrumb">
         <a routerLink="/dashboard">Inicio</a>
         <span class="separator">/</span>
+        <a routerLink="/tournaments/list">Mis Torneos</a>
+        <span class="separator">/</span>
         <span class="current">Crear Torneo</span>
       </div>
-      <button class="btn-new" routerLink="/tournaments/list">
+      <button type="button" class="btn-new" routerLink="/tournaments/list">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M15 18l-6-6 6-6"/>
         </svg>
-        Ver todos los torneos
+        Volver a Mis Torneos
       </button>
     </header>
 
