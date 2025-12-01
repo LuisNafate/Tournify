@@ -1,0 +1,163 @@
+<div class="edit-tournament-container">
+  <div class="page-header">
+    <h1>Editar Torneo</h1>
+    <p class="subtitle">Modifica los detalles de tu torneo</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando datos del torneo...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="btn-back" (click)="onCancel()">Volver</button>
+  </div>
+
+  <!-- Edit Form -->
+  <form *ngIf="!loading && !error" (ngSubmit)="onSubmit()" class="edit-form">
+    <!-- Información Básica -->
+    <div class="form-section">
+      <h2 class="section-title">Información Básica</h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Nombre del Torneo *</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="tournament.name"
+            placeholder="Ej: Copa de Campeones 2024"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="sport">Deporte *</label>
+          <select
+            id="sport"
+            name="sport"
+            [(ngModel)]="tournament.sport"
+            required
+            disabled>
+            <option value="">Selecciona un deporte</option>
+            <option *ngFor="let sport of sports" [value]="sport.id">
+              {{ sport.name }}
+            </option>
+          </select>
+          <small class="help-text">El deporte no puede ser modificado</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="tournament.description"
+          rows="4"
+          placeholder="Describe tu torneo..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Ubicación *</label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          [(ngModel)]="tournament.location"
+          placeholder="Ej: Estadio Nacional, Ciudad"
+          required>
+      </div>
+    </div>
+
+    <!-- Fechas -->
+    <div class="form-section">
+      <h2 class="section-title">Fechas</h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="startDate">Fecha de Inicio *</label>
+          <input
+            type="datetime-local"
+            id="startDate"
+            name="startDate"
+            [(ngModel)]="tournament.startDate"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="endDate">Fecha de Fin *</label>
+          <input
+            type="datetime-local"
+            id="endDate"
+            name="endDate"
+            [(ngModel)]="tournament.endDate"
+            required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="registrationDeadline">Fecha Límite de Inscripción</label>
+        <input
+          type="datetime-local"
+          id="registrationDeadline"
+          name="registrationDeadline"
+          [(ngModel)]="tournament.registrationDeadline">
+      </div>
+    </div>
+
+    <!-- Configuración -->
+    <div class="form-section">
+      <h2 class="section-title">Configuración</h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="maxTeams">Número Máximo de Equipos *</label>
+          <input
+            type="number"
+            id="maxTeams"
+            name="maxTeams"
+            [(ngModel)]="tournament.maxTeams"
+            min="2"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="prizePool">Premio (Opcional)</label>
+          <input
+            type="number"
+            id="prizePool"
+            name="prizePool"
+            [(ngModel)]="tournament.prizePool"
+            min="0"
+            step="0.01"
+            placeholder="0.00">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="rules">Reglas del Torneo</label>
+        <textarea
+          id="rules"
+          name="rules"
+          [(ngModel)]="tournament.rules"
+          rows="6"
+          placeholder="Especifica las reglas del torneo..."></textarea>
+      </div>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()" [disabled]="loading">
+        Cancelar
+      </button>
+      <button type="submit" class="btn-save" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-small"></span>
+        {{ loading ? 'Guardando...' : 'Guardar Cambios' }}
+      </button>
+    </div>
+  </form>
+</div>
