@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { Subscription } from 'rxjs';
 
 // componente para vista del torneo
 @Component({
@@ -8,22 +9,37 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './tournament-view.component.html',
   styleUrls: ['./tournament-view.component.css']
 })
-export class TournamentViewComponent implements OnChanges {
+export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
   @Input() tournament: any;
   @Input() followLoading: boolean = false;
   @Output() followToggle = new EventEmitter<void>();
   @Output() deleteTournament = new EventEmitter<void>();
 
   private _isOrganizer: boolean = false;
+  private userSubscription?: Subscription;
 
   constructor(
     private router: Router,
     private authService: AuthService
   ) {}
 
+  ngOnInit(): void {
+    // Suscribirse a cambios en el usuario
+    this.userSubscription = this.authService.usuarioActual$.subscribe(user => {
+      console.log('User changed:', user);
+      this._isOrganizer = this.checkIsOrganizer();
+    });
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tournament'] && this.tournament) {
       this._isOrganizer = this.checkIsOrganizer();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 
