@@ -205,6 +205,14 @@
   box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
 }
 
+.form-help {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
+
 .spinner-small {
   width: 16px;
   height: 16px;
