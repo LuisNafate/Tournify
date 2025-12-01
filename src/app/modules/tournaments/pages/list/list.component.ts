@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Tournament, TournamentFilters } from '../../../../core/models/tournament.model';
 import { TournamentService, PaginatedResponse } from '../../services/tournament.service';
 import { SportService } from '../../../../core/services/sport.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { Sport } from '../../../../core/models/sport.model';
+import { User } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-list',
@@ -14,6 +16,7 @@ export class ListComponent implements OnInit {
   loading = false;
   error: string | null = null;
   sports: Sport[] = [];
+  currentUser: User | null = null;
 
   // Paginación
   currentPage = 0;
@@ -35,10 +38,12 @@ export class ListComponent implements OnInit {
 
   constructor(
     private tournamentService: TournamentService,
-    private sportService: SportService
+    private sportService: SportService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.currentUser = this.authService.usuarioActualValue;
     this.loadSports();
     this.loadTournaments();
   }
@@ -58,13 +63,44 @@ export class ListComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.tournamentService.getTournaments(this.filters).subscribe({
+    // Si es organizador, usar endpoint específico
+    const serviceCall = this.currentUser?.role === 'organizer' 
+      ? this.tournamentService.getMyTournaments()
+      : this.tournamentService.getTournaments(this.filters);
+
+    serviceCall.subscribe({
       next: (response: PaginatedResponse<Tournament>) => {
-        this.tournaments = response.content;
-        this.currentPage = response.page;
-        this.pageSize = response.size;
-        this.totalPages = response.totalPages;
-        this.totalElements = response.totalElements;
+        let filteredTournaments = response.content;
+
+        // Si es organizador, aplicar filtros en el frontend
+        if (this.currentUser?.role === 'organizer') {
+          // Filtro por deporte
+          if (this.selectedSportId) {
+            filteredTournaments = filteredTournaments.filter(t => t.sportId === this.selectedSportId);
+          }
+          // Filtro por estado
+          if (this.selectedStatus) {
+            filteredTournaments = filteredTournaments.filter(t => t.status === this.selectedStatus);
+          }
+          // Filtro por tipo
+          if (this.selectedType) {
+            filteredTournaments = filteredTournaments.filter(t => t.tournamentType === this.selectedType);
+          }
+          // Filtro por búsqueda
+          if (this.searchTerm) {
+            const term = this.searchTerm.toLowerCase();
+            filteredTournaments = filteredTournaments.filter(t => 
+              t.name.toLowerCase().includes(term) || 
+              (t.description && t.description.toLowerCase().includes(term))
+            );
+          }
+        }
+
+        this.tournaments = filteredTournaments;
+        this.currentPage = 0;
+        this.pageSize = filteredTournaments.length;
+        this.totalPages = 1;
+        this.totalElements = filteredTournaments.length;
         this.loading = false;
       },
       error: (err) => {
