@@ -35,8 +35,8 @@ export class DetailComponent implements OnInit {
       next: (tournament: TournamentWithDetails) => {
         this.tournament = tournament;
         
-        // Cargar registraciones (equipos inscritos)
-        this.tournamentService.getRegistrations(id).subscribe({
+        // Cargar registraciones aprobadas (equipos inscritos)
+        this.tournamentService.getRegistrations(id, 'approved').subscribe({
           next: (registrations) => {
             // Mapear registraciones a formato TournamentTeam
             if (this.tournament) {
