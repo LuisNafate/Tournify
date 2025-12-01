@@ -1,0 +1,104 @@
+<div class="match-detail-container" *ngIf="!loading && !error && match">
+  <!-- Header -->
+  <div class="detail-header">
+    <button class="back-button" (click)="goBack()">
+      <span class="icon">←</span> Volver al Torneo
+    </button>
+    <h1>Detalle del Partido</h1>
+  </div>
+
+  <!-- Status Banner -->
+  <div class="status-banner" [ngClass]="getStatusClass(match.status)">
+    <span class="status-label">{{ getStatusLabel(match.status) }}</span>
+    <span class="round-label" *ngIf="match.roundName">Ronda {{ match.roundName }}</span>
+  </div>
+
+  <!-- Teams Section -->
+  <div class="teams-section">
+    <div class="team-container" [class.winner]="getWinnerIndicator(match.homeTeam?.id)">
+      <div class="team-logo">
+        <img 
+          [src]="match.homeTeam?.logoUrl || '/assets/icons/default-team.png'" 
+          [alt]="match.homeTeam?.name"
+          onerror="this.src='/assets/icons/default-team.png'"
+        />
+      </div>
+      <h2 class="team-name">{{ match.homeTeam?.name || 'Equipo Local' }}</h2>
+      <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
+        {{ match.scoreHome ?? 0 }}
+      </div>
+      <span class="winner-badge" *ngIf="getWinnerIndicator(match.homeTeam?.id)">🏆 Ganador</span>
+    </div>
+
+    <div class="vs-divider">VS</div>
+
+    <div class="team-container" [class.winner]="getWinnerIndicator(match.awayTeam?.id)">
+      <div class="team-logo">
+        <img 
+          [src]="match.awayTeam?.logoUrl || '/assets/icons/default-team.png'" 
+          [alt]="match.awayTeam?.name"
+          onerror="this.src='/assets/icons/default-team.png'"
+        />
+      </div>
+      <h2 class="team-name">{{ match.awayTeam?.name || 'Equipo Visitante' }}</h2>
+      <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
+        {{ match.scoreAway ?? 0 }}
+      </div>
+      <span class="winner-badge" *ngIf="getWinnerIndicator(match.awayTeam?.id)">🏆 Ganador</span>
+    </div>
+  </div>
+
+  <!-- Match Information -->
+  <div class="info-card">
+    <h3>Información del Partido</h3>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">📅 Fecha Programada</span>
+        <span class="info-value">{{ match.scheduledAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="info-item" *ngIf="match.playedAt">
+        <span class="info-label">🎯 Fecha de Juego</span>
+        <span class="info-value">{{ match.playedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="info-item" *ngIf="match.location">
+        <span class="info-label">📍 Ubicación</span>
+        <span class="info-value">{{ match.location }}</span>
+      </div>
+      <div class="info-item" *ngIf="match.referee">
+        <span class="info-label">👨‍⚖️ Árbitro</span>
+        <span class="info-value">{{ match.referee.username }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">🏆 Torneo</span>
+        <span class="info-value">{{ match.tournament?.name || 'N/A' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes Section -->
+  <div class="notes-card" *ngIf="match.matchData">
+    <h3>Notas del Partido</h3>
+    <p>Información adicional del partido disponible</p>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions-section" *ngIf="canUpdateResult() && match.status !== 'cancelled'">
+    <button class="update-button" (click)="updateResult()">
+      <span class="icon">✏️</span>
+      Actualizar Resultado
+    </button>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Cargando partido...</p>
+</div>
+
+<!-- Error State -->
+<div class="error-container" *ngIf="error">
+  <div class="error-icon">⚠️</div>
+  <p>{{ error }}</p>
+  <button class="retry-button" (click)="loadMatch()">Reintentar</button>
+</div>

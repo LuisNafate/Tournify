@@ -82,6 +82,34 @@
   filter: brightness(1.1);
 }
 
+.btn-matches {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.8rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-matches svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-matches:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(33, 150, 243, 0.5);
+  filter: brightness(1.1);
+}
+
 .btn-edit {
   display: flex;
   align-items: center;

@@ -25,6 +25,12 @@ export class TournamentViewComponent {
     }
   }
 
+  viewMatches(): void {
+    if (this.tournament) {
+      this.router.navigate(['/tournaments', this.tournament.id, 'matches']);
+    }
+  }
+
   onFollowClick(): void {
     this.followToggle.emit();
   }
