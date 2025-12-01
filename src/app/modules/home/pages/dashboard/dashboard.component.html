@@ -124,11 +124,10 @@
   <section class="referee-section" *ngIf="isReferee()">
     <div class="section-header">
       <h2>Mis Partidos Asignados</h2>
-      <a routerLink="/tournaments/list" class="see-all-link">Ver todos los torneos</a>
     </div>
 
     <p class="section-description">
-      Partidos en los que estás asignado como árbitro.
+      Gestiona los partidos en los que estás asignado como árbitro.
     </p>
 
     <div class="loading-state" *ngIf="loading">
@@ -188,40 +187,9 @@
       </div>
     </div>
 
-    <!-- Torneos Asignados -->
-    <div class="tournaments-section" *ngIf="!loading && !error && tournaments.length > 0">
-      <h3>Torneos Asignados</h3>
-      <div class="tournaments-grid">
-        <div class="tournament-card" *ngFor="let tournament of tournaments">
-          <div class="card-image" [style.backgroundImage]="'url(' + (tournament.imageUrl || tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
-          <div class="card-content">
-            <div class="card-header">
-              <h3 class="tournament-title">{{ tournament.name }}</h3>
-              <span class="status-badge" [ngClass]="{
-                'status-active': tournament.status === 'ongoing',
-                'status-upcoming': tournament.status === 'upcoming' || tournament.status === 'registration',
-                'status-finished': tournament.status === 'finished'
-              }">
-                {{ tournament.status === 'ongoing' ? 'Activo' : (tournament.status === 'upcoming' || tournament.status === 'registration' ? 'Próximo' : 'Finalizado') }}
-              </span>
-            </div>
-            <p class="tournament-meta">{{ tournament.tournamentType === 'league' ? 'Liga' : (tournament.tournamentType === 'elimination' ? 'Eliminación' : 'Híbrido') }} • {{ tournament.maxTeams }} equipos</p>
-            <div class="card-details">
-              <div class="detail-item" *ngIf="tournament.startDate">
-                <span class="detail-label">Fecha inicio:</span>
-                <span class="detail-value">{{ tournament.startDate | date:'dd/MM/yyyy' }}</span>
-              </div>
-            </div>
-            <a [routerLink]="['/tournaments/detail', tournament.id]" class="btn btn-primary">Ver Torneo</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="empty-state" *ngIf="!loading && !error && refereeMatches.length === 0 && tournaments.length === 0">
-      <p>No tienes partidos ni torneos asignados actualmente.</p>
-      <p>Espera a que un organizador te asigne a un torneo.</p>
-      <a routerLink="/tournaments/list" class="btn btn-primary">Explorar Torneos</a>
+    <div class="empty-state" *ngIf="!loading && !error && refereeMatches.length === 0">
+      <p>No tienes partidos asignados actualmente.</p>
+      <p>Espera a que un organizador te asigne a un partido.</p>
     </div>
   </section>
 </div>

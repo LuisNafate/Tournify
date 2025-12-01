@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GroupService } from '../../../../core/services/group.service';
 import { TournamentGroupsData, GroupWithStandings } from '../../../../core/models/group.model';
+import { TournamentService } from '../../../../core/services/tournament.service';
 
 @Component({
   selector: 'app-groups',
@@ -16,7 +17,8 @@ export class GroupsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private tournamentService: TournamentService
   ) {}
 
   ngOnInit(): void {

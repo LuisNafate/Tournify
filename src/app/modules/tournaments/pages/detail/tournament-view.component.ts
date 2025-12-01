@@ -90,12 +90,6 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  manageReferees(): void {
-    if (this.tournament) {
-      this.router.navigate(['/tournaments', this.tournament.id, 'referees']);
-    }
-  }
-
   onFollowClick(): void {
     this.followToggle.emit();
   }
@@ -129,6 +123,16 @@ export class TournamentViewComponent implements OnChanges, OnInit, OnDestroy {
 
   isOrganizer(): boolean {
     return this._isOrganizer;
+  }
+
+  isReferee(): boolean {
+    const currentUser = this.authService.usuarioActualValue;
+    return currentUser?.role === 'referee';
+  }
+
+  isPlayer(): boolean {
+    const currentUser = this.authService.usuarioActualValue;
+    return currentUser?.role === 'player';
   }
 
   canStartTournament(): boolean {
