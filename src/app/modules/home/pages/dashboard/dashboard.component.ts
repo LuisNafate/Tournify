@@ -25,6 +25,15 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.usuarioActualValue;
     this.loadDashboardData();
+
+    // Suscribirse a cambios en el usuario (incluye cambios de rol)
+    this.authService.usuarioActual$.subscribe(user => {
+      if (user && user.role !== this.currentUser?.role) {
+        console.log('Dashboard detectó cambio de rol:', this.currentUser?.role, '→', user.role);
+        this.currentUser = user;
+        this.loadDashboardData();
+      }
+    });
   }
 
   loadDashboardData(): void {
