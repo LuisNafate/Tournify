@@ -70,7 +70,7 @@
 
     <div class="tournament-card" *ngFor="let tournament of tournaments">
 
-      <div class="card-image" [style.backgroundImage]="'url(' + (tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
+      <div class="card-image" [style.backgroundImage]="'url(' + (tournament.imageUrl || tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
 
       <div class="card-content">
         <div class="card-header">
