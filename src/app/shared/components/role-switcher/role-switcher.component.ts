@@ -100,10 +100,8 @@ export class RoleSwitcherComponent implements OnInit, OnDestroy {
         this.isChanging = false;
         this.showDropdown = false;
         
-        // Redirigir al dashboard para refrescar la vista
-        this.router.navigate(['/dashboard']).then(() => {
-          window.location.reload();
-        });
+        // Redirigir al dashboard (sin reload, el sidebar se actualizará automáticamente)
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         console.error('Error al cambiar de rol:', err);
