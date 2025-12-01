@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatchService } from '../../../../core/services/match.service';
 import { TournamentService } from '../../services/tournament.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { CreateMatchRequest } from '../../../../core/models/match.model';
 
 @Component({
   selector: 'app-match-create',
@@ -71,14 +72,15 @@ export class MatchCreateComponent implements OnInit {
     // Cargar equipos inscritos (registraciones aprobadas)
     this.tournamentService.getRegistrations(this.tournamentId, 'approved').subscribe({
       next: (registrations: any[]) => {
-        // Mapear registraciones a formato de equipo (solo ID y nombre, sin logoUrl)
+        // Mapear registraciones a formato de equipo
         this.teams = registrations.map(reg => ({
           id: reg.teamId,
-          name: reg.teamName
+          name: reg.teamName,
+          logoUrl: reg.teamLogoUrl
         }));
-        
+
         console.log('Equipos cargados:', this.teams);
-        
+
         if (this.teams.length === 0) {
           this.error = 'No hay equipos inscritos en este torneo. Por favor, inscribe equipos primero.';
         }
@@ -109,15 +111,15 @@ export class MatchCreateComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    const matchData = {
+    const matchData: CreateMatchRequest = {
       tournamentId: this.tournamentId,
       homeTeamId: formValue.homeTeamId,
       awayTeamId: formValue.awayTeamId,
-      roundName: formValue.roundName || null,
+      roundName: formValue.roundName || undefined,
       matchNumber: formValue.matchNumber,
-      scheduledAt: formValue.scheduledAt || null,
-      location: formValue.location || null,
-      refereeId: formValue.refereeId || null
+      scheduledAt: formValue.scheduledAt || undefined,
+      location: formValue.location || undefined,
+      refereeId: formValue.refereeId || undefined
     };
 
     console.log('Sending match data:', matchData);
