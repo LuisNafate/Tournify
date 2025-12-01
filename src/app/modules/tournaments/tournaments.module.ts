@@ -13,6 +13,7 @@ import { MatchDetailComponent } from './pages/matches/match-detail.component';
 import { MatchUpdateResultComponent } from './pages/matches/match-update-result.component';
 import { MatchCreateComponent } from './pages/matches/match-create.component';
 import { BracketComponent } from './pages/bracket/bracket.component';
+import { GroupsComponent } from './pages/groups/groups.component';
 
 // Módulo de torneos
 @NgModule({
@@ -26,7 +27,8 @@ import { BracketComponent } from './pages/bracket/bracket.component';
     MatchDetailComponent,
     MatchUpdateResultComponent,
     MatchCreateComponent,
-    BracketComponent
+    BracketComponent,
+    GroupsComponent
   ],
   imports: [
     CommonModule,
