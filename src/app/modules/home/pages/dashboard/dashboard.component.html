@@ -28,7 +28,7 @@
 
     <div class="tournaments-grid" *ngIf="!loading && !error">
       <div class="tournament-card" *ngFor="let tournament of tournaments">
-        <div class="card-image" [style.backgroundImage]="'url(' + (tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
+        <div class="card-image" [style.backgroundImage]="'url(' + (tournament.imageUrl || tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
         <div class="card-content">
           <div class="card-header">
             <h3 class="tournament-title">{{ tournament.name }}</h3>
@@ -83,7 +83,7 @@
 
     <div class="tournaments-grid" *ngIf="!loading && !error">
       <div class="tournament-card" *ngFor="let tournament of myTournaments">
-        <div class="card-image" [style.backgroundImage]="'url(' + (tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
+        <div class="card-image" [style.backgroundImage]="'url(' + (tournament.imageUrl || tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
         <div class="card-content">
           <div class="card-header">
             <h3 class="tournament-title">{{ tournament.name }}</h3>
@@ -142,7 +142,7 @@
 
     <div class="tournaments-grid" *ngIf="!loading && !error">
       <div class="tournament-card" *ngFor="let tournament of tournaments">
-        <div class="card-image" [style.backgroundImage]="'url(' + (tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
+        <div class="card-image" [style.backgroundImage]="'url(' + (tournament.imageUrl || tournament.bannerUrl || 'assets/images/default-tournament.jpg') + ')'"></div>
         <div class="card-content">
           <div class="card-header">
             <h3 class="tournament-title">{{ tournament.name }}</h3>
