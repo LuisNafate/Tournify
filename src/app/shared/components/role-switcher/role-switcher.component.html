@@ -1,19 +1,47 @@
 <div class="role-switcher">
-  <button 
-    class="role-button" 
+  <button
+    class="role-button"
     (click)="toggleDropdown()"
     [disabled]="isChanging"
     title="Cambiar de rol">
-    <span class="role-icon">{{ getCurrentRoleIcon() }}</span>
+    <span class="role-icon-svg">
+      <!-- Icono Jugador - Balón de Fútbol -->
+      <svg *ngIf="getCurrentRoleIcon() === 'player'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2 L14.5 8 L21 8.5 L16 13 L17.5 19.5 L12 16 L6.5 19.5 L8 13 L3 8.5 L9.5 8 Z"/>
+        <line x1="12" y1="2" x2="12" y2="6"/>
+        <line x1="14.5" y1="8" x2="16" y2="13"/>
+        <line x1="21" y1="8.5" x2="16" y2="13"/>
+        <line x1="17.5" y1="19.5" x2="12" y2="16"/>
+        <line x1="6.5" y1="19.5" x2="12" y2="16"/>
+        <line x1="8" y1="13" x2="3" y2="8.5"/>
+        <line x1="9.5" y1="8" x2="8" y2="13"/>
+      </svg>
+      <!-- Icono Organizador -->
+      <svg *ngIf="getCurrentRoleIcon() === 'organizer'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 11l3 3L22 4"/>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+      </svg>
+      <!-- Icono Árbitro - Campana -->
+      <svg *ngIf="getCurrentRoleIcon() === 'referee'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      <!-- Icono por defecto -->
+      <svg *ngIf="getCurrentRoleIcon() === 'user'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </span>
     <span class="role-label">{{ getCurrentRoleLabel() }}</span>
-    <svg 
-      class="dropdown-icon" 
+    <svg
+      class="dropdown-icon"
       [class.rotate]="showDropdown"
-      width="16" 
-      height="16" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
       stroke-width="2">
       <polyline points="6 9 12 15 18 9"></polyline>
     </svg>
@@ -23,22 +51,45 @@
     <div class="dropdown-header">
       <span>Cambiar a:</span>
     </div>
-    <button 
+    <button
       *ngFor="let role of roles"
       class="dropdown-item"
       [class.active]="role.value === currentRole"
       [disabled]="role.value === currentRole || isChanging"
       (click)="onRoleClick(role.value)">
-      <span class="item-icon">{{ role.icon }}</span>
+      <span class="item-icon-svg">
+        <!-- Icono Jugador - Balón de Fútbol -->
+        <svg *ngIf="role.icon === 'player'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 2 L14.5 8 L21 8.5 L16 13 L17.5 19.5 L12 16 L6.5 19.5 L8 13 L3 8.5 L9.5 8 Z"/>
+          <line x1="12" y1="2" x2="12" y2="6"/>
+          <line x1="14.5" y1="8" x2="16" y2="13"/>
+          <line x1="21" y1="8.5" x2="16" y2="13"/>
+          <line x1="17.5" y1="19.5" x2="12" y2="16"/>
+          <line x1="6.5" y1="19.5" x2="12" y2="16"/>
+          <line x1="8" y1="13" x2="3" y2="8.5"/>
+          <line x1="9.5" y1="8" x2="8" y2="13"/>
+        </svg>
+        <!-- Icono Organizador -->
+        <svg *ngIf="role.icon === 'organizer'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4"/>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+        <!-- Icono Árbitro - Campana -->
+        <svg *ngIf="role.icon === 'referee'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </span>
       <span class="item-label">{{ role.label }}</span>
-      <svg 
-        *ngIf="role.value === currentRole" 
-        class="check-icon" 
-        width="16" 
-        height="16" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
+      <svg
+        *ngIf="role.value === currentRole"
+        class="check-icon"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
         stroke-width="2">
         <polyline points="20 6 9 17 4 12"></polyline>
       </svg>
