@@ -107,15 +107,41 @@ export class JoinComponent implements OnInit {
     const teamId = this.joinForm.value.teamId;
 
     this.tournamentService.joinTournament(this.tournamentId, teamId).subscribe({
-      next: () => {
+      next: (response) => {
         this.submitting = false;
-        alert('¡Te has unido al torneo exitosamente!');
+
+        // Determinar si la inscripción requiere aprobación o se aprobó inmediatamente.
+        // Priorizar información del propio torneo si el backend no devuelve detalles.
+        const respBody = response && response.body ? response.body : null;
+
+        const backendIndicatesPending = respBody && (
+          respBody.status === 'pending' || respBody.registrationStatus === 'pending' || respBody.message === 'pending'
+        );
+
+        const httpStatusIndicatesPending = response.status === 202; // Accepted
+
+        const tournamentRequiresApproval = !!(this.tournament && (this.tournament as any).requiresApproval);
+
+        if (backendIndicatesPending || httpStatusIndicatesPending || tournamentRequiresApproval) {
+          alert('Solicitud enviada al organizador.');
+        } else {
+          alert('¡Te has unido al torneo exitosamente!');
+        }
+
         this.router.navigate(['/tournaments/detail', this.tournamentId]);
       },
       error: (err) => {
         console.error('Error joining tournament:', err);
         this.submitting = false;
-        alert('Error al unirte al torneo: ' + (err.message || 'Error desconocido'));
+        // Si el backend devuelve 409 o mensaje indicando pending, manejarlo
+        if (err && err.status === 409 && err.error && err.error.message) {
+          alert(err.error.message);
+        } else if (err && err.status === 202) {
+          alert('Solicitud enviada al organizador.');
+          this.router.navigate(['/tournaments/detail', this.tournamentId]);
+        } else {
+          alert('Error al unirte al torneo: ' + (err.error?.message || err.message || 'Error desconocido'));
+        }
       }
     });
   }
