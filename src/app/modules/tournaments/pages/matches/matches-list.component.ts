@@ -57,6 +57,7 @@ export class MatchesListComponent implements OnInit {
 
     this.matchService.getByTournament(this.tournamentId).subscribe({
       next: (matches) => {
+        console.log('Partidos cargados desde API:', matches);
         this.matches = matches;
         this.filteredMatches = matches;
         this.extractRounds();
