@@ -130,11 +130,14 @@
     <!-- Teams Grid -->
     <div class="teams-grid" *ngIf="tournament.teams && tournament.teams.length > 0">
       <div *ngFor="let team of tournament.teams" class="team-card">
-        <img 
-          [src]="team.logoUrl || 'assets/images/default-team-logo.png'" 
-          [alt]="team.name" 
-          class="team-logo"
-          (error)="$any($event.target).src='assets/images/default-team-logo.png'">
+        <div class="team-logo" [class.has-image]="team.logoUrl">
+          <img 
+            *ngIf="team.logoUrl" 
+            [src]="team.logoUrl" 
+            [alt]="team.name"
+            (error)="onImageError($event)">
+          <span *ngIf="!team.logoUrl" class="team-initials">{{ getTeamInitials(team.name) }}</span>
+        </div>
         <h3 class="team-name">{{ team.name }}</h3>
         <p class="team-members">{{ team.players?.length || 0 }} jugadores</p>
       </div>
