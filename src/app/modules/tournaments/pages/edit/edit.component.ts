@@ -118,20 +118,74 @@ export class EditComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    // Preparar el payload de actualización
-    const payload: UpdateTournamentRequest = {
+    // Preparar el payload de actualización con todos los campos requeridos
+    const payload: any = {
       name: this.tournament.name,
-      description: this.tournament.description,
-      location: this.tournament.location,
+      sportId: this.tournament.sportId || this.tournament.sport,
+      tournamentType: this.tournament.tournamentType || 'elimination',
       startDate: new Date(this.tournament.startDate).toISOString(),
-      endDate: new Date(this.tournament.endDate).toISOString(),
-      registrationDeadline: this.tournament.registrationDeadline
-        ? new Date(this.tournament.registrationDeadline).toISOString()
-        : undefined,
-      maxTeams: Number(this.tournament.maxTeams),
-      rules: this.tournament.rules,
-      prizePool: this.tournament.prizePool ? String(this.tournament.prizePool) : undefined
+      maxTeams: Number(this.tournament.maxTeams)
     };
+
+    // Agregar campos opcionales
+    if (this.tournament.description) {
+      payload.description = this.tournament.description;
+    }
+
+    if (this.tournament.location) {
+      payload.location = this.tournament.location;
+    }
+
+    if (this.tournament.endDate) {
+      payload.endDate = new Date(this.tournament.endDate).toISOString();
+    }
+
+    if (this.tournament.registrationDeadline) {
+      payload.registrationDeadline = new Date(this.tournament.registrationDeadline).toISOString();
+    }
+
+    if (this.tournament.eliminationMode) {
+      payload.eliminationMode = this.tournament.eliminationMode;
+    }
+
+    if (this.tournament.rules) {
+      payload.rulesText = this.tournament.rules; // El backend usa 'rulesText'
+    }
+
+    if (this.tournament.prizePool) {
+      payload.prizePool = String(this.tournament.prizePool);
+    }
+
+    // sportSettings debe ser un String JSON, no un objeto
+    if (this.tournament.sportSettings) {
+      payload.sportSettings = typeof this.tournament.sportSettings === 'string'
+        ? this.tournament.sportSettings
+        : JSON.stringify(this.tournament.sportSettings);
+    }
+
+    // Agregar campos con valores por defecto si existen
+    if (this.tournament.registrationFee !== undefined) {
+      payload.registrationFee = Number(this.tournament.registrationFee);
+    }
+
+    if (this.tournament.isPrivate !== undefined) {
+      payload.isPrivate = Boolean(this.tournament.isPrivate);
+    }
+
+    if (this.tournament.requiresApproval !== undefined) {
+      payload.requiresApproval = Boolean(this.tournament.requiresApproval);
+    }
+
+    if (this.tournament.hasGroupStage !== undefined) {
+      payload.hasGroupStage = Boolean(this.tournament.hasGroupStage);
+    }
+
+    if (this.tournament.allowTies !== undefined) {
+      payload.allowTies = Boolean(this.tournament.allowTies);
+    }
+
+    console.log('Payload de actualización:', payload);
+    console.log('Tournament ID:', this.tournamentId);
 
     this.tournamentService.updateTournament(this.tournamentId, payload).subscribe({
       next: (updatedTournament) => {
@@ -141,8 +195,10 @@ export class EditComponent implements OnInit {
         this.router.navigate(['/tournaments/detail', this.tournamentId]);
       },
       error: (err) => {
-        console.error('Error updating tournament:', err);
-        this.error = err.error?.message || 'Error al actualizar el torneo. Por favor, intenta de nuevo.';
+        console.error('Error completo:', err);
+        console.error('Error response:', err.error);
+        console.error('Error status:', err.status);
+        this.error = err.error?.message || err.message || 'Error al actualizar el torneo. Por favor, intenta de nuevo.';
         this.loading = false;
       }
     });
