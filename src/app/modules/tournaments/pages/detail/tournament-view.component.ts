@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 
@@ -8,16 +8,24 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './tournament-view.component.html',
   styleUrls: ['./tournament-view.component.css']
 })
-export class TournamentViewComponent {
+export class TournamentViewComponent implements OnChanges {
   @Input() tournament: any;
   @Input() followLoading: boolean = false;
   @Output() followToggle = new EventEmitter<void>();
   @Output() deleteTournament = new EventEmitter<void>();
 
+  private _isOrganizer: boolean = false;
+
   constructor(
     private router: Router,
     private authService: AuthService
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['tournament'] && this.tournament) {
+      this._isOrganizer = this.checkIsOrganizer();
+    }
+  }
 
   joinTournament(): void {
     if (this.tournament) {
@@ -49,7 +57,31 @@ export class TournamentViewComponent {
   }
 
   isOrganizer(): boolean {
+    return this._isOrganizer;
+  }
+
+  private checkIsOrganizer(): boolean {
     const currentUser = this.authService.usuarioActualValue;
-    return this.tournament?.organizerId === currentUser?.id;
+    
+    if (!currentUser || !this.tournament) {
+      console.log('No user or no tournament');
+      return false;
+    }
+
+    // Normalizar ambos IDs a string y comparar
+    const currentUserId = String(currentUser.id).trim();
+    const tournamentOrganizerId = String(this.tournament.organizerId).trim();
+
+    // Log para debugging
+    console.log('Checking organizer:', {
+      currentUserId,
+      currentUserRole: currentUser.role,
+      tournamentOrganizerId,
+      tournamentName: this.tournament.name,
+      isMatch: currentUserId === tournamentOrganizerId
+    });
+
+    // Comparar IDs
+    return currentUserId === tournamentOrganizerId;
   }
 }
