@@ -42,7 +42,12 @@ export class DashboardComponent implements OnInit {
   }
 
   loadPlayerTournaments(): void {
-    // Torneos en los que el jugador está inscrito o siguiendo
+    // Temporalmente mostrar vacío hasta implementar endpoint de torneos seguidos
+    // TODO: Implementar GET /tournaments/followed en el backend
+    this.tournaments = [];
+    this.loading = false;
+    
+    /* COMENTADO HASTA QUE EXISTA EL ENDPOINT CORRECTO
     this.tournamentService.getTournaments({ page: 0, limit: 6 }).subscribe({
       next: (response) => {
         this.tournaments = response.content;
@@ -54,14 +59,18 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       }
     });
+    */
   }
 
   loadOrganizerTournaments(): void {
-    // Torneos creados por el organizador
+    // Temporalmente mostrar vacío hasta implementar endpoint de mis torneos
+    // TODO: Implementar GET /tournaments/my-tournaments en el backend
+    this.myTournaments = [];
+    this.loading = false;
+    
+    /* COMENTADO HASTA QUE EXISTA EL ENDPOINT CORRECTO
     this.tournamentService.getTournaments({ page: 0, limit: 10 }).subscribe({
       next: (response) => {
-        // Filtrar los torneos creados por el usuario actual
-        // Nota: Asumiendo que los torneos tienen un campo ownerId o createdBy
         this.myTournaments = response.content;
         this.loading = false;
       },
@@ -71,10 +80,16 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       }
     });
+    */
   }
 
   loadRefereeTournaments(): void {
-    // Torneos en los que el árbitro está asignado
+    // Temporalmente mostrar vacío hasta implementar endpoint de torneos asignados
+    // TODO: Implementar GET /tournaments/assigned en el backend
+    this.tournaments = [];
+    this.loading = false;
+    
+    /* COMENTADO HASTA QUE EXISTA EL ENDPOINT CORRECTO
     this.tournamentService.getTournaments({ page: 0, limit: 6 }).subscribe({
       next: (response) => {
         this.tournaments = response.content;
@@ -86,6 +101,7 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       }
     });
+    */
   }
 
   isPlayer(): boolean {

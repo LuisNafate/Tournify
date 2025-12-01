@@ -144,6 +144,10 @@
   display: block;
 }
 
+.user-dropdown {
+  position: relative;
+}
+
 .user-info {
   display: flex;
   align-items: center;
@@ -152,6 +156,13 @@
   padding: 0.5rem 1rem;
   border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-info:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(139, 92, 246, 0.4);
 }
 
 .profile-avatar {
@@ -181,26 +192,83 @@
   line-height: 1;
 }
 
-.btn-logout {
-  background: rgba(239, 68, 68, 0.1);
-  color: #fca5a5;
-  padding: 0.6rem 1.25rem;
-  border-radius: 50px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  cursor: pointer;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+  color: #94a3b8;
+  margin-left: 0.25rem;
 }
 
-.btn-logout:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.5);
-  transform: translateY(-1px);
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.5rem;
+  min-width: 220px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1001;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background: rgba(139, 92, 246, 0.15);
+  color: #ffffff;
+}
+
+.dropdown-item svg {
+  color: #8b5cf6;
+}
+
+.logout-item {
+  color: #fca5a5;
+}
+
+.logout-item:hover {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.logout-item svg {
+  color: #ef4444;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0.5rem 0;
 }
 
 /* Responsive */

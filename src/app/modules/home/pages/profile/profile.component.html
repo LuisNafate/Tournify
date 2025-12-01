@@ -1,44 +1,116 @@
 <section class="profile-page">
   <div class="profile-card">
-    <h2>Mi Perfil</h2>
+    <div class="profile-header">
+      <h2>Mi Perfil</h2>
+      <span *ngIf="currentUser" class="role-badge">{{ getRoleLabel(currentUser.role) }}</span>
+    </div>
 
-    <div class="avatar-row">
-      <img *ngIf="avatarPreview; else placeholder" [src]="avatarPreview" alt="Avatar" class="avatar-img">
-      <ng-template #placeholder>
-        <div class="avatar-placeholder">A</div>
-      </ng-template>
+    <!-- Mensajes de éxito/error -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Avatar Section -->
+    <div class="avatar-section">
+      <div class="avatar-container">
+        <img *ngIf="avatarPreview; else placeholder" [src]="avatarPreview" alt="Avatar" class="avatar-img">
+        <ng-template #placeholder>
+          <div class="avatar-placeholder">{{ getInitials() }}</div>
+        </ng-template>
+        <div *ngIf="isUploadingAvatar" class="avatar-loading">
+          <span class="spinner"></span>
+        </div>
+      </div>
       <div class="avatar-actions">
-        <label class="upload-label">
-          Cambiar avatar
-          <input type="file" (change)="onFileChange($event)" accept="image/*" />
+        <label class="upload-btn" [class.disabled]="isUploadingAvatar">
+          <input type="file" (change)="onFileChange($event)" accept="image/*" [disabled]="isUploadingAvatar" />
+          <span>{{ isUploadingAvatar ? 'Subiendo...' : 'Cambiar avatar' }}</span>
         </label>
+        <p class="upload-hint">Formatos: JPG, PNG. Máx: 5MB</p>
       </div>
     </div>
 
+    <!-- Formulario -->
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
-      <div class="form-row">
-        <label>Nombre de usuario</label>
-        <input formControlName="username" />
-      </div>
-
-      <div class="form-row">
-        <label>Correo</label>
-        <input formControlName="email" type="email" />
-      </div>
-
-      <div class="form-row two-cols">
-        <div>
-          <label>Nombre</label>
-          <input formControlName="firstName" />
+      
+      <!-- Campos no editables -->
+      <div class="form-section">
+        <h3>Información de cuenta</h3>
+        <div class="form-row">
+          <label>Nombre de usuario</label>
+          <input formControlName="username" class="input-disabled" />
+          <small class="field-hint">No se puede modificar</small>
         </div>
-        <div>
-          <label>Apellido</label>
-          <input formControlName="lastName" />
+
+        <div class="form-row">
+          <label>Correo electrónico</label>
+          <input formControlName="email" type="email" class="input-disabled" />
+          <small class="field-hint">No se puede modificar</small>
         </div>
       </div>
 
-      <div class="actions">
-        <button type="submit" [disabled]="isLoading">Guardar</button>
+      <!-- Campos editables -->
+      <div class="form-section">
+        <h3>Datos personales</h3>
+        <div class="form-row-group">
+          <div class="form-row">
+            <label>Nombre *</label>
+            <input 
+              formControlName="firstName" 
+              [class.input-error]="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched"
+            />
+            <small *ngIf="profileForm.get('firstName')?.hasError('required') && profileForm.get('firstName')?.touched" class="error-text">
+              El nombre es requerido
+            </small>
+            <small *ngIf="profileForm.get('firstName')?.hasError('minlength') && profileForm.get('firstName')?.touched" class="error-text">
+              Mínimo 2 caracteres
+            </small>
+          </div>
+
+          <div class="form-row">
+            <label>Apellido *</label>
+            <input 
+              formControlName="lastName"
+              [class.input-error]="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched"
+            />
+            <small *ngIf="profileForm.get('lastName')?.hasError('required') && profileForm.get('lastName')?.touched" class="error-text">
+              El apellido es requerido
+            </small>
+            <small *ngIf="profileForm.get('lastName')?.hasError('minlength') && profileForm.get('lastName')?.touched" class="error-text">
+              Mínimo 2 caracteres
+            </small>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Teléfono (opcional)</label>
+          <input 
+            formControlName="phone" 
+            type="tel" 
+            placeholder="Ej: 5512345678"
+            [class.input-error]="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched"
+          />
+          <small *ngIf="profileForm.get('phone')?.hasError('pattern') && profileForm.get('phone')?.touched" class="error-text">
+            Ingresa un número válido de 10 dígitos
+          </small>
+          <small *ngIf="!profileForm.get('phone')?.errors" class="field-hint">
+            10 dígitos sin espacios ni guiones
+          </small>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="router.navigate(['/dashboard'])" [disabled]="isLoading">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="isLoading || profileForm.invalid">
+          <span *ngIf="!isLoading">Guardar cambios</span>
+          <span *ngIf="isLoading">Guardando...</span>
+        </button>
       </div>
     </form>
   </div>
