@@ -35,6 +35,20 @@
   font-size: 18px;
 }
 
+.role-icon-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.role-icon-svg svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+}
+
 .role-label {
   font-size: 14px;
 }
@@ -116,6 +130,20 @@
 
 .item-icon {
   font-size: 18px;
+}
+
+.item-icon-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+}
+
+.item-icon-svg svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
 }
 
 .item-label {
