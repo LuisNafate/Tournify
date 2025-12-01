@@ -46,7 +46,7 @@ export class DetailComponent implements OnInit {
                 name: reg.teamName,
                 captainId: '', // No tenemos esta info en la registración
                 logoUrl: reg.teamLogoUrl,
-                players: [], // Se podría cargar después si es necesario
+                players: new Array(reg.memberCount || 0), // Simular array con length = memberCount
                 createdAt: reg.registrationDate
               }));
             }
