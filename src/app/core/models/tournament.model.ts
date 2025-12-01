@@ -8,6 +8,7 @@ export interface Tournament {
   description?: string | null;
   sportId: string; // UUID
   organizerId: string; // UUID
+  organizerUsername?: string | null;
   tournamentType: TournamentType;
   eliminationMode?: EliminationMode | null;
   category?: string | null;

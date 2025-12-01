@@ -6,7 +6,7 @@
       (error)="onBannerImageError($event)">
     <div class="banner-overlay">
       <span class="organizer-badge">
-        Organizador: {{ tournament.organizer?.username || tournament.organizer || 'Desconocido' }}
+        Organizador: {{ tournament.organizerUsername || tournament.organizer?.username || tournament.organizer || 'Desconocido' }}
       </span>
       <div class="banner-buttons">
         <!-- Botones para el organizador -->
