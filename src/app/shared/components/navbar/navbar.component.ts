@@ -20,6 +20,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Refrescar perfil del usuario para obtener avatar actualizado
+    if (this.authService.isAuthenticated()) {
+      this.authService.getProfile().subscribe({
+        next: () => console.log('Perfil actualizado'),
+        error: (err) => console.error('Error al actualizar perfil:', err)
+      });
+    }
+
     // Listener para cerrar dropdown al hacer click fuera
     this.clickListener = () => {
       if (this.isDropdownOpen) {
