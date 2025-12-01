@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatchService } from '../../../../core/services/match.service';
+import { TournamentService } from '../../services/tournament.service';
 import { MatchWithDetails } from '../../../../core/models/match.model';
 import { AuthService } from '../../../../core/services/auth.service';
 
@@ -15,6 +16,7 @@ export class MatchesListComponent implements OnInit {
   loading = false;
   error: string | null = null;
   tournamentId!: string;
+  tournament: any = null;
   
   // Filtros
   selectedStatus: 'scheduled' | 'live' | 'finished' | 'postponed' | 'cancelled' | '' = '';
@@ -25,6 +27,7 @@ export class MatchesListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private matchService: MatchService,
+    private tournamentService: TournamentService,
     private authService: AuthService
   ) {}
 
@@ -32,8 +35,20 @@ export class MatchesListComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('tournamentId');
     if (id) {
       this.tournamentId = id;
+      this.loadTournament();
       this.loadMatches();
     }
+  }
+
+  loadTournament(): void {
+    this.tournamentService.getTournamentById(this.tournamentId).subscribe({
+      next: (tournament) => {
+        this.tournament = tournament;
+      },
+      error: (err) => {
+        console.error('Error loading tournament:', err);
+      }
+    });
   }
 
   loadMatches(): void {
@@ -123,6 +138,19 @@ export class MatchesListComponent implements OnInit {
   updateResult(matchId: string, event: Event): void {
     event.stopPropagation();
     this.router.navigate(['/tournaments/matches', matchId, 'update']);
+  }
+
+  isOrganizer(): boolean {
+    if (!this.tournament) return false;
+    const currentUser = this.authService.usuarioActualValue;
+    if (!currentUser) return false;
+    
+    return String(currentUser.id) === String(this.tournament.organizerId) ||
+           currentUser.role === 'admin';
+  }
+
+  createMatch(): void {
+    this.router.navigate(['/tournaments', this.tournamentId, 'matches', 'create']);
   }
 
   goBack(): void {
