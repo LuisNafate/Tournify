@@ -80,7 +80,13 @@ export class MatchDetailComponent implements OnInit {
 
   goBack(): void {
     if (this.match) {
-      this.router.navigate(['/tournaments/detail', this.match.tournamentId]);
+      const tournamentId = this.match.tournamentId || this.match.tournament?.id;
+      if (tournamentId) {
+        this.router.navigate(['/tournaments/detail', tournamentId]);
+      } else {
+        // Si no hay tournamentId, volver a la lista de torneos
+        this.router.navigate(['/tournaments/list']);
+      }
     }
   }
 

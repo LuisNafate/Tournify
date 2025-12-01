@@ -103,16 +103,9 @@
       <div class="match-teams">
         <div class="team team-home">
           <div class="team-logo">
-            <img *ngIf="match.homeTeam?.logoUrl" [src]="match.homeTeam?.logoUrl" [alt]="match.homeTeam?.name">
-            <div *ngIf="!match.homeTeam?.logoUrl" class="default-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-            </div>
+            <div class="team-initials">{{ getTeamInitials(match.homeTeam?.name || match.homeTeamName) }}</div>
           </div>
-          <span class="team-name">{{ match.homeTeam?.name || 'TBD' }}</span>
+          <span class="team-name">{{ match.homeTeam?.name || match.homeTeamName || 'TBD' }}</span>
         </div>
 
         <div class="match-score">
@@ -122,17 +115,10 @@
         </div>
 
         <div class="team team-away">
-          <span class="team-name">{{ match.awayTeam?.name || 'TBD' }}</span>
           <div class="team-logo">
-            <img *ngIf="match.awayTeam?.logoUrl" [src]="match.awayTeam?.logoUrl" [alt]="match.awayTeam?.name">
-            <div *ngIf="!match.awayTeam?.logoUrl" class="default-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-            </div>
+            <div class="team-initials">{{ getTeamInitials(match.awayTeam?.name || match.awayTeamName) }}</div>
           </div>
+          <span class="team-name">{{ match.awayTeam?.name || match.awayTeamName || 'TBD' }}</span>
         </div>
       </div>
 

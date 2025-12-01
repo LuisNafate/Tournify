@@ -71,11 +71,10 @@ export class MatchCreateComponent implements OnInit {
     // Cargar equipos inscritos (registraciones aprobadas)
     this.tournamentService.getRegistrations(this.tournamentId, 'approved').subscribe({
       next: (registrations: any[]) => {
-        // Mapear registraciones a formato de equipo
+        // Mapear registraciones a formato de equipo (solo ID y nombre, sin logoUrl)
         this.teams = registrations.map(reg => ({
           id: reg.teamId,
-          name: reg.teamName,
-          logoUrl: reg.teamLogoUrl
+          name: reg.teamName
         }));
         
         console.log('Equipos cargados:', this.teams);

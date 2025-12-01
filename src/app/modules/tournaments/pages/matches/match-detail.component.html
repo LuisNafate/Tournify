@@ -19,13 +19,9 @@
   <div class="teams-section">
     <div class="team-container" [class.winner]="getWinnerIndicator(match.homeTeam?.id)">
       <div class="team-logo">
-        <img 
-          [src]="match.homeTeam?.logoUrl || '/assets/icons/default-team.png'" 
-          [alt]="match.homeTeam?.name"
-          onerror="this.src='/assets/icons/default-team.png'"
-        />
+        <div class="team-initials">{{ (match.homeTeam?.name || match.homeTeamName || 'EL').substring(0, 2).toUpperCase() }}</div>
       </div>
-      <h2 class="team-name">{{ match.homeTeam?.name || 'Equipo Local' }}</h2>
+      <h2 class="team-name">{{ match.homeTeam?.name || match.homeTeamName || 'Equipo Local' }}</h2>
       <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
         {{ match.scoreHome ?? 0 }}
       </div>
@@ -46,13 +42,9 @@
 
     <div class="team-container" [class.winner]="getWinnerIndicator(match.awayTeam?.id)">
       <div class="team-logo">
-        <img 
-          [src]="match.awayTeam?.logoUrl || '/assets/icons/default-team.png'" 
-          [alt]="match.awayTeam?.name"
-          onerror="this.src='/assets/icons/default-team.png'"
-        />
+        <div class="team-initials">{{ (match.awayTeam?.name || match.awayTeamName || 'EV').substring(0, 2).toUpperCase() }}</div>
       </div>
-      <h2 class="team-name">{{ match.awayTeam?.name || 'Equipo Visitante' }}</h2>
+      <h2 class="team-name">{{ match.awayTeam?.name || match.awayTeamName || 'Equipo Visitante' }}</h2>
       <div class="score" *ngIf="match.status === 'finished' || match.status === 'ongoing'">
         {{ match.scoreAway ?? 0 }}
       </div>
@@ -84,7 +76,7 @@
         </svg>
         Fecha Programada
       </span>
-        <span class="info-value">{{ match.scheduledAt | date:'dd/MM/yyyy HH:mm' }}</span>
+        <span class="info-value">{{ match.scheduledAt ? (match.scheduledAt | date:'dd/MM/yyyy HH:mm') : 'Por definir' }}</span>
       </div>
       <div class="info-item" *ngIf="match.playedAt">
         <span class="info-label">
@@ -120,10 +112,17 @@
       </div>
       <div class="info-item">
         <span class="info-label">
-          <img src="assets/icons/trophy.svg" alt="trophy icon" style="width: 16px; height: 16px; margin-right: 8px;" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px;">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+            <path d="M4 22h16"/>
+            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+          </svg>
           Torneo
         </span>
-        <span class="info-value">{{ match.tournament?.name || 'N/A' }}</span>
+        <span class="info-value">{{ match.tournament?.name || match.tournamentName || 'N/A' }}</span>
       </div>
     </div>
   </div>
