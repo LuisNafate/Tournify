@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { Observable, Subscription } from 'rxjs'; 
-import { AuthService } from '../../../core/services/auth.service'; 
-import { User } from '../../../core/models/user.model'; 
+import { Router, NavigationEnd } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
+import { User } from '../../../core/models/user.model';
+import { filter } from 'rxjs/operators'; 
 
 // Componente de navegación
 @Component({
@@ -15,7 +17,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public isDropdownOpen = false;
   private clickListener?: () => void;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.usuarioActual$ = this.authService.usuarioActual$;
   }
 
@@ -62,5 +67,31 @@ export class NavbarComponent implements OnInit, OnDestroy {
       'referee': 'Árbitro'
     };
     return roleLabels[role] || role;
+  }
+
+  scrollToNews(event: Event): void {
+    event.preventDefault();
+
+    // Si ya estamos en la página principal
+    if (this.router.url === '/' || this.router.url === '') {
+      this.scrollToElement('noticias');
+    } else {
+      // Si estamos en otra página, navegar primero y luego hacer scroll
+      this.router.navigate(['/']).then(() => {
+        setTimeout(() => {
+          this.scrollToElement('noticias');
+        }, 100);
+      });
+    }
+  }
+
+  private scrollToElement(elementId: string): void {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 }
