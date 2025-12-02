@@ -85,7 +85,7 @@
             </svg>
             VER PARTIDOS
           </button>
-          <button class="btn-groups" (click)="viewGroups()" *ngIf="hasGroups()">
+          <!-- <button class="btn-groups" (click)="viewGroups()" *ngIf="hasGroups()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="7" height="7"/>
               <rect x="14" y="3" width="7" height="7"/>
@@ -101,7 +101,7 @@
               <line x1="12" y1="22.08" x2="12" y2="12"/>
             </svg>
             VER BRACKET
-          </button>
+          </button>-->
           <button class="btn-follow" (click)="onFollowClick()" [disabled]="followLoading">
             {{ followLoading ? 'CARGANDO...' : (tournament.isFollowing ? 'DEJAR DE SEGUIR' : 'SEGUIR') }}
           </button>
